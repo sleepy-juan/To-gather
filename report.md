@@ -59,3 +59,17 @@ It is because all people has a difficulty with a different reason and different 
   - We can set a rule for adding comment or furthermore discussion as a rule in backchannel in our class. 
   - We can support to users that be able to copy, drag & drop, file share in clipboard.
   - For the users who only want to show summary/introduction/only discussions, we can add a visual setting for showing just summary / discussions / Q&As. 
+
+### Storyboards
+
+##### Task 1
+![Image of Solution 1]
+(1.jpeg)
+
+##### Task 2
+![Image of Solution 2]
+(2.jpeg)
+
+##### Task 3
+![Image of Solution 3]
+(3.jpeg)
