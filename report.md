@@ -1,6 +1,6 @@
 Minji Lee, Sihyun Yu, Juan Lee, Sungwoo Jeon
 # To gather
-# Solution for Reading Academic Material
+# Solution for Difficulties in Reading Academic Materials
 
 ### Problem statement
 We want to solve the difficulty while reading academic materials such as books, online lectures, papers and so on.
