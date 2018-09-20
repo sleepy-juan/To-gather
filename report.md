@@ -2,16 +2,16 @@ Minji Lee, Sihyun Yu, Juan Lee, Sungwoo Jeon
 # To Gather
 # Solution for Difficulties in Reading Academic Materials
 
-### Problem statement
+## Problem statement
 We want to solve the difficulty while reading academic materials such as books, online lectures, papers and so on.
 
-### Problem background
+## Problem background
 Many university students need to read and watch a lot of materials for their study. For instance, we often read HCI papers and watch TED speech in Introduction to Social Computing Class, read the textbook in most classes, read a lot of papers for their study, and so on. However, due to many reasons, many students have difficulty to understand these materials. Our groupmates shared our experiences, some of us felt difficulty since they are not familiar with reading/watching something in English, and also a few of us felt so hard because the contents in materials are so professional in sometimes. This is not a problem that only KAIST students experience. There is a [nature science article](https://www.nature.com/news/it-s-not-just-you-science-papers-are-getting-harder-to-read-1.21751) argues the hardness of reading science papers. Also, there are some articles about [how to read difficult books](https://bookriot.com/2017/11/09/reading-difficult-books/) and [how to understand difficult books](https://www.thoughtco.com/how-to-understand-a-difficult-book-1857120). All the articles mention that it is necessary to ‘talk each other’ who are reading the same material. It is certain that understanding these stuffs is important to get new knowledge and do further study about certain area. Therefore, we decided to solve this problem by using social computing.
 
-### Motivation (Why social computing?)
+## Motivation (Why social computing?)
 It is because all people has a difficulty with a different reason and different part of the materials. Therefore, by sharing and helping each other, it will be much easier to understand one book/paper/lecture. Since each material has a different content and all people have different points with confusion, machine is hard to help 	this problem. Furthermore, if there is a person who initially couldn’t understand certain part but finally succeed to understand that part, that person can explain to others how (s)he could understand that part with similar viewpoint who does not understand the part yet. This explanation might be much helpful than individual expert’s single explanation, since some contents are too trivial to them already, which makes bad explanation. Therefore, by making human-human social interaction via social computing, many people can easily read and understand the thing, and also gather and summarize the contents of certain material.
 
-### HMW questions (at least 10)
+## HMW questions (at least 10)
 1. **How might we make difference between pre-existing similar platform(like Google Docs, KLMS) and our project idea?**
 2. **How might we make people use our project?**
 3. **How might we design the UI much easier to read and see the contents?**
@@ -23,7 +23,7 @@ It is because all people has a difficulty with a different reason and different 
 9. How might we determine the role of people such as administrator/participants?
 10. How might we organize and visualize all the discussions and QnAs?
 
-### Solution ideas for your HMW questions (at least 10 * 3 HMWs)
+## Solution ideas for your HMW questions (at least 10 * 3 HMWs)
 1. **How might we make difference between pre-existing similar platform(like Google Docs, KLMS) and our project idea?**
   - **Classum**: It has a quite difficuly UI to organize the material, discussion, and questions. Even if professors and TAs try to upload some reading materials for class as a form of notice, it is very difficult to distinguish them from other students' questions.
   - **KLMS**: It has a problem in accessibility, so that students are hard to use KLMS frequently. Old and multi-step layers in UI, instructor-centered UI make it harder. Also, it is very hard to discuss some problem on KLMS. It seems to be more unilateral notice platform between instructor and student.
@@ -60,13 +60,13 @@ It is because all people has a difficulty with a different reason and different 
   - We can support to users that be able to copy, drag & drop, file share in clipboard.
   - For the users who only want to show summary/introduction/only discussions, we can add a visual setting for showing just summary / discussions / Q&As. 
 
-### Storyboards
+## Storyboards
 
-##### Task 1
+### Task 1
 ![Image of Solution 1](./1.jpeg)
 
-##### Task 2
+### Task 2
 ![Image of Solution 2](./2.jpeg)
 
-##### Task 3
+### Task 3
 ![Image of Solution 3](./3.jpeg)
