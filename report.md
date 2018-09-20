@@ -64,9 +64,15 @@ It is because all people has a difficulty with a different reason and different 
 
 ### Task 1
 ![Image of Solution 1](./1.jpeg)
+Sihyun is a 21-year-old undergraduate student who loves discussion. Although there are many platforms supporting one form of discussion, nothing satisfies him. He tried to use Classum, KLMS, or Google Docs, but there are several weaknesses that make him uncomfortable. At that time, friends of him suggested him to use To-gather which is a platform to discuss together. 
 
 ### Task 2
 ![Image of Solution 2](./2.jpeg)
+Ming is a student who is taking music lessons at university. She is currently using a communication platform that students in the same class can share. 
+1. She saw someone in her class ask questions one day, and she thought it was most efficient to answer them using voice and musical instruments. She was able to respond easily because her platform provided a system that could answer using sound, video, code, etc. 
+2. While she was reading a class book, the 15th sentence on page 217 of Chapter 2 was not understandable. However, she tried to give up studying because it was too much trouble finding the part by opening and scrolling through the files in the book. But the platform she's using today was supporting a single directory search that could tag right where she wanted to put questions not even open thr pdf file. 
+3. She wanted to use various color highlights like her friend. Realizing that raising the level of active participation would make the platform's supported highlights more diverse, she decided to do more hard discourse.
 
 ### Task 3
 ![Image of Solution 3](./3.jpeg)
+Juan is a 21-year-old ungraduate student who is in individual research in kixlab. He has a task reading papers; However, he does not have a confidence to understand the English article. Although he has a google translator to translate the English, there is some limitation to analyze whole paper. Thus, he wants to analyze the paper more easily by collective intelligence such as asking for friends. And the problem is surrounding people are not always existing. Therefore, he needs some help without distance restriction. 
