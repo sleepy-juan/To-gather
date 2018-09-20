@@ -1,5 +1,5 @@
 Minji Lee, Sihyun Yu, Juan Lee, Sungwoo Jeon
-# To gather
+# To Gather
 # Solution for Difficulties in Reading Academic Materials
 
 ### Problem statement
