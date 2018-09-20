@@ -63,13 +63,10 @@ It is because all people has a difficulty with a different reason and different 
 ### Storyboards
 
 ##### Task 1
-![Image of Solution 1]
-(https://github.com/sleepy-juan/To-gather/blob/master/1.jpeg)
+![Image of Solution 1](./1.jpeg)
 
 ##### Task 2
-![Image of Solution 2]
-(https://github.com/sleepy-juan/To-gather/blob/master/2.jpeg)
+![Image of Solution 2](./2.jpeg)
 
 ##### Task 3
-![Image of Solution 3]
-(https://github.com/sleepy-juan/To-gather/blob/master/3.jpeg)
+![Image of Solution 3](./3.jpeg)
