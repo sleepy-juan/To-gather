@@ -34,12 +34,16 @@ Lastly, synchronizing the project was one of the most challenging part or our pr
 ### Representative Screenshots
 ![Title](./images/lofi1.png)  
 To-gather is a platform that enables direct Q&A while reading materials.  
+
 ![Task 1](./images/lofi2.png)  
 Requester’s question is passed to only one person, not available by all people. Answers would have more responsibility to answer the question, since the question if for you, not for all members. After answering at questions, it passes to another person again and again. (Task 1)  
+
 ![Task 1 - confirm](./images/lofi3.png)  
 Requesters can determine to continue passing the question to another person or to stop answering at (s) he questions.  
+
 ![Task 3](./images/lofi4.png)  
 If you answer at someone’s questions, you can collect the Pokemon that randomly given by each question. (Task 3)  
+  
 ![Task 2](./images/lofi5.png)  
 Rather than denoting the requester’s name, we show the common point between the questioner and answerers on answerer’s display.  (Task 2)  
 
