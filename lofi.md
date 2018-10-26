@@ -39,7 +39,7 @@ To-gather is a platform that enables direct Q&A while reading materials.
 Requester’s question is passed to only one person, not available by all people. Answers would have more responsibility to answer the question, since the question if for you, not for all members. After answering at questions, it passes to another person again and again. (Task 1)  
 
 ![Task 1 - confirm](./images/lofi3.png)  
-Requesters can determine to continue passing the question to another person or to stop answering at (s) he questions.  
+Requesters can determine to continue passing the question to another person or to stop answering at his or her questions.  
 
 ![Task 3](./images/lofi4.png)  
 If you answer at someone’s questions, you can collect the Pokemon that randomly given by each question. (Task 3)  
