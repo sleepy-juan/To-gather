@@ -74,37 +74,37 @@ The criteria by which we have determined the difficulty:
 We interviewed four people who have no background of our project. Note them as P1, P2, P3, and P4.
 
 ### HIGH
-1. If the answer is not understandable, the questioner should be able to ask some additional questions.
-* **By P3**. If the questioner couldn’t understand some of answers, (s)he can send a question message that contains whole contents of the previous one and add a question like ‘I can’t understand the ‘blabla’ question. What does that mean?’ so that making another question sequence.
-2. We need to make platform that people who understand everything (who don’t need to ask questions) also wants to access.
-* **By P3**. Gathering people and increasing participation are the most important point in social communication. We already decided to make ‘pokemon’ system to induce active participation, so this should be attractive enough to gather people who don’t need to ask anything. If our ‘pokemon’ system is not enough, we must think another solution. But until now, this is our best plan.
-3. Benefits to respondents may not be sufficient compensation.
-* **By P1, P2**. (Same solution as #2 – if we can solve #2 problem, we can solve this #3, too.)
-4.  Incorrect answers may be exposed. – Modifications should be possible.
-* **By P1**. We can implement it but we also consider about trolling – modify it totally different for original question and answer. We need to restrict hard about modify access. Showing the warning message before posting the question or answer might help this issue, and this would be not very hard to implement in our high prototype.
-5. When multiple questions are posted and you receive an alert, you will not know which questions are answered until you click on them, so you need to show them on alarm.
-* **By P1**. We can denote the page number with the notification so that the user can predict what the question is. This will not a challenging part to implement, so we can add this feature in our high-fi prototype.
-6. We should care to avoid a sudden increase in the number of outstanding questions being raised.
-* **By P2**. In passing question algorithm (which is our task 1), we can add the condition that we don’t send more question to the person who has more than the limit number of questions.
-7. When I think I have enough answer to my question so I stopped it, but other person who has similar curious of that doesn’t think the answer is enough. It would be great if the other person can send the same question more again. 
-* **By P4**. Since this service is crowdsourced-answering platform, it must be important to provide similar level of understanding to everyone. We carefully think the feedback, and it would be nice if we can implement some function to continue the cycle. It means, if someone feels unclear for finished answer, he/she can add additional question, and continue the cycle.
+1. **By P3**. If the answer is not understandable, the questioner should be able to ask some additional questions.
+* If the questioner couldn’t understand some of answers, (s)he can send a question message that contains whole contents of the previous one and add a question like ‘I can’t understand the ‘blabla’ question. What does that mean?’ so that making another question sequence.
+2. **By P3**. We need to make platform that people who understand everything (who don’t need to ask questions) also wants to access.
+* Gathering people and increasing participation are the most important point in social communication. We already decided to make ‘pokemon’ system to induce active participation, so this should be attractive enough to gather people who don’t need to ask anything. If our ‘pokemon’ system is not enough, we must think another solution. But until now, this is our best plan.
+3. **By P1, P2**. Benefits to respondents may not be sufficient compensation.
+* (Same solution as #2 – if we can solve #2 problem, we can solve this #3, too.)
+4. **By P1**. Incorrect answers may be exposed. – Modifications should be possible.
+* We can implement it but we also consider about trolling – modify it totally different for original question and answer. We need to restrict hard about modify access. Showing the warning message before posting the question or answer might help this issue, and this would be not very hard to implement in our high prototype.
+5. **By P1**. When multiple questions are posted and you receive an alert, you will not know which questions are answered until you click on them, so you need to show them on alarm.
+* We can denote the page number with the notification so that the user can predict what the question is. This will not a challenging part to implement, so we can add this feature in our high-fi prototype.
+6. **By P2**. We should care to avoid a sudden increase in the number of outstanding questions being raised.
+* In passing question algorithm (which is our task 1), we can add the condition that we don’t send more question to the person who has more than the limit number of questions.
+7. **By P4**. When I think I have enough answer to my question so I stopped it, but other person who has similar curious of that doesn’t think the answer is enough. It would be great if the other person can send the same que stion more again. 
+* Since this service is crowdsourced-answering platform, it must be important to provide similar level of understanding to everyone. We carefully think the feedback, and it would be nice if we can implement some function to continue the cycle. It means, if someone feels unclear for finished answer, he/she can add additional question, and continue the cycle.
 
 ### MEDIUM
-8. It would be nice to have an agreement because the platform needs many users.
-* **By P3**. We need enough amount of people who can ask and reply together for good cycle. We can ask to KAIST courses that need this platform. – just like CS473. The more people who participate, the better quality for question cycle and answers. 
-9. Depending on the screen of the device that person uses, the space to read the pdf may be too small.
-* **By P1**. We might  offer zoom in / zoom out function in pdf reader part or offer a function to control the size of pdf file. However, our focus is to offer a social interaction while reading the material via Q&A, so the screen size for reading material is not a very big issue. Therefore, we will try to implement mentioned functions if we have enough time after implementing core functions.
-10. If you find a response you like, it would be nice to ask another question later to that person who reply the favorite answer.
-* **By P2**. We can try to make a messenger function that people can ask a question personally. However, this is not an easy implementation. Individual asking is not a big task of our plan. Therefore we should consider more whether we should implement this or not.
-11. It would be good to create a function to adopt answers and give bonuses to the owner of the answers adopted.
-* **By P2**. We could implement a simple function to choose the best answer by clicking to the best answer before stop passing the answers. However, bonus for the answerer is not an easy problem. We will consider more about that while implementing high-fi prototype.
-12. A reporting function is required for strange questions or answers. 
-* **By P2, P4**. Since the target users are students who share the same reading materials in class, lab, etc... , we expect trolling rarely happens, so we think we don’t need to care this issue so much in high-fi prototype.
-13. If there are too many highlight on pdf, it would be hard to read. We should make it clearly. 
-* **By P4**. Although this seems a simple UI problem, not social problem, but it might violate social interactions if there are too much highlights which make people difficult to participate in the service. It would be nice if we make some function of summarizing, collecting, or hiding questions. This helps people not only to read clearly but also to organize the questions.
+8. **By P3**. It would be nice to have an agreement because the platform needs many users.
+* We need enough amount of people who can ask and reply together for good cycle. We can ask to KAIST courses that need this platform. – just like CS473. The more people who participate, the better quality for question cycle and answers. 
+9. **By P1**. Depending on the screen of the device that person uses, the space to read the pdf may be too small.
+* We might  offer zoom in / zoom out function in pdf reader part or offer a function to control the size of pdf file. However, our focus is to offer a social interaction while reading the material via Q&A, so the screen size for reading material is not a very big issue. Therefore, we will try to implement mentioned functions if we have enough time after implementing core functions.
+10. **By P2**. If you find a response you like, it would be nice to ask another question later to that person who reply the favorite answer.
+* We can try to make a messenger function that people can ask a question personally. However, this is not an easy implementation. Individual asking is not a big task of our plan. Therefore we should consider more whether we should implement this or not.
+11. **By P2**. It would be good to create a function to adopt answers and give bonuses to the owner of the answers adopted.
+* We could implement a simple function to choose the best answer by clicking to the best answer before stop passing the answers. However, bonus for the answerer is not an easy problem. We will consider more about that while implementing high-fi prototype.
+12. **By P2, P4**. A reporting function is required for strange questions or answers. 
+* Since the target users are students who share the same reading materials in class, lab, etc... , we expect trolling rarely happens, so we think we don’t need to care this issue so much in high-fi prototype.
+13. **By P4**. If there are too many highlight on pdf, it would be hard to read. We should make it clearly. 
+* Although this seems a simple UI problem, not social problem, but it might violate social interactions if there are too much highlights which make people difficult to participate in the service. It would be nice if we make some function of summarizing, collecting, or hiding questions. This helps people not only to read clearly but also to organize the questions. Also, for High-fi prototyping, it would be okay not to implement this function because only small number of quetions are expected during high-fi testing period.
 
 ### LOW
-14. It would be fun to make mini games where users can fight with Pokemon. Let the winner of the duel get a chance to ask questions.
-* **By P2**. Making a mini game is a good option to increase the participation, but, because of time and technical issues, it would be hard to implement the game for our UI. Just focusing more on our 3 tasks may enoughly increase the interaction between people who are reading the same materials.
-15. Each answer is written in answerer’s individual ways, so it would be nice if the questioner can summarize them down after the reply is finished.
-* **By P4**. We can implement the summary function for questioner with seeing the above answers added, but we have to consider the possibilities of questioners’ trolling to remove or modify proper answers. Therefore, we need additional function that questioner can’t modify the previous answers. However, we don’t think just summarize answers with his/her words cannot increase the interaction with other people. We should consider whether implement this or not.
+14. **By P2**. It would be fun to make mini games where users can fight with Pokemon. Let the winner of the duel get a chance to ask questions.
+* Making a mini game is a good option to increase the participation, but, because of time and technical issues, it would be hard to implement the game for our UI. Just focusing more on our 3 tasks may enoughly increase the interaction between people who are reading the same materials.
+15. **By P4**. Each answer is written in answerer’s individual ways, so it would be nice if the questioner can summarize them down after the reply is finished.
+* We can implement the summary function for questioner with seeing the above answers added, but we have to consider the possibilities of questioners’ trolling to remove or modify proper answers. Therefore, we need additional function that questioner can’t modify the previous answers. However, we don’t think just summarize answers with his/her words cannot increase the interaction with other people. We should consider whether implement this or not.
