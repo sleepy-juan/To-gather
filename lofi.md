@@ -32,16 +32,16 @@ As mentioned, it was easy to organize the overall UI and make icons we want to c
 Lastly, synchronizing the project was one of the most challenging part or our prototype. We did all of our jobs in Sketch (including hotspots) and tried to sync it with Invision. We still don’t know the exact reason, but hotspots that we created in Sketch did not synchronize on Invision. Therefore, after a few tries, we needed to add the same hotspots In Invision again. 
 
 ### Representative Screenshots
-![Title](./images/lofi1.png)
-To-gather is a platform that enables direct Q&A while reading materials.
-![Task 1](./images/lofi2.png)
-Requester’s question is passed to only one person, not available by all people. Answers would have more responsibility to answer the question, since the question if for you, not for all members. After answering at questions, it passes to another person again and again. (Task 1)
-![Task 1 - confirm](./images/lofi3.png)
-Requesters can determine to continue passing the question to another person or to stop answering at (s) he questions.
-![Task 3](./images/lofi4.png)
-If you answer at someone’s questions, you can collect the Pokemon that randomly given by each question. (Task 3)
-![Task 2](./images/lofi5.png)
-Rather than denoting the requester’s name, we show the common point between the questioner and answerers on answerer’s display.  (Task 2)
+![Title](./images/lofi1.png)  
+To-gather is a platform that enables direct Q&A while reading materials.  
+![Task 1](./images/lofi2.png)  
+Requester’s question is passed to only one person, not available by all people. Answers would have more responsibility to answer the question, since the question if for you, not for all members. After answering at questions, it passes to another person again and again. (Task 1)  
+![Task 1 - confirm](./images/lofi3.png)  
+Requesters can determine to continue passing the question to another person or to stop answering at (s) he questions.  
+![Task 3](./images/lofi4.png)  
+If you answer at someone’s questions, you can collect the Pokemon that randomly given by each question. (Task 3)  
+![Task 2](./images/lofi5.png)  
+Rather than denoting the requester’s name, we show the common point between the questioner and answerers on answerer’s display.  (Task 2)  
 
 ### Design Choices
 First of all, we will not support scrolling function and highlighting function on the pdf file for a few reasons. We think implementing many functions with pdf file is not an easy task and implementing this is not related to social interaction via computing. Instead, we will just add a simple function to switch the page in one file and shaping a square on the paper, not highlighting.  
