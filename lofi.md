@@ -53,6 +53,7 @@ Furthermore, we will not use much time on implementing register and uploading pr
 Lastly, we will not implement any animations related to Pokemon, because our purpose is implementing collecting system in our UI, not making the sweet and cool Pokemon. 
 
 ### Instruction
+Our prototype will show you an end-to-end scenario for our platform. Starting from sign-in, you can see profile page with Pokemon dictionary, questioning process as questioner, and answering process as answerer. User can see their own Pokemon, ask a question for incomprehensible part on textbook/paper, and also answer for these questions.
 1. At [Sign-in](https://invis.io/NTOSIH079RK#/327837398_Sign_IN) page, please click green sign in button to start.
 2. Click the profile button at the left downside. Then you can check the page for your collected Pokemon for answering at questions. (Task 3)
 3. Click ‘Back’ button to return to the main screen.
