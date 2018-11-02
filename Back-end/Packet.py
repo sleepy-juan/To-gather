@@ -6,6 +6,14 @@
 from Disk import Question, Answer
 import socket
 
+def OnAccept(sock):
+	username = sock.recv(64).strip().decode()
+	bssid_length = sock.recv(8)
+	bssid_length = int.from_bytes(bssid_length, 'big')
+	bssid = sock.recv(bssid_length)
+
+	return username, bssid.split()
+
 def OnThrow(sock):
 	questioner = sock.recv(64).strip().decode()
 	question_id = sock.recv(4)

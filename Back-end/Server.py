@@ -5,7 +5,7 @@
 # Author @ Sungwoo Jeon (j0070ak@kaist.ac.kr)
 import socket
 from System import fork, lock, wait, alarm, repeat, cancel
-from Packet import OnThrow
+from Packet import OnThrow, OnAccept
 import random
 from Disk import Database
 
@@ -17,24 +17,26 @@ class Server:
 		self.sock.bind(('', PORT))
 		self.sock.listen(Server.LISTENQ)
 		self.clients = {}
+		self.location = {}
 		self.answer_queue = {}
 		self.confirm_queue = {}
 
 		def accept_handler(argument):
-			sock, clients, handler, answer_queue, confirm_queue = argument
+			sock, clients, handler, answer_queue, confirm_queue, location_queue = argument
 			while True:
 				client, address = sock.accept()
-				username = client.recv(64).strip().decode()
+				username, location = OnAccept(client)
 
 				with lock():
 					clients[username] = client
+					location_queue[username] = location
 					if username not in answer_queue:
 						answer_queue[username] = []
 					if username not in confirm_queue:
 						confirm_queue[username] = []
 				fork(handler, (client, username))
 
-		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue, self.confirm_queue))
+		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue, self.confirm_queue, self.location))
 
 	def close(self):
 		self.sock.close()
@@ -95,7 +97,7 @@ class Server:
 				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "ENDS":
-				
+				pass	
 ####################################################################								
 			elif Type == "CMPT":
 				pass
