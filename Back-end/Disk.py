@@ -88,7 +88,7 @@ class Database:
 			with open(Database.DB_PATH_POKEMON + username, 'rb') as f:
 				data = load(username)
 		except:
-			data = [False] * Pokemon.length
+			data = [0] * (Pokemon.length // 8)
 
 		return data
 
@@ -97,7 +97,7 @@ class Pokemon:
 	length = 40
 
 	def __init__(self):
-		self.p_list = [0] * 5
+		self.p_list = [0] * (self.length / 8)
 
 	def update(self, pokemon_number):
 		pk = self.p_list[pokemon_number // 8]

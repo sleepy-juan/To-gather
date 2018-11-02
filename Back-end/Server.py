@@ -91,7 +91,7 @@ class Server:
 
 				p = Pokemon()
 				p.list = Database.getPokemon(username)
-				p.list.update(random.randrange(0, p.length))
+				p.update(random.randrange(0, p.length))
 				Database.logPokemon(username, p)
 
 				sock.send("DONE".encode())
@@ -112,9 +112,9 @@ class Server:
 				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "POKE":
-				p_list = Database.getPokemon(username)
-				
-				sock.send()
+				p = Database.getPokemon(username)
+				sock.send(p.load())
+				sock.send("DONE".encode())
 ####################################################################
 			else:
 				pass
