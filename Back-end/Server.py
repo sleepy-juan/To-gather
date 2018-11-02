@@ -5,7 +5,7 @@
 # Author @ Sungwoo Jeon (j0070ak@kaist.ac.kr)
 import socket
 from System import fork, lock, wait, alarm, repeat, cancel
-from Packet import OnThrow
+from Packet import OnThrow, OnAccept, OnRelay
 import random
 from Disk import Database
 
@@ -24,7 +24,9 @@ class Server:
 			sock, clients, handler, answer_queue, confirm_queue = argument
 			while True:
 				client, address = sock.accept()
-				username = client.recv(64).strip().decode()
+				username, location = OnAccept(client)
+
+				Database.logLocation(username, location)
 
 				with lock():
 					clients[username] = client
@@ -75,7 +77,7 @@ class Server:
 ####################################################################
 			elif Type == "RELY":
 				with lock():
-					OnRely(sock, answer_queue[username])
+					OnRelay(sock, answer_queue[username])
 				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "ANSW":
@@ -86,16 +88,33 @@ class Server:
 							answer_queue[username].remove(i)
 							break
 				confirm_queue[q.questioner].append(q)
+
+				p = Pokemon()
+				p.list = Database.getPokemon(username)
+				p.update(random.randrange(0, p.length))
+				Database.logPokemon(username, p)
+
 				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "CNFM":
 				with lock():
-					OnRely(sock, confirm_queue[username])
+					OnRelay(sock, confirm_queue[username])
 					del confirm_queue[username]
 				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "ENDS":
-				
+				q = OnThrow(sock)
+				Database.logQuestion(q)
+				sock.send("DONE".encode())
 ####################################################################								
 			elif Type == "CMPT":
+				OnCommonPoint(sock)
+				sock.send("DONE".encode())
+####################################################################
+			elif Type == "POKE":
+				p = Database.getPokemon(username)
+				sock.send(p.load())
+				sock.send("DONE".encode())
+####################################################################
+			else:
 				pass

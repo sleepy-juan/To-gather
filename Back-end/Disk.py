@@ -11,24 +11,25 @@ from access_points import get_scanner
 class Database:
 	DB_PATH = "./Storage/"
 	DB_PATH_HELP = DB_PATH + "Help"
-	DB_PATH_USER = DB_PATH + "User"
+	DB_PATH_LOCATION = DB_PATH + "Location/"
+	DB_PATH_POKEMON = DB_PATH + "Pokemon/"
 
 	@staticmethod
 	def logHelp(user_from, user_to):
 		try:
-			with open(DB_PATH_HELP, 'rb') as f:
+			with open(Database.DB_PATH_HELP, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
 
 		data.append((user_from, user_to))
-		with open(DB_PATH_HELP, 'wb') as f:
+		with open(Database.DB_PATH_HELP, 'wb') as f:
 			dump(data, f)
 
 	@staticmethod
 	def howManyHelp(user_from, user_to):
 		try:
-			with open(DB_PATH_HELP, 'rb') as f:
+			with open(Database.DB_PATH_HELP, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
@@ -40,77 +41,72 @@ class Database:
 		return n
 
 	@staticmethod
-	def logUser(user):
-		try:
-			with open(DB_PATH_USER, 'rb') as f:
-				data = load(f)
-		except:
-			data = []
-
-		data.append(user)
-		with open(DB_PATH_USER, 'wb') as f:
-			dump(data, f)
-
-	@staticmethod
-	def getUser(username):
-		try:
-			with open(DB_PATH_USER, 'rb') as f:
-				data = load(f)
-		except:
-			data = []
-
-		query = list(filter(lambda user: user.username == username))
-		if len(query) == 0:
-			return None
-		return query[0]
-
-	@staticmethod
 	def logQuestion(question):
 		try:
-			with open(DB_PATH_QUESTION, 'rb') as f:
+			with open(Database.DB_PATH_QUESTION, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
 
 		data.append(question)
-		with open(DB_PATH_QUESTION, 'wb') as f:
+		with open(Database.DB_PATH_QUESTION, 'wb') as f:
 			dump(data, f)
 
 	@staticmethod
 	def getQuestions(question_id):
 		try:
-			with open(DB_PATH_QUESTION, 'rb') as f:
+			with open(Database.DB_PATH_QUESTION, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
 
 		return data
 
-# class User
-# - contain user information
-class User:
-	_ID_SERIAL = 0
+	@staticmethod
+	def logLocation(username, location):
+		with open(Database.DB_PATH_LOCATION + username, 'wb') as f:
+			dump(location, f)
 
-	def __init__(self, username = None):
-		if username != None:
-			self.username = username
+	@staticmethod
+	def getLocation(username):
+		try:
+			with open(Database.DB_PATH_LOCATION + username, 'rb') as f:
+				data = load(username)
+		except:
+			data = []
 
-			scanner = get_scanner()
-			aps = scanner.get_access_points()
-			self.bssid = list(map(lambda x:x.bssid, aps))
-			self.id = User._ID_SERIAL
-			User._ID_SERIAL += 1
-		else:
-			self.username = None
-			self.bssid = []
-			self.id = -1
+		return data
 
-	def load(self, data):
-		arg = loads(data)
+	@staticmethod
+	def logPokemon(username, pokemon):
+		with open(Database.DB_PATH_POKEMON + username, 'wb') as f:
+			dump(pokemon.load(), f)
 
-		self.username = arg[0]
-		self.bssid = arg[1]
-		self.id = arg[2]
+	@staticmethod
+	def getPokemon(username):
+		try:
+			with open(Database.DB_PATH_POKEMON + username, 'rb') as f:
+				data = load(username)
+		except:
+			data = [0] * (Pokemon.length // 8)
+
+		return data
+
+# class Pokemon
+class Pokemon:
+	length = 40
+
+	def __init__(self):
+		self.p_list = [0] * (self.length / 8)
+
+	def update(self, pokemon_number):
+		pk = self.p_list[pokemon_number // 8]
+		i = pokemon_number % 8
+		x = 1 << i
+		self.p_list[pokemon_number // 8] = (pk | x).to_bytes(1, 'big')
+
+	def load(self):
+		return b''.join(self.p_list)
 
 # class Question
 # - contain question information
