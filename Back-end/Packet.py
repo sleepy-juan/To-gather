@@ -68,3 +68,12 @@ def OnRelay(sock, qs):
 
 	for q in qs:
 		OnRelayForOne(sock, q)
+
+def OnCommonPoint(sock):
+	user_from = sock.recv(64).strip().decode()
+	user_to = sock.recv(64).strip().decode()
+
+	common_point = ""
+	# TODO: find common point
+
+	sock.send((common_point + " "*(64 - len(common_point))).encode())
