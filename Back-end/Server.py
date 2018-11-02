@@ -97,7 +97,12 @@ class Server:
 				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "ENDS":
-				pass	
+				q = OnThrow(sock)
+				Database.logQuestion(q)
+				sock.send("DONE".encode())
 ####################################################################								
 			elif Type == "CMPT":
+				OnCommonPoint(sock)
+				sock.send("DONE".encode())
+			else:
 				pass
