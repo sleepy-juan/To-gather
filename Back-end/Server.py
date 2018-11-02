@@ -7,6 +7,7 @@ import socket
 from System import fork, lock, wait, alarm, repeat, cancel
 from Packet import OnThrow
 import random
+from Disk import Database
 
 class Server:
 	LISTENQ = 1024
@@ -17,23 +18,23 @@ class Server:
 		self.sock.listen(Server.LISTENQ)
 		self.clients = {}
 		self.answer_queue = {}
+		self.confirm_queue = {}
 
 		def accept_handler(argument):
-			sock, clients, handler, queue = argument
+			sock, clients, handler, answer_queue, confirm_queue = argument
 			while True:
 				client, address = sock.accept()
 				username = client.recv(64).strip().decode()
 
 				with lock():
 					clients[username] = client
-					if username not in queue:
-						queue[username] = []
-
-				print('accept', username)
-
+					if username not in answer_queue:
+						answer_queue[username] = []
+					if username not in confirm_queue:
+						confirm_queue[username] = []
 				fork(handler, (client, username))
 
-		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue))
+		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue, self.confirm_queue))
 
 	def close(self):
 		self.sock.close()
@@ -43,6 +44,7 @@ class Server:
 	def per_clients(self, arg):
 		sock, username = arg
 		answer_queue = self.answer_queue
+		confirm_queue = self.confirm_queue
 		clients = self.clients
 
 		while True:
@@ -59,13 +61,6 @@ class Server:
 ####################################################################
 			elif Type == "THRW":
 				q = OnThrow(sock)
-
-				print('recv', q.questioner)
-				print('recv', q.question)
-				for a in q.answers:
-					print('recv', a.answerer)
-					print('recv', a.answer)
-
 				passed_answerers = list(map(lambda x:x.answerer, q.answers))
 				valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != username), clients.keys()))
 
@@ -78,15 +73,29 @@ class Server:
 					answer_queue[answerer].append(q)
 				sock.send("DONE".encode())
 ####################################################################
-			elif Type == "RECV":
-				#to do something'
-				pass
+			elif Type == "RELY":
+				with lock():
+					OnRely(sock, answer_queue[username])
+				sock.send("DONE".encode())
+####################################################################
+			elif Type == "ANSW":
+				q = OnThrow(sock)
+				with lock():
+					for i in range(answer_queue[username]):
+						if q.id == i.id:
+							answer_queue[username].remove(i)
+							break
+				confirm_queue[q.questioner].append(q)
+				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "CNFM":
-				pass
-####################################################################
-			elif Type == "CHCK":
-				pass
+				with lock():
+					OnRely(sock, confirm_queue[username])
+					del confirm_queue[username]
+				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "ENDS":
+				
+####################################################################								
+			elif Type == "CMPT":
 				pass
