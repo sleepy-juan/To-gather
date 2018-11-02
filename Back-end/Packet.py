@@ -34,7 +34,7 @@ def OnThrow(sock):
 	question_object.load(questioner, question_id, question, answers)
 	return question_object
 
-def OnRelay(sock, q):
+def OnRelayForOne(sock, q):
 	questioner = (q.questioner + ' '*(64 - len(q.questioner))).encode()
 	sock.send(questioner)
 
@@ -61,3 +61,10 @@ def OnRelay(sock, q):
 		sock.send(answer_length)
 
 		sock.send(a.answer.encode())
+
+def OnRelay(sock, qs):
+	question_number = len(qs).to_bytes(4, 'big')
+	sock.send(question_number)
+
+	for q in qs:
+		OnRelayForOne(sock, q)
