@@ -137,13 +137,11 @@ class Question:
 		arg = [self.questioner, self.question, self.answers, self.id]
 		return dumps(arg)
 
-	def load(self, data):
-		arg = loads(data)
-
-		self.questioner = arg[0]
-		self.question = arg[1]
-		self.answers = arg[2]
-		self.id = arg[3]
+	def load(self, questioner, id, question, answers):
+		self.questioner = questioner
+		self.id = id
+		self.question = question
+		self.answers = answers
 
 # class Answer
 # - contain ansewr information
@@ -160,13 +158,7 @@ class Answer:
 		else:
 			self.id = -1
 
-	def dump(self):
-		arg = [self.answerer, self.answer, self.id]
-		return dumps(arg)
-
-	def load(self, data):
-		arg = loads(data)
-
-		self.answerer = arg[0]
-		self.answer = arg[1]
-		self.id = arg[2]
+	def load(self, answerer, id, answer):
+		self.answerer = answerer
+		self.id = id
+		self.answer = answer
