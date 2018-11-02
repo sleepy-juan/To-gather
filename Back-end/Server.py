@@ -87,6 +87,12 @@ class Server:
 							answer_queue[username].remove(i)
 							break
 				confirm_queue[q.questioner].append(q)
+
+				p = Pokemon()
+				p.list = Database.getPokemon(username)
+				p.list.update(random.randrange(0, p.length))
+				Database.logPokemon(username, p)
+
 				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "CNFM":
@@ -103,5 +109,11 @@ class Server:
 			elif Type == "CMPT":
 				OnCommonPoint(sock)
 				sock.send("DONE".encode())
+####################################################################
+			elif Type == "POKE":
+				p_list = Database.getPokemon(username)
+				
+				sock.send()
+####################################################################
 			else:
 				pass

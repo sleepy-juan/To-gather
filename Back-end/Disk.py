@@ -80,7 +80,7 @@ class Database:
 	@staticmethod
 	def logPokemon(username, pokemon):
 		with open(DB_PATH_POKEMON + username, 'wb') as f:
-			dump(pokemon, f)
+			dump(pokemon.load(), f)
 
 	@staticmethod
 	def getPokemon(username):
@@ -94,16 +94,17 @@ class Database:
 
 # class Pokemon
 class Pokemon:
-	length = 150
+	length = 40
 
 	def __init__(self):
-		self.P_list = [False] * length
-
-	def load(self):
-		return self.P_list
-
+		self.p1 = 0x00
+		self.p2 = 0x00
+		self.p3 = 0x00
+		self.p4 = 0x00
+		self.p5 = 0x00
+		
 	def update(self, pokemon_number):
-		self.P_list[pokemon_number] = True
+		self.p = 1
 
 # class Question
 # - contain question information
