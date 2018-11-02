@@ -105,10 +105,6 @@ class User:
 			self.bssid = []
 			self.id = -1
 
-	def dump(self):
-		arg = [self.username, self.bssid, self.id]
-		return dumps(arg)
-
 	def load(self, data):
 		arg = loads(data)
 
@@ -132,10 +128,6 @@ class Question:
 			Question._ID_SERIAL += 1
 		else:
 			self.id = -1
-
-	def dump(self):
-		arg = [self.questioner, self.question, self.answers, self.id]
-		return dumps(arg)
 
 	def load(self, questioner, id, question, answers):
 		self.questioner = questioner

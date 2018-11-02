@@ -4,9 +4,9 @@
 # Author @ Juan Lee (juanlee@kaist.ac.kr)
 # Author @ Sungwoo Jeon (j0070ak@kaist.ac.kr)
 import socket
-from Disk import get, post
 from System import fork, lock, wait, alarm, repeat, cancel
-from Packet import QuestionPacket
+from Packet import OnThrow
+import random
 
 class Server:
 	LISTENQ = 1024
@@ -23,43 +23,70 @@ class Server:
 			while True:
 				client, address = sock.accept()
 				username = client.recv(64).strip().decode()
-				clients[username] = client
-				queue[username] = []
 
-				fork(handler, (client, username, queue))
+				with lock():
+					clients[username] = client
+					if username not in queue:
+						queue[username] = []
+
+				print('accept', username)
+
+				fork(handler, (client, username))
 
 		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue))
 
+	def close(self):
+		self.sock.close()
+		for key in self.clients:
+			self.clients[key].close()
+
 	def per_clients(self, arg):
-		sock, username, queue = arg
+		sock, username = arg
+		answer_queue = self.answer_queue
+		clients = self.clients
+
 		while True:
-			Type = sock.recv(4).decode()
+			try:
+				Type = sock.recv(4).decode()
+			except:
+				Type = "QUIT"
 
-			if Type == "THRW":
+####################################################################
+			if Type == "QUIT":
+				with lock():
+					del self.clients[username]
+				break
+####################################################################
+			elif Type == "THRW":
 				q = OnThrow(sock)
-				#Get list of users who did not received question.
-				copy_ans = []
-				for key in clients:
-					copy_ans.append(key)
-				for i in q.answer:
-					copy_ans.remove(i.answerer)
 
-				if len(copy_ans) == 0:
-					#send packet to questioner
-				else:
-					user = copy_ans[random.randrange(0, len(coyp_ans))]
-					A = q.answer[len(q.answer)-1]
-					if (len(q.answer) == 0):
-						answer_queue[user].append(q)
-					elif (len(q.answer) >= 1):
-						#Add answer into next user answer_queue
-						answer_queue[user].append(q)
-						#Remove answer from previous user answer_queue
-						for i in answer_queue[q.answer[len(q.answer) - 1].answerer]:
-							if (q.id == i.id):
-								answer_queue[q.answer[len(q.answer) - 1].answerer].remove(i)
-								break
-				#send packet to user
+				print('recv', q.questioner)
+				print('recv', q.question)
+				for a in q.answers:
+					print('recv', a.answerer)
+					print('recv', a.answer)
+
+				passed_answerers = list(map(lambda x:x.answerer, q.answers))
+				valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != username), clients.keys()))
+
+				if len(valid_answerers) == 0:
+					sock.send("EMTY".encode())
+					continue
+
+				answerer = random.choice(valid_answerers)
+				with lock():
+					answer_queue[answerer].append(q)
+				sock.send("DONE".encode())
+####################################################################
 			elif Type == "RECV":
 				#to do something'
+				pass
+####################################################################
+			elif Type == "CNFM":
+				pass
+####################################################################
+			elif Type == "CHCK":
+				pass
+####################################################################
+			elif Type == "ENDS":
 				pass
