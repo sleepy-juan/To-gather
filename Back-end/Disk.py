@@ -36,3 +36,17 @@ class Answer:
 
 		self.answerer = arg[0]
 		self.answer = arg[1]
+
+data = b'asdfdsafadsf'
+
+q = Question()
+q.load(data)
+
+q.question = ?
+q.questioner = ?
+q.answers = [Answer]
+
+a = Answer()
+
+a.answerer = ?
+a.answer = ?
