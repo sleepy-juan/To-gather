@@ -17,19 +17,19 @@ class Database:
 	@staticmethod
 	def logHelp(user_from, user_to):
 		try:
-			with open(DB_PATH_HELP, 'rb') as f:
+			with open(Database.DB_PATH_HELP, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
 
 		data.append((user_from, user_to))
-		with open(DB_PATH_HELP, 'wb') as f:
+		with open(Database.DB_PATH_HELP, 'wb') as f:
 			dump(data, f)
 
 	@staticmethod
 	def howManyHelp(user_from, user_to):
 		try:
-			with open(DB_PATH_HELP, 'rb') as f:
+			with open(Database.DB_PATH_HELP, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
@@ -43,19 +43,19 @@ class Database:
 	@staticmethod
 	def logQuestion(question):
 		try:
-			with open(DB_PATH_QUESTION, 'rb') as f:
+			with open(Database.DB_PATH_QUESTION, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
 
 		data.append(question)
-		with open(DB_PATH_QUESTION, 'wb') as f:
+		with open(Database.DB_PATH_QUESTION, 'wb') as f:
 			dump(data, f)
 
 	@staticmethod
 	def getQuestions(question_id):
 		try:
-			with open(DB_PATH_QUESTION, 'rb') as f:
+			with open(Database.DB_PATH_QUESTION, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
@@ -64,13 +64,13 @@ class Database:
 
 	@staticmethod
 	def logLocation(username, location):
-		with open(DB_PATH_LOCATION + username, 'wb') as f:
+		with open(Database.DB_PATH_LOCATION + username, 'wb') as f:
 			dump(location, f)
 
 	@staticmethod
 	def getLocation(username):
 		try:
-			with open(DB_PATH_LOCATION + username, 'rb') as f:
+			with open(Database.DB_PATH_LOCATION + username, 'rb') as f:
 				data = load(username)
 		except:
 			data = []
@@ -79,13 +79,13 @@ class Database:
 
 	@staticmethod
 	def logPokemon(username, pokemon):
-		with open(DB_PATH_POKEMON + username, 'wb') as f:
+		with open(Database.DB_PATH_POKEMON + username, 'wb') as f:
 			dump(pokemon.load(), f)
 
 	@staticmethod
 	def getPokemon(username):
 		try:
-			with open(DB_PATH_POKEMON + username, 'rb') as f:
+			with open(Database.DB_PATH_POKEMON + username, 'rb') as f:
 				data = load(username)
 		except:
 			data = [False] * Pokemon.length
@@ -97,14 +97,16 @@ class Pokemon:
 	length = 40
 
 	def __init__(self):
-		self.p1 = 0x00
-		self.p2 = 0x00
-		self.p3 = 0x00
-		self.p4 = 0x00
-		self.p5 = 0x00
-		
+		self.p_list = [0] * 5
+
 	def update(self, pokemon_number):
-		self.p = 1
+		pk = self.p_list[pokemon_number // 8]
+		i = pokemon_number % 8
+		x = 1 << i
+		self.p_list[pokemon_number // 8] = (pk | x).to_bytes(1, 'big')
+
+	def load(self):
+		return b''.join(self.p_list)
 
 # class Question
 # - contain question information

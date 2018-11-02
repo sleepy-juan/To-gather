@@ -5,7 +5,7 @@
 # Author @ Sungwoo Jeon (j0070ak@kaist.ac.kr)
 import socket
 from System import fork, lock, wait, alarm, repeat, cancel
-from Packet import OnThrow, OnAccept
+from Packet import OnThrow, OnAccept, OnRelay
 import random
 from Disk import Database
 
@@ -25,6 +25,7 @@ class Server:
 			while True:
 				client, address = sock.accept()
 				username, location = OnAccept(client)
+
 				Database.logLocation(username, location)
 
 				with lock():
@@ -76,7 +77,7 @@ class Server:
 ####################################################################
 			elif Type == "RELY":
 				with lock():
-					OnRely(sock, answer_queue[username])
+					OnRelay(sock, answer_queue[username])
 				sock.send("DONE".encode())
 ####################################################################
 			elif Type == "ANSW":
@@ -97,7 +98,7 @@ class Server:
 ####################################################################
 			elif Type == "CNFM":
 				with lock():
-					OnRely(sock, confirm_queue[username])
+					OnRelay(sock, confirm_queue[username])
 					del confirm_queue[username]
 				sock.send("DONE".encode())
 ####################################################################
