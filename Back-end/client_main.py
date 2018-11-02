@@ -1,7 +1,7 @@
 import socket
-from Packet import OnRelay
+from Packet import OnRelayForOne
 from Disk import Question, Answer
-from access_point import get_scanner
+from access_points import get_scanner
 
 PORT = 12345
 
@@ -16,17 +16,24 @@ sock.connect(('127.0.0.1', PORT))
 user = 'juanlee' + ' '*57
 sock.send(user.encode())
 sock.send(len(location).to_bytes(8, 'big'))
-sock.send(location)
+sock.send(location.encode())
 
-q = Question("juanlee", "What is your name?")
-q.answers.append(Answer("sungwoo", "I am sungwoo"))
-q.answers.append(Answer("sihyun", "I am sihyun"))
+q1 = Question("juanlee", "What is your name?")
+q1.answers.append(Answer("sungwoo", "I am sungwoo"))
+q1.answers.append(Answer("sihyun", "I am sihyun"))
 
-q = Question("juanlee", "What is Pen?")
-q.answers.append(Answer("sungwoo", "Apple Pen"))
-q.answers.append(Answer("sihyun", "Pineapple Pen"))
+q2 = Question("juanlee", "What is Pen?")
+q2.answers.append(Answer("sungwoo", "Apple Pen"))
+q2.answers.append(Answer("sihyun", "Pineapple Pen"))
 
 sock.send("THRW".encode())
-OnRelay(sock, q)
+OnRelayForOne(sock, q1)
+print(sock.recv(4))
+
+sock.send("THRW".encode())
+OnRelayForOne(sock, q2)
+print(sock.recv(4))
 
 sock.send("QUIT".encode())
+
+sock.close()

@@ -3,14 +3,14 @@
 #
 # Author @ Juan Lee (juanlee@kaist.ac.kr)
 
-from Disk import Question, Answer
+from Disk import Question, Answer, Database
 import socket
 
 def OnAccept(sock):
 	username = sock.recv(64).strip().decode()
 	bssid_length = sock.recv(8)
 	bssid_length = int.from_bytes(bssid_length, 'big')
-	bssid = sock.recv(bssid_length)
+	bssid = sock.recv(bssid_length).decode()
 
 	return username, bssid.split()
 
@@ -82,6 +82,20 @@ def OnCommonPoint(sock):
 	user_to = sock.recv(64).strip().decode()
 
 	common_point = ""
-	# TODO: find common point
+
+	# I helped you before
+	n = Database.howManyHelp(user_from, user_to)
+	if n > 0:
+		common_point = "I helped you for %d time(s)" % n
+
+	# near you
+	location_from = Database.getLocation(user_from)
+	location_to = Database.getLocation(user_to)
+
+	set_from = set(location_from)
+	set_to = set(location_to)
+
+	if len(set_from.intersection(set_to)) != 0:
+		common_point = "We are in same place!"
 
 	sock.send((common_point + " "*(64 - len(common_point))).encode())

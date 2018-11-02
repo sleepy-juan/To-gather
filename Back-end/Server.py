@@ -17,26 +17,25 @@ class Server:
 		self.sock.bind(('', PORT))
 		self.sock.listen(Server.LISTENQ)
 		self.clients = {}
-		self.location = {}
 		self.answer_queue = {}
 		self.confirm_queue = {}
 
 		def accept_handler(argument):
-			sock, clients, handler, answer_queue, confirm_queue, location_queue = argument
+			sock, clients, handler, answer_queue, confirm_queue = argument
 			while True:
 				client, address = sock.accept()
 				username, location = OnAccept(client)
+				Database.logLocation(username, location)
 
 				with lock():
 					clients[username] = client
-					location_queue[username] = location
 					if username not in answer_queue:
 						answer_queue[username] = []
 					if username not in confirm_queue:
 						confirm_queue[username] = []
 				fork(handler, (client, username))
 
-		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue, self.confirm_queue, self.location))
+		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue, self.confirm_queue))
 
 	def close(self):
 		self.sock.close()
