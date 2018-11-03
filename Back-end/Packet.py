@@ -1,0 +1,101 @@
+# Packet.py
+# - Packet
+#
+# Author @ Juan Lee (juanlee@kaist.ac.kr)
+
+from Disk import Question, Answer, Database
+import socket
+
+def OnAccept(sock):
+	username = sock.recv(64).strip().decode()
+	bssid_length = sock.recv(8)
+	bssid_length = int.from_bytes(bssid_length, 'big')
+	bssid = sock.recv(bssid_length).decode()
+
+	return username, bssid.split()
+
+def OnThrow(sock):
+	questioner = sock.recv(64).strip().decode()
+	question_id = sock.recv(4)
+	question_id = int.from_bytes(question_id, 'big')
+	question_length = sock.recv(8)
+	question_length = int.from_bytes(question_length, 'big')
+	question = sock.recv(question_length).strip().decode()
+
+	n_answers = sock.recv(4)
+	n_answers = int.from_bytes(n_answers, 'big')
+
+	answers = []
+	for i in range(n_answers):
+		answerer = sock.recv(64).strip().decode()
+		answer_id = sock.recv(4)
+		answer_id = int.from_bytes(answer_id, 'big')
+		answer_length = sock.recv(8)
+		answer_length = int.from_bytes(answer_length, 'big')
+		answer = sock.recv(answer_length).strip().decode()
+
+		answer_object = Answer()
+		answer_object.load(answerer, answer_id, answer)
+		answers.append(answer_object)
+
+	question_object = Question()
+	question_object.load(questioner, question_id, question, answers)
+	return question_object
+
+def OnRelayForOne(sock, q):
+	questioner = (q.questioner + ' '*(64 - len(q.questioner))).encode()
+	sock.send(questioner)
+
+	question_id = q.id.to_bytes(4, 'big')
+	sock.send(question_id)
+
+	question_length = len(q.question).to_bytes(8, 'big')
+	sock.send(question_length)
+
+	sock.send(q.question.encode())
+
+	n_answers = len(q.answers).to_bytes(4, 'big')
+	sock.send(n_answers)
+
+	answers = []
+	for a in q.answers:
+		answerer = (a.answerer + ' '*(64 - len(a.answerer))).encode()
+		sock.send(answerer)
+
+		answer_id = a.id.to_bytes(4, 'big')
+		sock.send(answer_id)
+
+		answer_length = len(a.answer).to_bytes(8, 'big')
+		sock.send(answer_length)
+
+		sock.send(a.answer.encode())
+
+def OnRelay(sock, qs):
+	question_number = len(qs).to_bytes(4, 'big')
+	sock.send(question_number)
+
+	for q in qs:
+		OnRelayForOne(sock, q)
+
+def OnCommonPoint(sock):
+	user_from = sock.recv(64).strip().decode()
+	user_to = sock.recv(64).strip().decode()
+
+	common_point = ""
+
+	# I helped you before
+	n = Database.howManyHelp(user_from, user_to)
+	if n > 0:
+		common_point = "I helped you for %d time(s)" % n
+
+	# near you
+	location_from = Database.getLocation(user_from)
+	location_to = Database.getLocation(user_to)
+
+	set_from = set(location_from)
+	set_to = set(location_to)
+
+	if len(set_from.intersection(set_to)) != 0:
+		common_point = "We are in same place!"
+
+	sock.send((common_point + " "*(64 - len(common_point))).encode())
