@@ -1,0 +1,32 @@
+{
+  "name": "viewer-test",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-pdf": "^2.5.3",
+    "react-pdf-annotator": "^0.0.5",
+    "react-scripts": "1.1.1",
+    "url-search-params": "^0.10.0",
+    "pdfjs-dist": "^2.0.159",
+    "react-rnd": "^7.1.5"
+  },
+  "devDependencies": {
+    "flow-bin": "0.59.0",
+    "flow-copy-source": "^1.1.0",
+    "gh-pages": "0.11.0",
+    "husky": "0.11.9",
+    "nwb": "^0.19.2",
+    "prettier": "^1.8.2",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "url-search-params": "0.6.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

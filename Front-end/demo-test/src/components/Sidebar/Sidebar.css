@@ -1,0 +1,55 @@
+.sidebar {
+  overflow: auto;
+  color: #ffffff;
+  background-color: #006db3;
+  width: 25vw;
+}
+
+.description {
+  padding: 1rem;
+}
+
+.description h2 {
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.sidebar__highlights {
+  list-style: "none";
+  padding: 0;
+}
+
+.highlight__location {
+  margin-top: 0.5rem;
+  text-align: right;
+  font-size: 10px;
+}
+
+.highlight__image {
+  overflow: auto;
+  max-width: 300px;
+  border: 1px dashed;
+}
+
+.sidebar__highlight {
+  padding: 1rem;
+  cursor: pointer;
+  border-bottom: 2px solid #ffffff;
+}
+
+.sidebar__highlight:hover {
+  background: rgba(58, 56, 52, 0.08);
+}
+
+blockquote {
+  padding: 0;
+  margin: 0;
+  quotes: "\201c" "\201d";
+}
+
+blockquote:before {
+  content: open-quote;
+}
+
+blockquote:after {
+  content: close-quote;
+}
