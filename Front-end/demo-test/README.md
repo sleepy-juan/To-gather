@@ -1,4 +1,2 @@
-Notes:
-
-* Strip all the Flow  out of here
-* Implement file upload functionality
+# To-gather Front-end Prototype
+Answering at question is not provied yet
