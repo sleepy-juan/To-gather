@@ -8,8 +8,6 @@ import PdfAnnotator from "../react-pdf-annotator/PdfAnnotator";
 import Tip from "../react-pdf-annotator/Tip";
 import Highlight from "../react-pdf-annotator/Highlight";
 import Popup from "../react-pdf-annotator/Popup";
-
-
 import AnswerHighlights from "../AnswerHighlights/AnswerHighlights";
 import Spinner from '../Spinner/Spinner';
 import Sidebar_Left from "../Sidebar_Left/Sidebar_Left";
@@ -49,11 +47,9 @@ const url = searchParams.get("url") || DEFAULT_URL;
 class Viewer extends Component {
   state = {
     highlights: [], /*여기에 질문한 목록이 들어갑니다*/
+    highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [] /*여기에 답변한 목록이 들어갑니다*/
   };
 
-  state_answer = {
-     highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [] /*여기에 답변한 목록이 들어갑니다*/
-  };
 
   onFileChange = e => {
     this.setState({
@@ -71,7 +67,7 @@ class Viewer extends Component {
   {
     console.log('event',updateText);
     highlight.comment.text= updateText.text;
-     this.editHighlight({ highlight});
+    this.editHighlight({ highlight});
   }
 
   renderPopUp(highlight){
@@ -122,14 +118,15 @@ class Viewer extends Component {
   }
 
   getHighlightById(id: string) {
-    const { highlights } = this.state;
+    const { highlights, highlights_answer } = this.state;
 
-    return highlights.find(highlight => highlight.id === id);
+    return highlights.find(highlight => highlight.id === id) || highlights_answer.find(highlight => highlight.id === id);
   }
+
 
   addHighlight(highlight: T_NewHighlight) {
     debugger; /*체크해보려고 넣었음*/
-    const { highlights } = this.state;
+    const { highlights, } = this.state;
      
     this.setState({
       highlights: [{ ...highlight, id: getNextId() }, ...highlights]
@@ -146,8 +143,7 @@ class Viewer extends Component {
 
 
   render() {
-    const { highlights, file, numPages } = this.state;
-    const {highlights_answer} = this.state_answer;
+    const { highlights, highlights_answer, file, numPages } = this.state;
 
     return (
       <div className="App" style={{ display: "flex", height: "100vh" }}>
