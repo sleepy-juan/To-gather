@@ -4,14 +4,6 @@ import React from "react";
 
 import './Sidebar_Right.css';
 
-// what is this shit???
-// import type { T_Highlight } from "../../src/types";
-// type T_ManuscriptHighlight = T_Highlight;
-// type Props = {
-//   highlights: Array<T_ManuscriptHighlight>,
-//   resetHighlights: () => void
-// };
-
 const updateHash = highlight => {
   debugger;
   window.location.hash = `highlight-${highlight.id}`;
@@ -54,6 +46,9 @@ function Sidebar_Right({ highlights, resetHighlights }: Props) {
             </div>
             <div className="highlight__locationwindow.">
               Page {highlight.position.pageNumber}
+            </div>
+            <div className="common_point">
+              This is the position where the commont point is inserted. 
             </div>
           </li>
         ))}

@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import './Sidebar.css';
+import './Sidebar_Left.css';
 
 // what is this shit???
 // import type { T_Highlight } from "../../src/types";
@@ -23,7 +23,7 @@ function Sidebar({ highlights, resetHighlights }: Props) {
       <div className="description">
         <h2>To-gather</h2>
         <p>
-          To ask a question, just drag the point that you are confused and add a question!
+          To ask at the question, just drag the point that you are confused and add a question!
         </p>
       </div>
 

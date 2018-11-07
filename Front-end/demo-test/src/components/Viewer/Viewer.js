@@ -21,7 +21,7 @@ import Popup from "../react-pdf-annotator/Popup";
 
 //import testHighlights from "../../testHighlights";
 import Spinner from '../Spinner/Spinner';
-import Sidebar from "../Sidebar/Sidebar";
+import Sidebar_Left from "../Sidebar_Left/Sidebar_Left";
 import Sidebar_Right from "../Sidebar_Right/Sidebar_Right"
 
 import './Viewer.css';
@@ -71,7 +71,7 @@ const url = searchParams.get("url") || DEFAULT_URL;
 
 class Viewer extends Component {
   state = {
-    highlights: [],
+    highlights: [], /*여기에 질문한 목록이 들어갑니다*/
   };
 
   onFileChange = e => {
@@ -184,7 +184,7 @@ class Viewer extends Component {
 
     return (
       <div className="App" style={{ display: "flex", height: "100vh" }}>
-        <Sidebar
+        <Sidebar_Left
           highlights={highlights}
           resetHighlights={this.resetHighlights}
         />
