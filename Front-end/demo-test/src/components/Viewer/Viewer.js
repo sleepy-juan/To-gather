@@ -2,15 +2,6 @@
 
 import React, { Component } from 'react';
 import URLSearchParams from "url-search-params";
-// import {
-//   PdfLoader,
-//   PdfAnnotator,
-//   Tip,
-//   Highlight,
-//   Popup,
-//   AreaHighlight
-// } from "/../../react-pdf-annotator/components";
-
 import AreaHighlight from "../react-pdf-annotator/AreaHighlight";
 import PdfLoader from "../react-pdf-annotator/PdfLoader";
 import PdfAnnotator from "../react-pdf-annotator/PdfAnnotator";
@@ -19,19 +10,13 @@ import Highlight from "../react-pdf-annotator/Highlight";
 import Popup from "../react-pdf-annotator/Popup";
 
 
-//import testHighlights from "../../testHighlights";
+import AnswerHighlights from "../AnswerHighlights/AnswerHighlights";
 import Spinner from '../Spinner/Spinner';
 import Sidebar_Left from "../Sidebar_Left/Sidebar_Left";
 import Sidebar_Right from "../Sidebar_Right/Sidebar_Right"
 
 import './Viewer.css';
 var newPDF = require('../../assets/turkopticon.pdf');
-// import type { T_Highlight, T_NewHighlight } from "../../src/types";
-// type T_ManuscriptHighlight = T_Highlight;
-// type Props = {};
-// type State = {
-//   highlights: Array<T_ManuscriptHighlight>
-// };
 
 // this is janky in terms of IDs
 const getNextId = () => String(Math.random()).slice(2);
@@ -54,15 +39,7 @@ comment.text ? (
                     }}
                   />
     </div>
-    
-  //   <Tip
-  //   onOpen={transformSelection}
-  //   onConfirm={comment => {
-  //     this.addHighlight({ content, position, comment });
 
-  //     hideTipAndSelection();
-  //   }}
-  // />
   ) : null;
 
 const DEFAULT_URL = '../../assets/turkopticon.pdf';
@@ -72,6 +49,10 @@ const url = searchParams.get("url") || DEFAULT_URL;
 class Viewer extends Component {
   state = {
     highlights: [], /*여기에 질문한 목록이 들어갑니다*/
+  };
+
+  state_answer = {
+     highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [] /*여기에 답변한 목록이 들어갑니다*/
   };
 
   onFileChange = e => {
@@ -146,9 +127,8 @@ class Viewer extends Component {
     return highlights.find(highlight => highlight.id === id);
   }
 
-  // HOW DOES THIS WORK WITHOUT T_NewHighlight being defined?
   addHighlight(highlight: T_NewHighlight) {
-    debugger;
+    debugger; /*체크해보려고 넣었음*/
     const { highlights } = this.state;
      
     this.setState({
@@ -156,7 +136,6 @@ class Viewer extends Component {
     });
   }
 
-  // HOW DOES THIS WORK WITHOUT T_NewHighlight being defined?
   editHighlight(highlight: T_NewHighlight) {
     debugger;
     const { highlights } = this.state;
@@ -165,22 +144,10 @@ class Viewer extends Component {
     });
   }
 
-  updateHighlight(highlightId: string, position: Object, content: Object) {
-    this.setState({
-      highlights: this.state.highlights.map(h => {
-        return h.id === highlightId
-          ? {
-              ...h,
-              position: { ...h.position, ...position },
-              content: { ...h.content, ...content }
-            }
-          : h;
-      })
-    });
-  }
-  
+
   render() {
     const { highlights, file, numPages } = this.state;
+    const {highlights_answer} = this.state_answer;
 
     return (
       <div className="App" style={{ display: "flex", height: "100vh" }}>
@@ -276,8 +243,9 @@ class Viewer extends Component {
             )}
           </PdfLoader>
         </div>
+
       <Sidebar_Right
-          highlights={highlights}
+          highlights={highlights_answer}
           resetHighlights={this.resetHighlights}
         />
 
