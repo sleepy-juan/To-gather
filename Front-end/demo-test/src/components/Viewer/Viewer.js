@@ -22,6 +22,7 @@ import Popup from "../react-pdf-annotator/Popup";
 //import testHighlights from "../../testHighlights";
 import Spinner from '../Spinner/Spinner';
 import Sidebar from "../Sidebar/Sidebar";
+import Sidebar_Right from "../Sidebar_Right/Sidebar_Right"
 
 import './Viewer.css';
 var newPDF = require('../../assets/turkopticon.pdf');
@@ -187,9 +188,10 @@ class Viewer extends Component {
           highlights={highlights}
           resetHighlights={this.resetHighlights}
         />
+
         <div
           style={{
-            height: "100vh",
+            height: "r0vh",
             width: "75vw",
             overflowY: "scroll",
             position: "relative"
@@ -274,7 +276,13 @@ class Viewer extends Component {
             )}
           </PdfLoader>
         </div>
+      <Sidebar_Right
+          highlights={highlights}
+          resetHighlights={this.resetHighlights}
+        />
+
       </div>
+
     );
   }
 }
