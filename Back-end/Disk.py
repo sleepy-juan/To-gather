@@ -83,12 +83,14 @@ class Database:
 class Question:
 	_ID_SERIAL = 0
 
-	def __init__(self, questioner = None, question = None):
+	def __init__(self, questioner = None, text = None, question = None):
 		self.questioner = questioner
-		self.question = question
 		self.answers = []
 
-		if questioner != None and question != None:
+		self.content_text = text
+		self.comment_text = question
+
+		if questioner != None and text != None and question != None:
 			self.id = Question._ID_SERIAL
 			Question._ID_SERIAL += 1
 		else:

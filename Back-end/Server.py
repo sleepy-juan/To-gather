@@ -2,7 +2,7 @@
 # - To-gather Server Program
 #
 # Author @ Juan Lee (juanlee@kaist.ac.kr)
-# Author @ Sungwoo Jeon (j0070ak@kaist.ac.kr)
+# Editor @ Sungwoo Jeon (j0070ak@kaist.ac.kr)
 import socket
 from System import fork, lock, wait, alarm, repeat, cancel
 from Packet import OnThrow, OnAccept, OnRelay
