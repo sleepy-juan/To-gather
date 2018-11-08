@@ -17,6 +17,7 @@ import './Viewer.css';
 var newPDF = require('../../assets/turkopticon.pdf');
 
 // this is janky in terms of IDs
+const common = "DEFAULT COMMON POINT";
 const getNextId = () => String(Math.random()).slice(2);
 const parseIdFromHash = () => window.location.hash.slice("#highlight-".length);
 const resetHash = () => {
@@ -124,7 +125,7 @@ class Viewer extends Component {
   }
 
 
-  addHighlight(highlight: T_NewHighlight) {
+  addHighlight(highlight: highlight) {
     debugger; /*체크해보려고 넣었음*/
     const { highlights, } = this.state;
      
@@ -133,7 +134,7 @@ class Viewer extends Component {
     });
   }
 
-  editHighlight(highlight: T_NewHighlight) {
+  editHighlight(highlight: highlight) {
     debugger;
     const { highlights } = this.state;
     this.setState({

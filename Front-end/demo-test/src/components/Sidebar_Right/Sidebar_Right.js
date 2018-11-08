@@ -48,7 +48,7 @@ function Sidebar_Right({ highlights, resetHighlights }: Props) {
               Page {highlight.position.pageNumber}
             </div>
             <div className="common_point">
-              This is the position where the commont point is inserted. 
+            {highlight.content.common}
             </div>
           </li>
         ))}

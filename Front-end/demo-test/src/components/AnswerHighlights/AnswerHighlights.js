@@ -3,7 +3,8 @@
 const AnswerHighlights = { '../../assets/turkopticon.pdf': [
   {
     content: {
-      text: "Since the late 1990s"
+      text: "Since the late 1990s",
+      common:"I've helped you before!"
     },
     position: {
       boundingRect: {
@@ -33,7 +34,8 @@ const AnswerHighlights = { '../../assets/turkopticon.pdf': [
   },
   {
     content: {
-      text: " millions of lines of code atFacebookevery day"
+      text: " millions of lines of code at Facebook every day",
+      common: "We entered the school at the same year!"
     },
     position: {
       boundingRect: {
@@ -72,9 +74,8 @@ const AnswerHighlights = { '../../assets/turkopticon.pdf': [
       ],
       pageNumber: 1
     },
-    comment: {
+   comment: {
       text: "Question 1",
-      emoji: ""
     },
     id: "4458799419734358"
   }

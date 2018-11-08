@@ -42,6 +42,12 @@
   background: rgba(58, 56, 52, 0.08);
 }
 
+.common_point {
+  overflow: auto;
+  max-width: 300px;
+  font-size: 12px;
+}
+
 blockquote {
   padding: 0;
   margin: 0;
