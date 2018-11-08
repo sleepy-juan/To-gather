@@ -45,8 +45,15 @@ def RecvFormat(sock):
 
 	return Format(questioner, text, common, question, bRect, rects, page, front_id)
 
+def RecvManyFormat(sock):
+	size = int.from_bytes(sock.recv(4), 'big')
+	formats = []
+	for i in range(size):
+		formats.append(RecvFormat(sock))
+	return formats
+
 def _ofLength(s, n):
-	return (str(s) + ' '*(n - len(s))).encode()
+	return (str(s) + ' '*(n - len(str(s)))).encode()
 
 def _ofBytes(d, n):
 	return d.to_bytes(n, 'big')
@@ -54,21 +61,29 @@ def _ofBytes(d, n):
 def SendFormat(sock, format):
 	# question information
 	sock.send(_ofLength(format.questioner, 64))
-	sock.send(_ofBytes(len(format.comment_text, 8)))
+	sock.send(_ofBytes(len(format.comment_text), 8))
 	sock.send(format.comment_text.encode())
-	sock.send(_ofBytes(len(format.content_text, 8)))
+	sock.send(_ofBytes(len(format.content_text), 8))
 	sock.send(format.content_text.encode())
 	sock.send(_ofLength(format.content_common, 64))
 
 	# position information
-	sock.send(_ofLength(format.position_boundingRects.x1, 64))
-	sock.send(_ofLength(format.position_boundingRects.y1, 64))
-	sock.send(_ofLength(format.position_boundingRects.x2, 64))
-	sock.send(_ofLength(format.position_boundingRects.y2, 64))
-	sock.send(_ofLength(format.position_boundingRects.width, 64))
-	sock.send(_ofLength(format.position_boundingRects.height, 64))
+	if format.position_boundingRects != None:
+		sock.send(_ofLength(format.position_boundingRects.x1, 64))
+		sock.send(_ofLength(format.position_boundingRects.y1, 64))
+		sock.send(_ofLength(format.position_boundingRects.x2, 64))
+		sock.send(_ofLength(format.position_boundingRects.y2, 64))
+		sock.send(_ofLength(format.position_boundingRects.width, 64))
+		sock.send(_ofLength(format.position_boundingRects.height, 64))
+	else:
+		sock.send(_ofLength(-1, 64))
+		sock.send(_ofLength(-1, 64))
+		sock.send(_ofLength(-1, 64))
+		sock.send(_ofLength(-1, 64))
+		sock.send(_ofLength(-1, 64))
+		sock.send(_ofLength(-1, 64))
 
-	sock.send(_ofBytes(len(format.rects), 4))
+	sock.send(_ofBytes(len(format.position_rects), 4))
 	for rect in format.position_rects:
 		sock.send(_ofLength(rect.x1, 64))
 		sock.send(_ofLength(rect.y1, 64))
@@ -80,10 +95,22 @@ def SendFormat(sock, format):
 	sock.send(_ofBytes(format.position_page, 4))
 	sock.send(_ofLength(format.front_id, 64))
 
+def SendManyFormat(sock, formats):
+	sock.send(_ofBytes(len(formats), 4))
+	for format in formats:
+		SendFormat(sock, format)
+
 def SendEmptyFormat(sock):
-	SendFormat(Format('', '', ''. '', Rectangle(-1, -1, -1, -1, -1, -1), [], '', ''))
+	SendFormat(sock, Format('', '', '', '', Rectangle(-1, -1, -1, -1, -1, -1), [], 0, ''))
 
 def SendIds(sock, ids):
 	sock.send(_ofBytes(len(ids), 4))
 	for i in ids:
 		sock.send(_ofLength(i, 64))
+
+def RecvIds(sock):
+	size = int.from_bytes(sock.recv(4), 'big')
+	ids = []
+	for i in range(size):
+		ids.append(sock.recv(64).strip().decode())
+	return ids
