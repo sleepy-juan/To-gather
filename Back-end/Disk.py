@@ -77,37 +77,6 @@ class Database:
 
 		return data
 
-	@staticmethod
-	def logPokemon(username, pokemon):
-		with open(Database.DB_PATH_POKEMON + username, 'wb') as f:
-			dump(pokemon.load(), f)
-
-	@staticmethod
-	def getPokemon(username):
-		try:
-			with open(Database.DB_PATH_POKEMON + username, 'rb') as f:
-				data = load(username)
-		except:
-			data = [0] * (Pokemon.length // 8)
-
-		return data
-
-# class Pokemon
-class Pokemon:
-	length = 40
-
-	def __init__(self):
-		self.p_list = [0] * (self.length / 8)
-
-	def update(self, pokemon_number):
-		pk = self.p_list[pokemon_number // 8]
-		i = pokemon_number % 8
-		x = 1 << i
-		self.p_list[pokemon_number // 8] = (pk | x).to_bytes(1, 'big')
-
-	def load(self):
-		return b''.join(self.p_list)
-
 # class Question
 # - contain question information
 # - with answers related.
