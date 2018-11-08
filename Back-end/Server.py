@@ -40,6 +40,37 @@ class Server:
 
 		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue, self.confirm_queue, self.timers))
 
+		def timeout_handler(argument):
+			timers = argument
+
+			while True:
+				curtime = time.time()
+				handling = []
+
+				with lock():
+					for timer in timers:
+						if curtime - timer[2] > Protocol.INTS.TIME_OUT_IN_SECONDS:
+							handling.append(timer)
+							timers.remove(timer)
+
+				for handle in handling:
+					answers = Database.getAnswer(handle[1])
+					question = Database.getQuestion(handle[1])
+					passed_answerers = list(map(lambda x:x.questioner, answers))
+					valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.questioner) and (x != handle[0]), clients.keys()))
+
+					if len(valid_answerers) == 0:
+						with lock():
+							self.confirm_queue[question.questioner].append(handle[1])
+						continue
+
+					answerer = random.choice(valid_answerers)
+					with lock():
+						answer_queue[answerer].append(handle[1])
+						timers.append((answerer, handle[1], curtime))
+
+		fork(timeout_handler, self.timers)
+
 	def close(self):
 		self.sock.close()
 		for key in self.clients:
@@ -72,7 +103,7 @@ class Server:
 				question = RecvFormat(sock)
 
 				answers = Database.getAnswer(question.front_id)
-				passed_answerers = list(map(lambda x:x.answerer, answers))
+				passed_answerers = list(map(lambda x:x.questioner, answers))
 				valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != username), clients.keys()))
 
 				if len(valid_answerers) == 0:

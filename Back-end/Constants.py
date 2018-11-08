@@ -18,3 +18,6 @@ class Protocol:
 		NO_AVAILABLE_USER = "NUSR"
 		TIMED_OUT = "TMDT"
 		WRONG_COMFIRMATION = "WRNC"
+
+	class INTS:
+		TIME_OUT_IN_SECONDS = 5 * 60
