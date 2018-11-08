@@ -5,9 +5,12 @@
 # Editor @ Sungwoo Jeon (j0070ak@kaist.ac.kr)
 import socket
 from System import fork, lock, wait, alarm, repeat, cancel
-from Packet import OnThrow, OnAccept, OnRelay
+from Packet import *
 import random
 from Disk import Database
+import time
+
+from Constants import Protocol
 
 class Server:
 	LISTENQ = 1024
@@ -19,14 +22,13 @@ class Server:
 		self.clients = {}
 		self.answer_queue = {}
 		self.confirm_queue = {}
+		self.timers = []
 
 		def accept_handler(argument):
-			sock, clients, handler, answer_queue, confirm_queue = argument
+			sock, clients, handler, answer_queue, confirm_queue, timers = argument
 			while True:
 				client, address = sock.accept()
-				username, location = OnAccept(client)
-
-				Database.logLocation(username, location)
+				username = RecvFormat(client)
 
 				with lock():
 					clients[username] = client
@@ -36,7 +38,7 @@ class Server:
 						confirm_queue[username] = []
 				fork(handler, (client, username))
 
-		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue, self.confirm_queue))
+		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.answer_queue, self.confirm_queue, self.timers))
 
 	def close(self):
 		self.sock.close()
@@ -48,62 +50,88 @@ class Server:
 		answer_queue = self.answer_queue
 		confirm_queue = self.confirm_queue
 		clients = self.clients
+		timers = self.timers
 
 		while True:
 			try:
-				Type = sock.recv(4).decode()
+				command = sock.recv(4).decode()
 			except:
-				Type = "QUIT"
+				command = Protocol.CLIENT.QUIT
 
 ####################################################################
-			if Type == "QUIT":
-				with lock():
-					del self.clients[username]
+			if command == Protocol.CLIENT.QUIT:
+				try:
+					with lock():
+						del self.clients[username]
+				except:
+					pass
+
 				break
 ####################################################################
-			elif Type == "THRW":
-				q = OnThrow(sock)
-				passed_answerers = list(map(lambda x:x.answerer, q.answers))
+			elif command == Protocol.CLIENT.POST_QUESTION:
+				question = RecvFormat(sock)
+
+				answers = Database.getAnswer(question.front_id)
+				passed_answerers = list(map(lambda x:x.answerer, answers))
 				valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != username), clients.keys()))
 
 				if len(valid_answerers) == 0:
-					sock.send("EMTY".encode())
+					sock.send(Protocol.SERVER.NO_AVAILABLE_USER.encode())
 					continue
 
 				answerer = random.choice(valid_answerers)
-				with lock():
-					answer_queue[answerer].append(q)
-				sock.send("DONE".encode())
+				try:
+					with lock():
+						Database.logQuestion(question)
+						answer_queue[answerer].append(question.front_id)
+						timers.append((answerer, question.front_id, time.time()))
+				except:
+					sock.send(Protocol.SERVER.NO_AVAILABLE_USER.encode())
+				sock.send(Protocol.SERVER.SUCCESS.encode())
 ####################################################################
-			elif Type == "RELY":
-				with lock():
-					OnRelay(sock, answer_queue[username])
-				sock.send("DONE".encode())
+			elif command == Protocol.CLIENT.GET_QUESTIONS:
+				SendIds(sock, answer_queue[username])
+				sock.send(Protocol.SERVER.SUCCESS.encode())
 ####################################################################
-			elif Type == "ANSW":
-				q = OnThrow(sock)
-				with lock():
-					for i in range(answer_queue[username]):
-						if q.id == i.id:
-							answer_queue[username].remove(i)
-							break
-				confirm_queue[q.questioner].append(q)
-				sock.send("DONE".encode())
+			elif command == Protocol.CLIENT.GET_QUESTION:
+				qid = sock.recv(64).strip().decode()
+				question = Database.getQuestion(qid)
+				if question == None:
+					SendEmptyFormat(sock)
+					sock.send(Protocol.SERVER.TIMED_OUT)
+					continue
+
+				SendFormat(question)
+				sock.send(Protocol.SERVER.SUCCESS.encode())
 ####################################################################
-			elif Type == "CNFM":
-				with lock():
-					OnRelay(sock, confirm_queue[username])
-					del confirm_queue[username]
-				sock.send("DONE".encode())
+			elif command == Protocol.CLIENT.ANSWER:
+				answer = RecvFormat(sock)
+				try:
+					with lock():
+						answer_queue[username].remove(answer.front_id)
+				except:
+					sock.send(Protocol.SERVER.TIMED_OUT.encode())
+
+				Database.logAnswer(answer)
+				try:
+					with lock():
+						confirm_queue[answer.questioner].append(answer.front_id)
+				except:
+					sock.send(Protocol.SERVER.NO_AVAILABLE_USER.encode())
+				sock.send(Protocol.SERVER.SUCCESS.encode())
 ####################################################################
-			elif Type == "ENDS":
-				q = OnThrow(sock)
-				Database.logQuestion(q)
-				sock.send("DONE".encode())
-####################################################################								
-			elif Type == "CMPT":
-				OnCommonPoint(sock)
-				sock.send("DONE".encode())
+			elif command == Protocol.CLIENT.GET_CONFIRMS:
+				SendIds(sock, confirm_queue[username])
+				sock.send(Protocol.SERVER.SUCCESS.encode())
+####################################################################
+			elif command = Protocol.CLIENT.CONFIRM_ENDS:
+				qid = sock.recv(64).strip().decode()
+				try:
+					with lock():
+						confirm_queue[username].remove(qid)
+				except:
+					sock.send(Protocol.SERVER.WRONG_CONFIRMATION.encode())
+				sock.send(Protocol.SERVER.SUCCESS.encode())
 ####################################################################
 			else:
 				pass
