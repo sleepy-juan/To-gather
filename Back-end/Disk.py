@@ -11,8 +11,8 @@ from access_points import get_scanner
 class Database:
 	DB_PATH = "./Storage/"
 	DB_PATH_HELP = DB_PATH + "Help"
-	DB_PATH_QUESTION = "QUESTION/"
-	DB_PATH_ANSWER = "ANSWER/"
+	DB_PATH_QUESTION = DB_PATH + "QUESTION/"
+	DB_PATH_ANSWER = DB_PATH + "ANSWER/"
 
 	@staticmethod
 	def logHelp(user_from, user_to):
@@ -42,16 +42,9 @@ class Database:
 
 	@staticmethod
 	def logQuestion(question):
-		path = Database.DB_PATH_QUESTION + str(question.id)
-		try:
-			with open(path, 'rb') as f:
-				data = load(f)
-		except:
-			data = []
-
-		data.append(question)
+		path = Database.DB_PATH_QUESTION + str(question.front_id)
 		with open(path, 'wb') as f:
-			dump(data, f)
+			dump(question, f)
 
 	@staticmethod
 	def getQuestion(question_id):
@@ -66,7 +59,7 @@ class Database:
 
 	@staticmethod
 	def logAnswer(answer):
-		path = Database.DB_PATH_ANSWER + str(answer.id)
+		path = Database.DB_PATH_ANSWER + str(answer.front_id)
 		try:
 			with open(path, 'rb') as f:
 				data = load(f)
