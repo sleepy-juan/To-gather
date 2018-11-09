@@ -51,7 +51,7 @@ class Viewer extends Component {
     highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
     highlights_merged: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
     Qstate:null,
-    currentAforQ:[],
+    currentAforQ:[""],
     QID:null
   };
 
