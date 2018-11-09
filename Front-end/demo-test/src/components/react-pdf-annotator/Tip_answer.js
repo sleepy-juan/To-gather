@@ -77,6 +77,24 @@ var Tip = function (_Component) {
     return _react2.default.createElement(
       "div",
       { className: "Tip" },
+      // compact ? _react2.default.createElement(
+      //   "div",
+      //   {
+      //     className: "Tip__compact",
+      //     onClick: function onClick() {
+      //       onOpen();
+      //       _this2.setState({ compact: false });
+      //     }
+      //   },
+      //   // "Add highlight"
+      //   _react2.default.createElement(
+      //     "img",
+      //     {
+      //       src:_createurl
+      //     },
+      //   )
+      // ) 
+      // :
        _react2.default.createElement(
         "form",
         {
@@ -87,14 +105,20 @@ var Tip = function (_Component) {
             onConfirm({ text: text, emoji: emoji });
           }
         },
-
+        _react2.default.createElement(
+          "img",
+          {
+            src:_closeurl,
+            className:"cancel"
+          },
+        ),
         
         _react2.default.createElement(
           "div",
           null,
           _react2.default.createElement("textarea", {
-            width: "100%",
-            placeholder: "Enter a Question,\nPress Esc to Undo",
+            width: "50%",
+            placeholder: "Enter a question",
             autoFocus: true,
             value:  text,
             onChange: function onChange(event) {
@@ -112,18 +136,20 @@ var Tip = function (_Component) {
           "div",
           null,
            _react2.default.createElement("input", { type: "submit", value:"" }),
+           _react2.default.createElement("img",   { src:_closeurl, className:"btn_img"}),
            _props.highlight===undefined && compact?null:_react2.default.createElement("img",   { src:_createurl, className:"btn_img",
            onClick: function onclick(event) {
             event.preventDefault();
             var updateText = _extends({}, highlight.comment, {
               text: _state.text,
+              emoji: _state.emoji
             });
             onEdit(updateText);
-            //return _this2.setState({isEdit:false})
+            // return _this2.setState({isEdit:false})
           }},
           
           ),
-          //_react2.default.createElement("input", { type: "button", className: "edit" }),
+          // _react2.default.createElement("input", { type: "button", className: "edit" }),
          
         )
       )

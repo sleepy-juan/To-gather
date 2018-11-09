@@ -3,29 +3,27 @@
 import React from "react";
 
 import './Sidebar_Left.css';
+import test from './test'
 
-// what is this shit???
-// import type { T_Highlight } from "../../src/types";
-// type T_ManuscriptHighlight = T_Highlight;
-// type Props = {
-//   highlights: Array<T_ManuscriptHighlight>,
-//   resetHighlights: () => void
-// };
+
 
 const updateHash = highlight => {
   debugger;
   window.location.hash = `highlight-${highlight.id}`;
 };
 
-function Sidebar({ highlights, resetHighlights }: Props) {
+
+function Sidebar({ highlights, resetHighlights, updateQstate}: Props) {
+  debugger;
   return (
-    <div className="sidebar">
+    <div className="sidebar_left">
       <div className="description">
         <h2>To-gather</h2>
         <p>
           To ask at the question, just drag the point that you are confused and add a question!
         </p>
       </div>
+
 
       <ul className="sidebar__highlights">
         {highlights.map((highlight, index) => (
@@ -34,8 +32,11 @@ function Sidebar({ highlights, resetHighlights }: Props) {
             className="sidebar__highlight"
             onClick={() => {
               updateHash(highlight);
-            }}
+            }
+          }
           >
+          <div className="goto_status_button" onClick={() => updateQstate(highlight.comment.text)}
+>
             <div>
               <strong>{highlight.comment.text}</strong>
               {highlight.content.text ? (
@@ -53,15 +54,18 @@ function Sidebar({ highlights, resetHighlights }: Props) {
               ) : null}
             </div>
             <div className="highlight__locationwindow.">
-              Page {highlight.position.pageNumber}
+              Page {highlight.position.pageNumber} 
             </div>
+        </div>
+
           </li>
-        ))}
+        )
+        )}
       </ul>
       {highlights.length > 0 ? (
         <div style={{ padding: "1rem" }}>
           <button onClick={resetHighlights}>
-            Reset highlights
+            Ha
           </button>
         </div>
       ) : null}

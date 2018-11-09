@@ -9,11 +9,11 @@ const updateHash = highlight => {
   window.location.hash = `highlight-${highlight.id}`;
 };
 
-function Sidebar_Right({ highlights, resetHighlights }: Props) {
+function Sidebar_Right({ highlights, resetHighlights_answer, test}: Props) {
   return (
-    <div className="sidebar">
+    <div className="sidebar_right">
       <div className="description">
-        <h2>Need You</h2>
+        <h2>Need You {test}</h2>
         <p>
         People need you for help!
        </p>
@@ -55,7 +55,7 @@ function Sidebar_Right({ highlights, resetHighlights }: Props) {
       </ul>
       {highlights.length > 0 ? (
         <div style={{ padding: "1rem" }}>
-          <button onClick={resetHighlights}>
+          <button onClick={resetHighlights_answer}>
             Reset highlights
           </button>
         </div>
