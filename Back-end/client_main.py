@@ -1,77 +1,79 @@
 import socket
-from Packet import OnRelayForOne, OnThrow
-from Disk import Question, Answer
-from access_points import get_scanner
-from System import fork, repeat
+import sys
+from Packet import *
+from Constants import Protocol
 
-IP = '127.0.0.1'
-PORT = 12345
+ip = '127.0.0.1'
+username = sys.argv[1]
 
-scanner = get_scanner()
-aps = scanner.get_access_points()
-location = list(map(lambda x:x.bssid, aps))
-location = '\n'.join(location)
+port = 12345
+if len(sys.argv) == 3:
+	port = int(sys.argv[2])
 
-usernames = [
-	'Juan Lee',
-	'Sungwoo Jeon',
-	'Sihyun Yu',
-	'Minji Lee',
-	'Prime Kang',
-	'Kihoon Kwon',
-	'Jongho Lee',
-	'Youngmoo Kim',
-	'Yongwon Cho',
-	'Daho Jung',
-	'Hyunchang Oh',
-	'Changhyun Park',
-	'Jihoon Baek',
-	'Ilju Ko',
-	'Beomseok Oh',
-]
+def _ofLength(s, n):
+	return (str(s) + ' '*(n - len(str(s)))).encode()
 
-use_socket = [False] * len(usernames)
+def _ofBytes(d, n):
+	return d.to_bytes(n, 'big')
 
-def relay_handler(arg):
-	sock, username = arg
-
-	sock.send("RELY".encode())
-	size = sock.recv(4)
-	size = int.from_bytes(size, 'big')
-
-	for i in range(size):
-		q = OnThrow(sock)
-		print(username, '@', q.question)
-
-	sock.recv(4)
-
-peers = []
-for username in usernames:
-	peer = socket.socket()
-	peer.connect((IP, PORT))
-
-	user = username + ' '*(64 - len(username))
-	peer.send(user.encode())
-	peer.send(len(location).to_bytes(8, 'big'))
-	peer.send(location.encode())
-
-	peers.append(peer)
-
-	repeat(relay_handler, 1, (peer, username))
-
-q1 = Question("juanlee", "What is your name?")
-q1.answers.append(Answer("sungwoo", "I am sungwoo"))
-q1.answers.append(Answer("sihyun", "I am sihyun"))
+sock = socket.socket()
+sock.connect((ip, port))
+sock.send(_ofLength(username, 64))
 
 while True:
-	q = input()
-	if q == 'q': break
+	cmd = input(">> ")
+	if cmd not in [Protocol.CLIENT.QUIT, Protocol.CLIENT.POST_QUESTION, Protocol.CLIENT.GET_QUESTIONS, Protocol.CLIENT.GET_QUESTION, Protocol.CLIENT.ANSWER, Protocol.CLIENT.GET_CONFIRMS, Protocol.CLIENT.CONFIRM_ENDS, Protocol.CLIENT.GET_ANSWERS]:
+		continue
+	sock.send(cmd.encode())
+####################################################################
+	if cmd == Protocol.CLIENT.QUIT:
+		sock.close()
+		break
+####################################################################
+	elif cmd == Protocol.CLIENT.POST_QUESTION:
+		text = "text"
+		question = input("Question: ")
+		bRect = Rectangle(0,0,0,0,0,0)
+		page = 1
+		front_id = input("ID: ")
 
-	peers[0].send("THRW".encode())
-	OnRelayForOne(peers[0], q1)
+		f = Format(username, text, question, '', bRect, [bRect], page, front_id)
+		SendFormat(sock, f)
+####################################################################
+	elif cmd == Protocol.CLIENT.GET_QUESTIONS:
+		ids = RecvIds(sock)
+		print(ids)
+####################################################################
+	elif cmd == Protocol.CLIENT.GET_QUESTION:
+		qid = input("ID: ")
+		sock.send(_ofLength(qid, 64))
+		f = RecvFormat(sock)
+
+		print("-- question:", f.comment_text)
+		print("-- questioner:", f.questioner)
+		print("-- page:", f.position_page)
+		print("-- common:", f.content_common)
+####################################################################
+	elif cmd == Protocol.CLIENT.ANSWER:
+		question = input("Answer: ")
+		front_id = input("ID: ")
+
+		f = Format(username, '', question, '', None, [], 1, front_id)
+		SendFormat(sock, f)
+####################################################################
+	elif cmd == Protocol.CLIENT.GET_CONFIRMS:
+		ids = RecvIds(sock)
+		print(ids)
+####################################################################
+	elif cmd == Protocol.CLIENT.CONFIRM_ENDS:
+		front_id = input("ID: ")
+		sock.send(_ofLength(front_id, 64))
+####################################################################
+	elif cmd == Protocol.CLIENT.GET_ANSWERS:
+		front_id = input("ID: ")
+		sock.send(_ofLength(front_id, 64))
+		answers = RecvManyFormat(sock)
+		for answer in answers:
+			print("%s answers %s" % (answer.questioner, answer.content_question))
 	
-	print(peers[0].recv(4))
-
-for peer in peers:
-	peer.send("QUIT".encode())
-	peer.close()
+	print(sock.recv(4).decode())

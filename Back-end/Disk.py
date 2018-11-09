@@ -11,8 +11,8 @@ from access_points import get_scanner
 class Database:
 	DB_PATH = "./Storage/"
 	DB_PATH_HELP = DB_PATH + "Help"
-	DB_PATH_LOCATION = DB_PATH + "Location/"
-	DB_PATH_POKEMON = DB_PATH + "Pokemon/"
+	DB_PATH_QUESTION = DB_PATH + "QUESTION/"
+	DB_PATH_ANSWER = DB_PATH + "ANSWER/"
 
 	@staticmethod
 	def logHelp(user_from, user_to):
@@ -42,111 +42,97 @@ class Database:
 
 	@staticmethod
 	def logQuestion(question):
+		path = Database.DB_PATH_QUESTION + str(question.front_id)
+		with open(path, 'wb') as f:
+			dump(question, f)
+
+	@staticmethod
+	def getQuestion(question_id):
+		path = Database.DB_PATH_QUESTION + str(question_id)
 		try:
-			with open(Database.DB_PATH_QUESTION, 'rb') as f:
+			with open(path, 'rb') as f:
+				data = load(f)
+		except:
+			data = None
+
+		return data
+
+	@staticmethod
+	def logAnswer(answer):
+		path = Database.DB_PATH_ANSWER + str(answer.front_id)
+		try:
+			with open(path, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
 
-		data.append(question)
-		with open(Database.DB_PATH_QUESTION, 'wb') as f:
+		data.append(answer)
+		with open(path, 'wb') as f:
 			dump(data, f)
 
 	@staticmethod
-	def getQuestions(question_id):
+	def getAnswer(answer_id):
+		path = Database.DB_PATH_ANSWER + str(answer_id)
 		try:
-			with open(Database.DB_PATH_QUESTION, 'rb') as f:
+			with open(path, 'rb') as f:
 				data = load(f)
 		except:
 			data = []
 
 		return data
 
-	@staticmethod
-	def logLocation(username, location):
-		with open(Database.DB_PATH_LOCATION + username, 'wb') as f:
-			dump(location, f)
+# class Rectangle
+class Rectangle:
+	def __init__(self, x1 = None, y1 = None, x2 = None, y2 = None, width = None, height = None):
+		self.x1 = x1
+		self.y1 = y1
+		self.x2 = x2
+		self.y2 = y2
+		self.width = width
+		self.height = height
 
-	@staticmethod
-	def getLocation(username):
-		try:
-			with open(Database.DB_PATH_LOCATION + username, 'rb') as f:
-				data = load(username)
-		except:
-			data = []
+	def toTuple(self):
+		return (self.x1, self.y1, self.x2, self.y2, self.width, self.height)
 
-		return data
+	def fromTuple(self, t):
+		self.x1 = t[0]
+		self.y1 = t[1]
+		self.x2 = t[2]
+		self.y2 = t[3]
+		self.width = t[4]
+		self.height = t[5]
 
-	@staticmethod
-	def logPokemon(username, pokemon):
-		with open(Database.DB_PATH_POKEMON + username, 'wb') as f:
-			dump(pokemon.load(), f)
-
-	@staticmethod
-	def getPokemon(username):
-		try:
-			with open(Database.DB_PATH_POKEMON + username, 'rb') as f:
-				data = load(username)
-		except:
-			data = [0] * (Pokemon.length // 8)
-
-		return data
-
-# class Pokemon
-class Pokemon:
-	length = 40
-
-	def __init__(self):
-		self.p_list = [0] * (self.length / 8)
-
-	def update(self, pokemon_number):
-		pk = self.p_list[pokemon_number // 8]
-		i = pokemon_number % 8
-		x = 1 << i
-		self.p_list[pokemon_number // 8] = (pk | x).to_bytes(1, 'big')
-
-	def load(self):
-		return b''.join(self.p_list)
-
-# class Question
+# class Format
 # - contain question information
 # - with answers related.
-class Question:
-	_ID_SERIAL = 0
-
-	def __init__(self, questioner = None, question = None):
+class Format:
+	def __init__(self, questioner = None, text = None, question = None, common = None, bRect = None, rects = None, page = None, front_id = None):
 		self.questioner = questioner
-		self.question = question
-		self.answers = []
 
-		if questioner != None and question != None:
-			self.id = Question._ID_SERIAL
-			Question._ID_SERIAL += 1
-		else:
-			self.id = -1
+		self.content_text = text
+		self.content_common = common
+		self.comment_text = question
 
-	def load(self, questioner, id, question, answers):
+		self.position_boundingRects = bRect
+		self.position_rects = rects
+		self.position_page = page
+
+		self.front_id = front_id
+
+	def load(self, questioner, text, common, question, bRect, rects, page, front_id):
 		self.questioner = questioner
-		self.id = id
-		self.question = question
-		self.answers = answers
+		self.content_text = text
+		self.content_common = common
+		self.comment_text = question
 
-# class Answer
-# - contain ansewr information
-class Answer:
-	_ID_SERIAL = 0
+		self.position_boundingRects = Rectangle()
+		self.position_boundingRects.fromTuple(bRect)
+		self.position_page = page
 
-	def __init__(self, answerer = None, answer = None):
-		self.answerer = answerer
-		self.answer = answer
+		self.front_id = front_id
 
-		if answerer != None and answer != None:
-			self.id = Answer._ID_SERIAL
-			Answer._ID_SERIAL += 1
-		else:
-			self.id = -1
-
-	def load(self, answerer, id, answer):
-		self.answerer = answerer
-		self.id = id
-		self.answer = answer
+		self.position_rects = []
+		for rect in rects:
+			r = Rectangle()
+			r.fromTuple(rect)
+			self.position_rects.append(r)
