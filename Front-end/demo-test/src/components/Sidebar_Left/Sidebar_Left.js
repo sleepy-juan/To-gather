@@ -35,7 +35,7 @@ function Sidebar({ highlights, resetHighlights, updateQstate}: Props) {
             }
           }
           >
-          <div className="goto_status_button" onClick={() => updateQstate(highlight.comment.text)}
+          <div className="goto_status_button" onClick={() => updateQstate(highlight.comment.text, highlight.comment.answer)}
 >
             <div>
               <strong>{highlight.comment.text}</strong>

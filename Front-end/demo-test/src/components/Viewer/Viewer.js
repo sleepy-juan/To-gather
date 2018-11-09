@@ -47,10 +47,11 @@ const url = searchParams.get("url") || DEFAULT_URL;
 
 class Viewer extends Component {
   state = {
-    highlights: [], /*여기에 질문한 목록이 들어갑니다*/
+    highlights: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [], /*여기에 질문한 목록이 들어갑니다*/
     highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
     highlights_merged: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
-    Qstate:null
+    Qstate:null,
+    currentAforQ:null
   };
 
 
@@ -107,9 +108,10 @@ class Viewer extends Component {
     });
   }
 
-  updateQstate = (highlight) =>  {
+  updateQstate = (question, answer) =>  {
     this.setState({
-      Qstate: highlight
+      Qstate: question,
+      currentAforQ: answer
     });
   }
 
@@ -168,7 +170,7 @@ class Viewer extends Component {
 
 
   render() {
-    const { highlights, highlights_answer, highlights_merged, Qstate, file, numPages } = this.state;
+    const { highlights, highlights_answer, highlights_merged, Qstate, currentAforQ, file, numPages } = this.state;
 
     return (
       <div className="App" style={{ display: "flex", height: "100vh" }}>
@@ -180,6 +182,7 @@ class Viewer extends Component {
           />
           <Sidebar_Leftdown
           Qstate={Qstate}
+          currentAforQ = {currentAforQ}
           />
         </div>
 

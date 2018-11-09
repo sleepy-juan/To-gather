@@ -10,12 +10,15 @@ const updateHash = highlight => {
   window.location.hash = `highlight-${highlight.id}`;
 };
 
-function Sidebar_Leftdown({ Qstate, }: Props) {
+function Sidebar_Leftdown({ Qstate, currentAforQ}: Props) {
   return (
     <div className="sidebar_leftdown">
       <div className="description">
         <p>
         {Qstate}
+        </p>
+        <p>
+        {currentAforQ}
         </p>
       </div>
 
