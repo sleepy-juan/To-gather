@@ -18,7 +18,13 @@ class Protocol:
 		OK = "DONE"
 		NO_AVAILABLE_USER = "NUSR"
 		TIMED_OUT = "TMDT"
-		WRONG_CONFIRMATION = "WRNC"
+		DUPLICATED_QUESTION = "DUPQ"
 
 	class INTS:
 		TIME_OUT_IN_SECONDS = 30
+
+class Status:
+	class QUESTION:
+		DELAYED = "DLYD"
+		SENT = "SENT"
+		ON_CONFIRM = "ONCF"
