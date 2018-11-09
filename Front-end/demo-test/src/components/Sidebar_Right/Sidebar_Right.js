@@ -9,7 +9,7 @@ const updateHash = highlight => {
   window.location.hash = `highlight-${highlight.id}`;
 };
 
-function Sidebar_Right({ highlights, resetHighlights_answer}: Props) {
+function Sidebar_Right({ highlights, resetHighlights_answer, updateQstate}: Props) {
   return (
     <div className="sidebar_right">
       <div className="description">
@@ -28,6 +28,7 @@ function Sidebar_Right({ highlights, resetHighlights_answer}: Props) {
               updateHash(highlight);
             }}
           >
+          <div className="goto_status_button" onClick={() => updateQstate(highlight.comment.text, [].concat(highlight.comment.answer), highlight.id)}>
             <div>
               <strong>{highlight.comment.text}</strong>
               {highlight.content.text ? (
@@ -50,16 +51,11 @@ function Sidebar_Right({ highlights, resetHighlights_answer}: Props) {
             <div className="common_point">
             {highlight.content.common}
             </div>
+          </div>
           </li>
         ))}
       </ul>
-      {highlights.length > 0 ? (
-        <div style={{ padding: "1rem" }}>
-          <button onClick={resetHighlights_answer}>
-            Reset highlights
-          </button>
-        </div>
-      ) : null}
+
     </div>
   );
 }

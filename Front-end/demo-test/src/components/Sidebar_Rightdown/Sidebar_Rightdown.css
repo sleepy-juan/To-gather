@@ -1,0 +1,58 @@
+.sidebar_rightdown {
+  overflow: auto;
+  color: #ffffff;
+  background-color: #696969;
+  width: 25vw;
+  height: 20vw;
+  position: relative;
+  right: 0px;
+}
+
+
+.sidebar_rightdown input {
+  width: 300px;
+  height: 100px;
+  bottom: 10vw;
+  left: 0px;
+  font-size: 1rem;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #c5f6fa;
+}
+
+.create-button-1 {
+  width: 60px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: 0.5rem;
+  background: #22b8cf;
+  border-radius: 3px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  position : absolute;
+  left: 80px;
+  bottom: 90px;
+}
+
+.create-button-2 {
+  width: 60px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: 0.5rem;
+  background: #22b8cf;
+  border-radius: 3px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  position : absolute;
+  left: 200px;
+  bottom: 90px;
+}
+.create-button:hover {
+  background: #3bc9db;
+}

@@ -6,14 +6,15 @@ import AreaHighlight from "../react-pdf-annotator/AreaHighlight";
 import PdfLoader from "../react-pdf-annotator/PdfLoader";
 import PdfAnnotator from "../react-pdf-annotator/PdfAnnotator";
 import Tip from "../react-pdf-annotator/Tip";
-//import Tip_status from "../Tip_status/Tip_status";
 import Highlight from "../react-pdf-annotator/Highlight";
 import Popup from "../react-pdf-annotator/Popup";
 import AnswerHighlights from "../AnswerHighlights/AnswerHighlights";
+import QuestionHighlights from "../QuestionHighlights/QuestionHighlights";
 import Spinner from '../Spinner/Spinner';
 import Sidebar_Left from "../Sidebar_Left/Sidebar_Left";
 import Sidebar_Right from "../Sidebar_Right/Sidebar_Right"
 import Sidebar_Leftdown from "../Sidebar_Leftdown/Sidebar_Leftdown"
+import Sidebar_Rightdown from "../Sidebar_Rightdown/Sidebar_Rightdown"
 import './Viewer.css';
 var newPDF = require('../../assets/turkopticon.pdf');
 
@@ -47,12 +48,15 @@ const url = searchParams.get("url") || DEFAULT_URL;
 
 class Viewer extends Component {
   state = {
-    highlights: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [], /*여기에 질문한 목록이 들어갑니다*/
+    highlights: QuestionHighlights[url] ? [...QuestionHighlights[url]] : [], /*여기에 질문한 목록이 들어갑니다*/
     highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
     highlights_merged: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
     Qstate:null,
+    Qstate_ans:null,
     currentAforQ:[""],
-    QID:null
+    currentAforQ_ans:[""],
+    QID:null,
+    QID_answer:null
   };
 
 
@@ -116,6 +120,13 @@ class Viewer extends Component {
   })
 }
 
+  handleRemove_answer = (QID) => {
+  const { highlights, highlights_answer} = this.state;    
+  this.setState({
+      highlights_answer: highlights_answer.filter(highlight => highlight.id !== QID)
+  })
+}
+
 
   updateQstate = (question, answer, QID) =>  {
     this.setState({
@@ -124,6 +135,16 @@ class Viewer extends Component {
       QID: QID
     });
   }
+
+  updateQstate_answer = (question, answer, QID) =>  {
+    this.setState({
+      Qstate_ans: question,
+      currentAforQ_ans: answer,
+      QID_answer: QID
+    });
+  }
+
+
 
   resetHighlights_answer = () => {
     this.setState({
@@ -180,7 +201,7 @@ class Viewer extends Component {
 
 
   render() {
-    const { highlights, highlights_answer, highlights_merged, Qstate, currentAforQ, QID, file, numPages } = this.state;
+    const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, file, numPages } = this.state;
 
     return (
       <div className="App" style={{ display: "flex", height: "100vh" }}>
@@ -269,14 +290,20 @@ class Viewer extends Component {
             )}
           </PdfLoader>
         </div>
-
-      <Sidebar_Right
-          highlights={highlights_answer}
-          resetHighlight_answer={this.resetHighlights_answer}
-        />
+      <div>
+        <Sidebar_Right
+            highlights={highlights_answer}
+            resetHighlight_answer={this.resetHighlights_answer}
+            updateQstate = {this.updateQstate_answer}
+          />
+        <Sidebar_Rightdown
+          Qstate={Qstate_ans}
+          currentAforQ = {currentAforQ_ans}
+          QID = {QID_answer}
+          handleRemove_answer = {this.handleRemove_answer}
+          />
       </div>
-
-
+      </div>
     );
   }
 }
