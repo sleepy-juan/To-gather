@@ -6,18 +6,18 @@ import AreaHighlight from "../react-pdf-annotator/AreaHighlight";
 import PdfLoader from "../react-pdf-annotator/PdfLoader";
 import PdfAnnotator from "../react-pdf-annotator/PdfAnnotator";
 import Tip from "../react-pdf-annotator/Tip";
+//import Tip_status from "../Tip_status/Tip_status";
 import Highlight from "../react-pdf-annotator/Highlight";
 import Popup from "../react-pdf-annotator/Popup";
 import AnswerHighlights from "../AnswerHighlights/AnswerHighlights";
 import Spinner from '../Spinner/Spinner';
 import Sidebar_Left from "../Sidebar_Left/Sidebar_Left";
 import Sidebar_Right from "../Sidebar_Right/Sidebar_Right"
-
+import Sidebar_Leftdown from "../Sidebar_Leftdown/Sidebar_Leftdown"
 import './Viewer.css';
 var newPDF = require('../../assets/turkopticon.pdf');
 
 // this is janky in terms of IDs
-const common = "DEFAULT COMMON POINT";
 const getNextId = () => String(Math.random()).slice(2);
 const parseIdFromHash = () => window.location.hash.slice("#highlight-".length);
 const resetHash = () => {
@@ -47,8 +47,12 @@ const url = searchParams.get("url") || DEFAULT_URL;
 
 class Viewer extends Component {
   state = {
-    highlights: [], /*여기에 질문한 목록이 들어갑니다*/
-    highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [] /*여기에 답변한 목록이 들어갑니다*/
+    highlights: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [], /*여기에 질문한 목록이 들어갑니다*/
+    highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
+    highlights_merged: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
+    Qstate:null,
+    currentAforQ:[],
+    QID:null
   };
 
 
@@ -70,6 +74,7 @@ class Viewer extends Component {
     highlight.comment.text= updateText.text;
     this.editHighlight({ highlight});
   }
+
 
   renderPopUp(highlight){
     console.log('comment',highlight);
@@ -96,7 +101,31 @@ class Viewer extends Component {
      />
   );
   }
-  resetHighlights = () => {
+  resetHighlights(highlight){
+   const { highlights, highlights_answer, highlights_merged, file, numPages } = this.state;
+    this.setState({
+      highlights: [],
+      highlights_merged : highlights_answer
+    });
+  }
+
+  handleRemove = (QID) => {
+  const { highlights} = this.state;    
+  this.setState({
+      highlights: highlights.filter(highlight => highlight.id !== QID)
+  })
+}
+
+
+  updateQstate = (question, answer, QID) =>  {
+    this.setState({
+      Qstate: question,
+      currentAforQ: answer,
+      QID: QID
+    });
+  }
+
+  resetHighlights_answer = () => {
     this.setState({
       highlights: []
     });
@@ -126,32 +155,48 @@ class Viewer extends Component {
 
 
   addHighlight(highlight: highlight) {
-    debugger; /*체크해보려고 넣었음*/
-    const { highlights, } = this.state;
+    const { highlights, highlights_answer, highlight_merged } = this.state;
      
     this.setState({
-      highlights: [{ ...highlight, id: getNextId() }, ...highlights]
+      highlights: [{ ...highlight, id: getNextId() }, ...highlights],
+    });
+
+  }
+
+  addtomergeHighlight(highlight: highlight) {
+    const { highlights, highlights_answer, highlights_merged } = this.state;
+    this.setState({
+      highlights_merged: [{ ...highlight, id: getNextId() }, ...highlights].concat(highlights_answer)
     });
   }
 
-  editHighlight(highlight: highlight) {
-    debugger;
-    const { highlights } = this.state;
+  syncMerge(){
+    const { highlights, highlights_answer, highlights_merged } = this.state;
     this.setState({
-      highlights: highlights
+      highlights_merged: highlights.concat(highlights_answer)
     });
+
   }
 
 
   render() {
-    const { highlights, highlights_answer, file, numPages } = this.state;
+    const { highlights, highlights_answer, highlights_merged, Qstate, currentAforQ, QID, file, numPages } = this.state;
 
     return (
       <div className="App" style={{ display: "flex", height: "100vh" }}>
-        <Sidebar_Left
-          highlights={highlights}
-          resetHighlights={this.resetHighlights}
-        />
+        <div>
+          <Sidebar_Left
+            highlights={highlights}
+            resetHighlights={this.resetHighlights}
+            updateQstate = {this.updateQstate}
+          />
+          <Sidebar_Leftdown
+          Qstate={Qstate}
+          currentAforQ = {currentAforQ}
+          QID = {QID}
+          handleRemove = {this.handleRemove}
+          />
+        </div>
 
         <div
           style={{
@@ -182,8 +227,9 @@ class Viewer extends Component {
                   <Tip
                     onOpen={transformSelection}
                     onConfirm={comment => {
+                      debugger;
                       this.addHighlight({ content, position, comment });
-           
+                      this.addtomergeHighlight({ content, position, comment });
                       hideTipAndSelection();
                     }}
                     isEdit={false}
@@ -198,26 +244,11 @@ class Viewer extends Component {
                   screenshot,
                   isScrolledTo
                 ) => {
-                  const isTextHighlight = !Boolean(
-                    highlight.content && highlight.content.image
-                  );
-
-                  const component = isTextHighlight ? (
+                  const component =  (
                     <Highlight
                       isScrolledTo={isScrolledTo}
                       position={highlight.position}
                       comment={highlight.comment}
-                    />
-                  ) : (
-                    <AreaHighlight
-                      highlight={highlight}
-                      onChange={boundingRect => {
-                        this.updateHighlight(
-                          highlight.id,
-                          { boundingRect: viewportToScaled(boundingRect) },
-                          { image: screenshot(boundingRect) }
-                        );
-                      }}
                     />
                   );
 
@@ -225,9 +256,7 @@ class Viewer extends Component {
                     
                     <Popup
                       popupContent={this.renderPopUp(highlight)}
-                      onMouseOver={popupContent =>
-                        setTip(highlight, highlight => popupContent)
-                      }
+                      onMouseOver={hideTip}
                       onMouseOut={hideTip}
                       key={index}
                       children={component}
@@ -235,7 +264,7 @@ class Viewer extends Component {
                     
                   );
                 }}
-                highlights={highlights}
+                highlights={highlights_merged}
               />
             )}
           </PdfLoader>
@@ -243,10 +272,10 @@ class Viewer extends Component {
 
       <Sidebar_Right
           highlights={highlights_answer}
-          resetHighlights={this.resetHighlights}
+          resetHighlight_answer={this.resetHighlights_answer}
         />
-
       </div>
+
 
     );
   }

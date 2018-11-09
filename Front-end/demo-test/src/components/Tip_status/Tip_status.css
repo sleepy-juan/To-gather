@@ -1,10 +1,9 @@
-.sidebar_right {
+
+.sidebar {
   overflow: auto;
   color: #ffffff;
-  background-color: #696969;
+  background-color: #006db3;
   width: 25vw;
-  position: relative;
-  right: 0px;
 }
 
 .description {
@@ -40,12 +39,6 @@
 
 .sidebar__highlight:hover {
   background: rgba(58, 56, 52, 0.08);
-}
-
-.common_point {
-  overflow: auto;
-  max-width: 300px;
-  font-size: 12px;
 }
 
 blockquote {

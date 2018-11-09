@@ -11,39 +11,30 @@
 }
 
 .Tip__card {
-  /* padding: 10px;
+  padding: 20px;
   background: #fff;
   background-clip: padding-box;
   border: 1px solid #e8e8e8;
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(37, 40, 43, 0.2); */
-  width: 222px;
-  height: 97px;
+  box-shadow: 0 2px 4px rgba(37, 40, 43, 0.2); 
+  width: 200px;
+  height: 90px;
   border-radius: 2px;
   background-color: #292c44;
   
 }
 
 .Tip__card textarea {
-  /* font-size: 16px;
+  font-size: 16px;
   width: 200px;
-  height: 70px; */
-  width: 206px;
-  height: 45px;
+  height: 70px; 
   background-color: #ffffff;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 
               0 1px 5px 0 rgba(0, 0, 0, 0.12), 
               0 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.Tip__card input[type="submit"] {
-  /* margin-top: 5px;
-  font-size: large; */
-  background:url(../lib/done.png);
-  width: 16.6px;
-  height: 12px;
-  object-fit: contain;
-}
+
 .Tip__card input[type="submit"] {
   /* margin-top: 5px;
   font-size: large; */
@@ -66,7 +57,7 @@
   width: 12px;
   height: 12px;
   object-fit: contain;
-  padding-left: 195px;
+  padding-left: 400px;
 }
 
 .btn_img{

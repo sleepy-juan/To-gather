@@ -3,8 +3,8 @@
 const AnswerHighlights = { '../../assets/turkopticon.pdf': [
   {
     content: {
-      text: "Since the late 1990s",
-      common:"I've helped you before!"
+      text: "Since the late 1990s", //내가 밑줄 친 부분
+      common:"I've helped you before!" //질문자와 답변자 사이의 공통점
     },
     position: {
       boundingRect: {
@@ -29,6 +29,7 @@ const AnswerHighlights = { '../../assets/turkopticon.pdf': [
     },
     comment: {
       text: "Question 2",
+      answer: ["I think you are right", "Interesting thinking"],
     },
     id: "039998369794995714"
   },
@@ -75,7 +76,8 @@ const AnswerHighlights = { '../../assets/turkopticon.pdf': [
       pageNumber: 1
     },
    comment: {
-      text: "Question 1",
+      text: "Question 1", // 내가 한 질문
+      answer: ["I think you are right", "Interesting thinking"],
     },
     id: "4458799419734358"
   }

@@ -1,9 +1,10 @@
 
-.sidebar {
+.sidebar_left {
   overflow: auto;
   color: #ffffff;
-  background-color: #006db3;
+  background-color: #696969;
   width: 25vw;
+  height: 40vw;
 }
 
 .description {
