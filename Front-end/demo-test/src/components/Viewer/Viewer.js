@@ -51,7 +51,8 @@ class Viewer extends Component {
     highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
     highlights_merged: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
     Qstate:null,
-    currentAforQ:null
+    currentAforQ:[],
+    QID:null
   };
 
 
@@ -108,10 +109,19 @@ class Viewer extends Component {
     });
   }
 
-  updateQstate = (question, answer) =>  {
+  handleRemove = (QID) => {
+  const { highlights} = this.state;    
+  this.setState({
+      highlights: highlights.filter(highlight => highlight.id !== QID)
+  })
+}
+
+
+  updateQstate = (question, answer, QID) =>  {
     this.setState({
       Qstate: question,
-      currentAforQ: answer
+      currentAforQ: answer,
+      QID: QID
     });
   }
 
@@ -170,7 +180,7 @@ class Viewer extends Component {
 
 
   render() {
-    const { highlights, highlights_answer, highlights_merged, Qstate, currentAforQ, file, numPages } = this.state;
+    const { highlights, highlights_answer, highlights_merged, Qstate, currentAforQ, QID, file, numPages } = this.state;
 
     return (
       <div className="App" style={{ display: "flex", height: "100vh" }}>
@@ -183,6 +193,8 @@ class Viewer extends Component {
           <Sidebar_Leftdown
           Qstate={Qstate}
           currentAforQ = {currentAforQ}
+          QID = {QID}
+          handleRemove = {this.handleRemove}
           />
         </div>
 

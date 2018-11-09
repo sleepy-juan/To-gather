@@ -35,7 +35,7 @@ function Sidebar({ highlights, resetHighlights, updateQstate}: Props) {
             }
           }
           >
-          <div className="goto_status_button" onClick={() => updateQstate(highlight.comment.text, highlight.comment.answer)}
+          <div className="goto_status_button" onClick={() => updateQstate(highlight.comment.text, highlight.comment.answer, highlight.id)}
 >
             <div>
               <strong>{highlight.comment.text}</strong>
@@ -62,13 +62,6 @@ function Sidebar({ highlights, resetHighlights, updateQstate}: Props) {
         )
         )}
       </ul>
-      {highlights.length > 0 ? (
-        <div style={{ padding: "1rem" }}>
-          <button onClick={resetHighlights}>
-            Ha
-          </button>
-        </div>
-      ) : null}
     </div>
   );
 }

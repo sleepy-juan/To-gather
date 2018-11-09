@@ -29,7 +29,7 @@ const AnswerHighlights = { '../../assets/turkopticon.pdf': [
     },
     comment: {
       text: "Question 2",
-      answer: "I think you are right",
+      answer: ["I think you are right", "Interesting thinking"],
     },
     id: "039998369794995714"
   },
@@ -77,7 +77,7 @@ const AnswerHighlights = { '../../assets/turkopticon.pdf': [
     },
    comment: {
       text: "Question 1", // 내가 한 질문
-      answer: "You are wrong",
+      answer: ["I think you are right", "Interesting thinking"],
     },
     id: "4458799419734358"
   }
