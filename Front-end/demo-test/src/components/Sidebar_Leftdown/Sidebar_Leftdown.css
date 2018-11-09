@@ -1,56 +1,54 @@
 .sidebar_leftdown {
-  overflow: auto;
+  overflow:auto;
   color: #ffffff;
-  background-color: #696969;
+  background-color: #2A2E33;
   width: 25vw;
-  height: 20vw;
+  position: relative;
+  right: 0px;
+  border-bottom: 1px solid #c5f6fa;
+}
+.description{
+  width: 22.5vw;
+  height: 10vw;
+  overflow:auto;
 }
 
-.description {
-  padding: 1rem;
+.sidebar_rightdown input {
+  width: 300px;
+  height: 100px;
+  bottom: 10vw;
+  left: 0px;
+  font-size: 1rem;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #c5f6fa;
+  color: #D2D3D4;
 }
 
-.description h2 {
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-}
-.sidebar__highlights {
-  list-style: "none";
-  padding: 0;
-}
-
-.highlight__location {
-  margin-top: 0.5rem;
-  text-align: right;
-  font-size: 10px;
-}
-
-.highlight__image {
-  overflow: auto;
-  max-width: 300px;
-  border: 1px dashed;
-}
-
-.sidebar__highlight {
-  padding: 1rem;
+.create-button-3 {
+  width: 60px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: 0.5rem;
+  background: #22b8cf;
+  border-radius: 3px;
+  color: white;
+  font-weight: 600;
   cursor: pointer;
-  border-bottom: 2px solid #ffffff;
+  position : absolute;
+  left: 140px;
+  bottom: 90px;
+
+}
+.create-button-1:hover {
+  background: #3bc9db;
 }
 
-.sidebar__highlight:hover {
-  background: rgba(58, 56, 52, 0.08);
-}
+li {list-style-type: none;
+margin : 10px;
+overflow:auto;}
+ul {margin:10px;
+overflow:auto;}
 
-blockquote {
-  padding: 0;
-  margin: 0;
-  quotes: "\201c" "\201d";
-}
-
-blockquote:before {
-  content: open-quote;
-}
-
-blockquote:after {
-  content: close-quote;
-}

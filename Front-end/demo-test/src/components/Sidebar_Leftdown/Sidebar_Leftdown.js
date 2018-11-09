@@ -1,18 +1,14 @@
-// @flow
-
-import React from "react";
-
+import React from 'react';
 import './Sidebar_Leftdown.css';
-
 
 const updateHash = highlight => {
   debugger;
   window.location.hash = `highlight-${highlight.id}`;
 };
 
-function Sidebar_Leftdown({ Qstate, currentAforQ, QID, handleRemove}: Props) {
+const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onChange, onCreate}) => {
   return (
-    <div className="sidebar_leftdown">
+    <div className="sidebar_rightdown">
       <div className="description">
         <p>
         {Qstate}
@@ -28,15 +24,17 @@ function Sidebar_Leftdown({ Qstate, currentAforQ, QID, handleRemove}: Props) {
         )
         )}
       </div>
-        {Qstate != null ? (
-        <div style={{ padding: "1rem" }}>
-          <button onClick={() => handleRemove(QID)}>
-          Satisfied?
-          </button>
+
+      {Qstate != null ? (
+        <div>
+        <div className="create-button-3" onClick={() => handleRemove(QID)}>
+        Stop
         </div>
-      ) : null}
+    </div>
+
+    ) : null}
     </div>
   );
-}
+};
 
 export default Sidebar_Leftdown;

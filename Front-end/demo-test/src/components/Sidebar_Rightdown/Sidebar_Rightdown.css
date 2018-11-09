@@ -1,23 +1,30 @@
 .sidebar_rightdown {
-  overflow: auto;
-  color: #ffffff;
-  background-color: #696969;
+   color: #ffffff;
+  background-color: #2A2E33;
   width: 25vw;
-  height: 20vw;
+  height: 25vw;
   position: relative;
   right: 0px;
+  border-bottom: 1px solid #c5f6fa;
+
 }
 
-
+.description {
+  overflow: auto;
+}
 .sidebar_rightdown input {
   width: 300px;
   height: 100px;
-  bottom: 10vw;
-  left: 0px;
+  bottom: 7vw;
+  left: 2vw;
   font-size: 1rem;
   outline: none;
   border: none;
-  border-bottom: 1px solid #c5f6fa;
+  position : absolute;
+  background-color: #36393D;
+  border-radius:0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
 }
 
 .create-button-1 {
@@ -34,7 +41,7 @@
   cursor: pointer;
   position : absolute;
   left: 80px;
-  bottom: 90px;
+  bottom: 30px;
 }
 
 .create-button-2 {
@@ -51,8 +58,11 @@
   cursor: pointer;
   position : absolute;
   left: 200px;
-  bottom: 90px;
+  bottom: 30px;
 }
-.create-button:hover {
+.create-button-1:hover {
+  background: #3bc9db;
+}
+.create-button-2:hover {
   background: #3bc9db;
 }

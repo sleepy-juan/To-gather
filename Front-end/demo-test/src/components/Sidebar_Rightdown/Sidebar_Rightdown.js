@@ -6,12 +6,11 @@ const updateHash = highlight => {
   window.location.hash = `highlight-${highlight.id}`;
 };
 
-
 const Sidebar_Rightdown = ({Qstate, currentAforQ, QID, handleRemove_answer, value, onChange, onCreate}) => {
   return (
     <div className="sidebar_rightdown">
     <div>
-      <div className="description">
+      <div className="description" >
         <p>
         {Qstate}
         </p>
@@ -27,22 +26,20 @@ const Sidebar_Rightdown = ({Qstate, currentAforQ, QID, handleRemove_answer, valu
         )}
       </div>
 
-      {Qstate != null ? (
+    </div>
+    {Qstate != null ? (
         <div>
-        <input value={value} onChange={onChange} />
+        <input value={value} onChange={onChange} placeholder="Please help!"/>
         <div className="create-button-1" onClick={() => handleRemove_answer(QID)}>
         Ignore
         </div>
-        <div className="create-button-2" onClick= {
-        () => handleRemove_answer(QID)
-
-      }>
+        <div className="create-button-2" onClick= {() => handleRemove_answer(QID)}>
       Answer
       </div>
     </div>
 
     ) : null}
-    </div>
+
     </div>
   );
 };

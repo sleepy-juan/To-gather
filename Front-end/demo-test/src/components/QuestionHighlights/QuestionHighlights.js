@@ -29,7 +29,7 @@ const AnswerHighlights = { '../../assets/turkopticon.pdf': [
     },
     comment: {
       text: "Question 2",
-      answer: ["I think you are right", "Interesting thinking"],
+      answer: ["I think you are right", "Interesting thinking", "I don't think so"],
     },
     id: "1"
   },

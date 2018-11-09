@@ -1,9 +1,9 @@
 .sidebar_right {
   overflow: auto;
   color: #ffffff;
-  background-color: #696969;
+  background-color: #2A2E33;
   width: 25vw;
-  height: 40vw;
+  height: 30vw;
   position: relative;
   right: 0px;
 }
@@ -34,9 +34,14 @@
 }
 
 .sidebar__highlight {
+  text-align : left;
+  border-radius:0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  color: #000000;
+  background-color: #D2D3D4;
   padding: 1rem;
   cursor: pointer;
-  border-bottom: 2px solid #ffffff;
 }
 
 .sidebar__highlight:hover {

@@ -1,10 +1,11 @@
 
-.sidebar_left {
-  overflow: auto;
+.sidebar_left {  overflow: auto;
   color: #ffffff;
-  background-color: #696969;
+  background-color: #2A2E33;
   width: 25vw;
-  height: 40vw;
+  height: 30vw;
+  position: relative;
+  right: 0px;
 }
 
 .description {
@@ -29,13 +30,11 @@
 .highlight__image {
   overflow: auto;
   max-width: 300px;
-  border: 1px dashed;
 }
 
 .sidebar__highlight {
   padding: 1rem;
   cursor: pointer;
-  border-bottom: 2px solid #ffffff;
 }
 
 .sidebar__highlight:hover {
