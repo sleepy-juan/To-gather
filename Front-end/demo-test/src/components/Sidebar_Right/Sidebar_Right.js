@@ -9,11 +9,11 @@ const updateHash = highlight => {
   window.location.hash = `highlight-${highlight.id}`;
 };
 
-function Sidebar_Right({ highlights, resetHighlights_answer, test}: Props) {
+function Sidebar_Right({ highlights, resetHighlights_answer}: Props) {
   return (
     <div className="sidebar_right">
       <div className="description">
-        <h2>Need You {test}</h2>
+        <h2>Need You </h2>
         <p>
         People need you for help!
        </p>

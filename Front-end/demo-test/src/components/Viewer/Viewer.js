@@ -13,7 +13,7 @@ import AnswerHighlights from "../AnswerHighlights/AnswerHighlights";
 import Spinner from '../Spinner/Spinner';
 import Sidebar_Left from "../Sidebar_Left/Sidebar_Left";
 import Sidebar_Right from "../Sidebar_Right/Sidebar_Right"
-
+import Sidebar_Leftdown from "../Sidebar_Leftdown/Sidebar_Leftdown"
 import './Viewer.css';
 var newPDF = require('../../assets/turkopticon.pdf');
 
@@ -50,7 +50,7 @@ class Viewer extends Component {
     highlights: [], /*여기에 질문한 목록이 들어갑니다*/
     highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
     highlights_merged: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
-    Qstate:""
+    Qstate:null
   };
 
 
@@ -172,11 +172,16 @@ class Viewer extends Component {
 
     return (
       <div className="App" style={{ display: "flex", height: "100vh" }}>
-        <Sidebar_Left
-          highlights={highlights}
-          resetHighlights={this.resetHighlights}
-          updateQstate = {this.updateQstate}
-        />
+        <div>
+          <Sidebar_Left
+            highlights={highlights}
+            resetHighlights={this.resetHighlights}
+            updateQstate = {this.updateQstate}
+          />
+          <Sidebar_Leftdown
+          Qstate={Qstate}
+          />
+        </div>
 
         <div
           style={{
@@ -253,7 +258,6 @@ class Viewer extends Component {
       <Sidebar_Right
           highlights={highlights_answer}
           resetHighlight_answer={this.resetHighlights_answer}
-          test={Qstate}
         />
       </div>
 
