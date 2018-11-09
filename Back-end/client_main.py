@@ -74,6 +74,6 @@ while True:
 		sock.send(_ofLength(front_id, 64))
 		answers = RecvManyFormat(sock)
 		for answer in answers:
-			print("%s answers %s" % (answer.questioner, answer.content_question))
+			print("%s answers %s" % (answer.questioner, answer.comment_text))
 	
 	print(sock.recv(4).decode())
