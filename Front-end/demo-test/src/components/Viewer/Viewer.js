@@ -83,7 +83,7 @@ class Viewer extends Component {
 }
 
   handleRemove_answer = (QID) => {
-  const { highlights_answer} = this.state.highlights_answer;    
+  const {highlights, highlights_answer} = this.state;    
   this.setState({
       highlights_answer: highlights_answer.filter(highlight => highlight.id !== QID)
   })
