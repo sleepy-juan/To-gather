@@ -77,7 +77,7 @@ const AnswerHighlights = { '../../assets/turkopticon.pdf': [
     },
    comment: {
       text: "Question 1", // 내가 한 질문
-      answer: ["I think you are right", "Interesting thinking"],
+      answer: ["I think you are right", "Interesting thinking", "동해물과 백두산이 마르고 닳도록 하느니이 보우하사 우리나라 만세 무궁화 삼천리 화려강산"],
     },
     id: "4458799419734358"
   }

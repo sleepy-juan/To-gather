@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import URLSearchParams from "url-search-params";
-import AreaHighlight from "../react-pdf-annotator/AreaHighlight";
 import PdfLoader from "../react-pdf-annotator/PdfLoader";
 import PdfAnnotator from "../react-pdf-annotator/PdfAnnotator";
 import Tip from "../react-pdf-annotator/Tip";
@@ -11,10 +10,11 @@ import Popup from "../react-pdf-annotator/Popup";
 import AnswerHighlights from "../AnswerHighlights/AnswerHighlights";
 import QuestionHighlights from "../QuestionHighlights/QuestionHighlights";
 import Spinner from '../Spinner/Spinner';
-import Sidebar_Left from "../Sidebar_Left/Sidebar_Left";
-import Sidebar_Right from "../Sidebar_Right/Sidebar_Right"
-import Sidebar_Leftdown from "../Sidebar_Leftdown/Sidebar_Leftdown"
-import Sidebar_Rightdown from "../Sidebar_Rightdown/Sidebar_Rightdown"
+import SidebarLeft from "../Sidebar_Left/Sidebar_Left";
+import SidebarRight from "../Sidebar_Right/Sidebar_Right"
+import SidebarLeftdown from "../Sidebar_Leftdown/Sidebar_Leftdown"
+import SidebarRightdown from "../Sidebar_Rightdown/Sidebar_Rightdown"
+import FinishedAnswer from "../Finished_Answer/Finished_Answer"
 import './Viewer.css';
 var newPDF = require('../../assets/turkopticon.pdf');
 
@@ -25,22 +25,6 @@ const resetHash = () => {
   window.location.hash = "";
 };
 
-const HighlightPopup = ({ comment}) =>
-
-comment.text ? (
-    <div className="Highlight__popup">
-     
-      <Tip
-                    onOpen={null}
-                    onConfirm={(comment,position) => {
-                      this.addHighlight({  position,comment });
-
-                      
-                    }}
-                  />
-    </div>
-
-  ) : null;
 
 const DEFAULT_URL = '../../assets/turkopticon.pdf';
 const searchParams = new URLSearchParams(window.location.search);
@@ -81,37 +65,15 @@ class Viewer extends Component {
 
 
   renderPopUp(highlight){
-    console.log('comment',highlight);
-    var comment = highlight.comment.text;
     return (
       
-    <Tip
-    onOpen ={this.transformSelection}
-    isEdit={true}
-    onConfirm={(highlight) => {
-      this.addHighlight({ highlight});
-     
-    }} 
-    
-    // onEdit ={value => this.renderEdit.bind(this,value)} 
-
-    onEdit={updateText => {
-      this.renderEdit(
-        updateText,
-        highlight
-      );
-    }}
-    highlight={highlight}              
+    <FinishedAnswer
+    Qstate={highlight.comment.text}  
+    currentAforQ={[].concat(highlight.comment.answer)}            
      />
   );
   }
-  resetHighlights(highlight){
-   const { highlights, highlights_answer, highlights_merged, file, numPages } = this.state;
-    this.setState({
-      highlights: [],
-      highlights_merged : highlights_answer
-    });
-  }
+
 
   handleRemove = (QID) => {
   const { highlights} = this.state;    
@@ -121,7 +83,7 @@ class Viewer extends Component {
 }
 
   handleRemove_answer = (QID) => {
-  const { highlights, highlights_answer} = this.state;    
+  const { highlights_answer} = this.state.highlights_answer;    
   this.setState({
       highlights_answer: highlights_answer.filter(highlight => highlight.id !== QID)
   })
@@ -176,7 +138,7 @@ class Viewer extends Component {
 
 
   addHighlight(highlight: highlight) {
-    const { highlights, highlights_answer, highlight_merged } = this.state;
+    const { highlights} = this.state;
      
     this.setState({
       highlights: [{ ...highlight, id: getNextId() }, ...highlights],
@@ -185,14 +147,14 @@ class Viewer extends Component {
   }
 
   addtomergeHighlight(highlight: highlight) {
-    const { highlights, highlights_answer, highlights_merged } = this.state;
+    const { highlights, highlights_answer} = this.state;
     this.setState({
       highlights_merged: [{ ...highlight, id: getNextId() }, ...highlights].concat(highlights_answer)
     });
   }
 
   syncMerge(){
-    const { highlights, highlights_answer, highlights_merged } = this.state;
+    const { highlights, highlights_answer } = this.state;
     this.setState({
       highlights_merged: highlights.concat(highlights_answer)
     });
@@ -201,17 +163,16 @@ class Viewer extends Component {
 
 
   render() {
-    const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, file, numPages } = this.state;
-
+    const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer} = this.state;
     return (
       <div className="App" style={{ display: "flex", height: "100vh" }}>
         <div>
-          <Sidebar_Left
+          <SidebarLeft
             highlights={highlights}
             resetHighlights={this.resetHighlights}
             updateQstate = {this.updateQstate}
           />
-          <Sidebar_Leftdown
+          <SidebarLeftdown
           Qstate={Qstate}
           currentAforQ = {currentAforQ}
           QID = {QID}
@@ -277,7 +238,9 @@ class Viewer extends Component {
                     
                     <Popup
                       popupContent={this.renderPopUp(highlight)}
-                      onMouseOver={hideTip}
+                      onMouseOver={popupContent =>
+                        setTip(highlight, highlight => popupContent)
+                      }                      
                       onMouseOut={hideTip}
                       key={index}
                       children={component}
@@ -291,12 +254,12 @@ class Viewer extends Component {
           </PdfLoader>
         </div>
       <div>
-        <Sidebar_Right
+        <SidebarRight
             highlights={highlights_answer}
             resetHighlight_answer={this.resetHighlights_answer}
             updateQstate = {this.updateQstate_answer}
           />
-        <Sidebar_Rightdown
+        <SidebarRightdown
           Qstate={Qstate_ans}
           currentAforQ = {currentAforQ_ans}
           QID = {QID_answer}

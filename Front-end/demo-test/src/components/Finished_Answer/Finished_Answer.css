@@ -1,0 +1,21 @@
+.answerpopup {
+  border-radius:0.5em;
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  color: #2A2E33;
+  background-color: #D2D3D4;
+  width: auto;
+  height: auto;
+  max-width:25vw;
+  max-height:20vw;
+  position: relative;
+  border-bottom: 1px solid #c5f6fa;
+  text-align:center;
+  overflow: auto;
+  opacity:0.9;
+  font-size:0.8vw;
+  margin:0.5rem;
+}
+
+.completedescription {
+}
