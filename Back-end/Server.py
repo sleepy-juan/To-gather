@@ -27,7 +27,7 @@ class Server:
 		self.sock = socket.socket()
 		self.sock.bind(('', PORT))
 		self.sock.listen(Server.LISTENQ)
-		self.clients = {}
+		self.clients = []
 		self.questions = []
 		self.timers = []
 
@@ -35,13 +35,9 @@ class Server:
 			sock, clients, handler, questions, timers = argument
 			while True:
 				client, address = sock.accept()
-				username = RecvUsername(client)
 
-				print("[SYSTEM] %s connected from (IP: %s, PORT: %d)" % (username, address[0], address[1]))
-
-				with lock():
-					clients[username] = client
-				fork(handler, (client, username))
+				print("[SYSTEM] connected from (IP: %s, PORT: %d)" % (address[0], address[1]))
+				fork(handler, client)
 
 		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.questions, self.timers))
 
@@ -55,10 +51,10 @@ class Server:
 					if question.status == Status.QUESTION.DELAYED:
 						answers = Database.getAnswer(question.qid)
 						passed_answerers = list(map(lambda x:x.questioner, answers))
-						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.belong_to), self.clients.keys()))
+						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.belong_to), self.clients))
 
 						if len(valid_answerers) == 0:
-							print("Current Users:", self.clients.keys())
+							print("Current Users:", self.clients)
 							print("Passed Users:", passed_answerers)
 							print("Belong To:", question.belong_to)
 							print("[TIMER] delayed but still no valid answerers")
@@ -73,11 +69,12 @@ class Server:
 					elif curtime - question.created > Protocol.INTS.TIME_OUT_IN_SECONDS:
 						answers = Database.getAnswer(question.qid)
 						passed_answerers = list(map(lambda x:x.questioner, answers))
-						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.belong_to), self.clients.keys()))
+						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.belong_to), self.clients))
 
 						if len(valid_answerers) == 0:
 							question.status = Status.QUESTION.ON_CONFIRM
 							question.belong_to = question.sent_from
+							question.created = time.time()
 							print("[TIMER] timeout'd but no valid answerer -> confirm")
 							continue
 
@@ -91,116 +88,106 @@ class Server:
 
 	def close(self):
 		self.sock.close()
-		for key in self.clients:
-			self.clients[key].close()
 
 	def per_clients(self, arg):
-		sock, username = arg
+		sock = arg
 		questions = self.questions
 		clients = self.clients
 
-		while True:
-			try:
-				command = sock.recv(4).decode()
-			except:
-				command = Protocol.CLIENT.QUIT
+		username, command, body = GetHTTP(sock)
+		print("[%s] Received command %s" % (username, command))
 
-			if command == '':
-				command = Protocol.CLIENT.QUIT
-
-			print("[%s] Received command %s" % (username, command))
+		with lock():
+			if username not in clients:
+				clients.append(username)
 
 ####################################################################
-			if command == Protocol.CLIENT.QUIT:
-				try:
-					with lock():
-						del self.clients[username]
-				except:
-					pass
-
-				break
+		if command == Protocol.CLIENT.QUIT:
+			with lock():
+				if username in self.clients:
+					clients.remove(username)
+			ResponseHTTP(sock, Protocol.SERVER.OK)
 ####################################################################
-			elif command == Protocol.CLIENT.POST_QUESTION:
-				question = RecvFormat(sock)
-				check = Database.getQuestion(question.front_id)
-				if check != None:
-					print("[%s] id is duplicated" % username)
-					sock.send(Protocol.SERVER.DUPLICATED_QUESTION.encode())
-					continue
+		elif command == Protocol.CLIENT.POST_QUESTION:
+			question = RecvFormat(body)
+			check = Database.getQuestion(question.front_id)
+			if check != None:
+				print("[%s] id is duplicated" % username)
+				ResponseHTTP(sock, Protocol.SERVER.DUPLICATED_QUESTION)
+				return
 
-				answers = Database.getAnswer(question.front_id)
-				passed_answerers = list(map(lambda x:x.questioner, answers))
+			answers = Database.getAnswer(question.front_id)
+			passed_answerers = list(map(lambda x:x.questioner, answers))
+			with lock():
+				valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != username), clients))
+
+			Database.logQuestion(question)
+
+			if len(valid_answerers) == 0:
+				print("[%s] No Valid Answerers" % username)
 				with lock():
-					valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != username), clients.keys()))
+					questions.append(Server._SimpleQuestion(question.front_id, username, username, Status.QUESTION.DELAYED, time.time()))
+				ResponseHTTP(sock, Protocol.SERVER.NO_AVAILABLE_USER)
+				return
 
-				Database.logQuestion(question)
-
-				if len(valid_answerers) == 0:
-					print("[%s] No Valid Answerers" % username)
-					with lock():
-						questions.append(Server._SimpleQuestion(question.front_id, username, username, Status.QUESTION.DELAYED, time.time()))
-					sock.send(Protocol.SERVER.NO_AVAILABLE_USER.encode())
-					continue
-
-				answerer = random.choice(valid_answerers)
-				with lock():
-					questions.append(Server._SimpleQuestion(question.front_id, username, answerer, Status.QUESTION.SENT, time.time()))
-				sock.send(Protocol.SERVER.OK.encode())
+			answerer = random.choice(valid_answerers)
+			with lock():
+				questions.append(Server._SimpleQuestion(question.front_id, username, answerer, Status.QUESTION.SENT, time.time()))
+			ResponseHTTP(sock, Protocol.SERVER.OK)
 ####################################################################
-			elif command == Protocol.CLIENT.GET_QUESTIONS:
-				ids = []
-				with lock():
-					for question in questions:
-						if question.belong_to == username and question.status == Status.QUESTION.SENT:
-							ids.append(question.qid)
-				SendIds(sock, ids)
-				sock.send(Protocol.SERVER.OK.encode())
+		elif command == Protocol.CLIENT.GET_QUESTIONS:
+			ids = []
+			with lock():
+				for question in questions:
+					if question.belong_to == username and question.status == Status.QUESTION.SENT:
+						ids.append(question.qid)
+			ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(ids))
 ####################################################################
-			elif command == Protocol.CLIENT.GET_QUESTION:
-				qid = sock.recv(64).strip().decode()
-				with lock():
-					for question in questions:
-						if question.qid == qid and question.belong_to == username:
-							SendFormat(sock, Database.getQuestion(qid))
-							sock.send(Protocol.SERVER.OK.encode())
-							break
-					else:
-						SendEmptyFormat(sock)
-						print("[%s] id %s not in %s's answer queue" % (username, qid, username))
-						sock.send(Protocol.SERVER.TIMED_OUT.encode())
+		elif command == Protocol.CLIENT.GET_QUESTION:
+			qid = body
+			with lock():
+				for question in questions:
+					if question.qid == qid and question.belong_to == username:
+						ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(Database.getQuestion(qid)))
+						break
+				else:
+					print("[%s] id %s not in %s's answer queue" % (username, qid, username))
+					ResponseHTTP(sock, Protocol.SERVER.TIMED_OUT, SendEmptyFormat())
 ####################################################################
-			elif command == Protocol.CLIENT.ANSWER:
-				answer = RecvFormat(sock)
-				Database.logAnswer(answer)
-				with lock():
-					for question in questions:
-						if question.qid == answer.front_id:
-							question.status = Status.QUESTION.ON_CONFIRM
-							question.belong_to = question.sent_from
-				sock.send(Protocol.SERVER.OK.encode())
+		elif command == Protocol.CLIENT.ANSWER:
+			answer = RecvFormat(body)
+			Database.logAnswer(answer)
+			with lock():
+				for question in questions:
+					if question.qid == answer.front_id:
+						question.status = Status.QUESTION.ON_CONFIRM
+						question.belong_to = question.sent_from
+			ResponseHTTP(sock, Protocol.SERVER.OK)
 ####################################################################
-			elif command == Protocol.CLIENT.GET_CONFIRMS:
-				ids = []
-				with lock():
-					for question in questions:
-						if question.belong_to == username and question.status == Status.QUESTION.ON_CONFIRM:
-							ids.append(question.qid)
-				SendIds(sock, ids)
-				sock.send(Protocol.SERVER.OK.encode())
+		elif command == Protocol.CLIENT.GET_CONFIRMS:
+			ids = []
+			with lock():
+				for question in questions:
+					if question.belong_to == username and question.status == Status.QUESTION.ON_CONFIRM:
+						ids.append(question.qid)
+			ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(ids))
 ####################################################################
-			elif command == Protocol.CLIENT.GET_ANSWERS:
-				qid = sock.recv(64).strip().decode()
-				answers = Database.getAnswer(qid)
-				SendManyFormat(sock, answers)
-				sock.send(Protocol.SERVER.OK.encode())
+		elif command == Protocol.CLIENT.GET_ANSWERS:
+			qid = body
+			answers = Database.getAnswer(qid)
+			ResponseHTTP(sock, Protocol.SERVER.OK, SendManyFormat(answers))
 ####################################################################
-			elif command == Protocol.CLIENT.CONFIRM_ENDS:
-				qid = sock.recv(64).strip().decode()
-				with lock():
-					for question in questions:
-						if question.qid == qid:
-							questions.remove(question)
-				sock.send(Protocol.SERVER.OK.encode())
+		elif command == Protocol.CLIENT.CONFIRM_ENDS:
+			qid = body
+			with lock():
+				for question in questions:
+					if question.qid == qid:
+						questions.remove(question)
+			ResponseHTTP(sock, Protocol.SERVER.OK)
 ####################################################################
-			else:
-				pass
+		elif command == Protocol.CLIENT.LIST_MEMBERS:
+			with lock():
+				ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(clients))
+####################################################################
+		else:
+			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
