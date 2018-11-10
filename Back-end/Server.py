@@ -98,7 +98,7 @@ class Server:
 		print("[%s] Received command %s" % (username, command))
 
 		with lock():
-			if username not in clients:
+			if username not in clients and username.strip() != '':
 				clients.append(username)
 
 ####################################################################

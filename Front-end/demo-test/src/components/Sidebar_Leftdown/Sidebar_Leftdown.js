@@ -2,11 +2,10 @@ import React from 'react';
 import './Sidebar_Leftdown.css';
 
 const updateHash = highlight => {
-  debugger;
   window.location.hash = `highlight-${highlight.id}`;
 };
 
-const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onChange, onCreate}) => {
+const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onChange, onCreate, username}) => {
   return (
     <div className="sidebar_rightdown">
       <div className="description">
@@ -27,7 +26,7 @@ const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onCha
 
       {Qstate != null ? (
         <div>
-        <div className="create-button-3" onClick={() => handleRemove(QID)}>
+        <div className="create-button-3" onClick={() => handleRemove(username, QID)}>
         Stop
         </div>
     </div>

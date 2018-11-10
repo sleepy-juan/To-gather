@@ -8,13 +8,11 @@ import test from './test'
 
 
 const updateHash = highlight => {
-  debugger;
   window.location.hash = `highlight-${highlight.id}`;
 };
 
 
 function Sidebar({ highlights, resetHighlights, updateQstate}: Props) {
-  debugger;
   return (
     <div className="sidebar_left">
       <div className="description">

@@ -16,6 +16,7 @@ def GetHTTP(sock):
 
 	header = ''.join(header)
 	request = None
+	command = None
 	username = ''
 	if header[:4] == 'POST':
 		length = 0
@@ -28,9 +29,10 @@ def GetHTTP(sock):
 	for line in header.split('\n'):
 		if 'From' in line:
 			username = line.split(':')[1].strip()
-			break
+		if 'CMD' in line:
+			command = line.split(':')[1].strip()
 
-	return username, header.split()[1], request
+	return username, command, request
 
 def ResponseHTTP(sock, _response, additional = None):
 	if additional != None:
@@ -42,6 +44,9 @@ def ResponseHTTP(sock, _response, additional = None):
 Connection: close
 Accept-Ranges: bytes
 Content-Type: text
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Method: *
+Access-Control-Allow-Headers: *
 Content-Length: %d
 
 %s''' % (len(result), result)
