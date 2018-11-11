@@ -248,7 +248,7 @@ class Viewer extends Component {
 								)}
 								highlightTransform={(
 									highlight,
-									index,
+									index, 
 									setTip,
 									hideTip,
 									viewportToScaled,
