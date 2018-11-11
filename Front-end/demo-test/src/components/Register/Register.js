@@ -25,7 +25,6 @@ class NavForm extends React.Component {
   submitHandler(event) {
     event.preventDefault()
     // do some sort of verification here if you need to
-    this.props.push('/qna', this.state.id)
   }
 
   render() {
