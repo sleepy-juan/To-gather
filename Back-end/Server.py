@@ -42,7 +42,6 @@ class Server:
 		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.questions, self.timers))
 
 		def timeout_handler(argument):
-			print("[TIMER] Called")
 			questions = argument
 			curtime = time.time()
 
@@ -95,10 +94,13 @@ class Server:
 		clients = self.clients
 
 		username, command, body = GetHTTP(sock)
+		username = username.strip()
+		if username == '': return
+
 		print("[%s] Received command %s" % (username, command))
 
 		with lock():
-			if username not in clients and username.strip() != '':
+			if username not in clients:
 				clients.append(username)
 
 ####################################################################

@@ -10,7 +10,7 @@
 var http = require('http')
 
 // constants
-var IP = '127.0.0.1'
+var IP = 'localhost'
 var PORT = '12345'
 
 /*
@@ -41,6 +41,8 @@ var sendPacket = function(packet, additional = null){
 
    if(additional != null) req.write(additional);
    req.end();
+
+   console.log("body: "+body);
 
    return body;
 }
@@ -74,7 +76,7 @@ var makeFormat = function(format){
    body += format.position.pageNumber.toString() + '\n';
    body += format.id;
 
-   return body;
+   return body.trip();
 }
 
 // parseFormat: string -> format
@@ -145,7 +147,7 @@ var quit = function(username){
          'CMD':'QUIT',
       }
    });
-   console.log(body);
+   console.log(body.trim());
 }
 
 // POST - upload question
@@ -158,7 +160,7 @@ var post = function(username, question){
       }
    }, makeFormat(question));
 
-   console.log(body);
+   console.log(body.trim());
 }
 
 // NTYQ - get question ids
@@ -171,8 +173,13 @@ var getQuestionIds = function(username){
       }
    });
 
-   var format = body.split('\r')[0]
-   var response = body.split('\r')[1]
+   if(body === ''){
+      console.log("server is not on");
+      return [];
+   }
+
+   var format = body.split('\r')[0].trim();
+   var response = body.split('\r')[1].trim();
    console.log(response);
 
    return format.split('\n');
@@ -188,8 +195,13 @@ var getQuestion = function(username, question_id){
       }
    }, question_id);
 
-   var format = body.split('\r')[0]
-   var response = body.split('\r')[1]
+   if(body === ''){
+      console.log("server is not on");
+      return null;
+   }
+
+   var format = body.split('\r')[0].trim();
+   var response = body.split('\r')[1].trim();
    console.log(response);
 
    return parseFormat(format);
@@ -205,7 +217,7 @@ var answer = function(username, answer){
       }
    }, makeFormat(answer));
 
-   console.log(body);
+   console.log(body.trim());
 }
 
 // NTYC - get confirms
@@ -218,8 +230,13 @@ var getConfirms = function(username){
       }
    });
 
-   var format = body.split('\r')[0]
-   var response = body.split('\r')[1]
+   if(body === ''){
+      console.log("server is not on");
+      return [];
+   }
+
+   var format = body.split('\r')[0].trim();
+   var response = body.split('\r')[1].trim();
    console.log(response);
 
    return format.split('\n');
@@ -235,8 +252,13 @@ var getAnswer = function(username, question_id){
       }
    }, question_id);
 
-   var format = body.split('\r')[0]
-   var response = body.split('\r')[1]
+   if(body === ''){
+      console.log("server is not on");
+      return null;
+   }
+
+   var format = body.split('\r')[0].trim();
+   var response = body.split('\r')[1].trim();
    console.log(response);
 
    return parseManyFormat(format);
@@ -252,7 +274,7 @@ var endQuestion = function(username, question_id){
       }
    }, question_id);
 
-   console.log(body);
+   console.log(body.trim());
 }
 
 // LIST - get list of members
@@ -265,8 +287,13 @@ var getMembers = function(username){
       }
    });
 
-   var format = body.split('\r')[0]
-   var response = body.split('\r')[1]
+   if(body === ''){
+      console.log("server is not on");
+      return [];
+   }
+
+   var format = body.split('\r')[0].trim();
+   var response = body.split('\r')[1].trim();
    console.log(response);
 
    return format.split('\n');
