@@ -49,7 +49,7 @@ class Server:
 					if question.status == Status.QUESTION.DELAYED:
 						answers = Database.getAnswer(question.qid)
 						passed_answerers = list(map(lambda x:x.questioner, answers))
-						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.belong_to), self.clients))
+						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.belong_to) and (x != question.sent_from), self.clients))
 
 						if len(valid_answerers) == 0:
 							print("Current Users:", self.clients)
@@ -67,7 +67,7 @@ class Server:
 					elif curtime - question.created > Protocol.INTS.TIME_OUT_IN_SECONDS:
 						answers = Database.getAnswer(question.qid)
 						passed_answerers = list(map(lambda x:x.questioner, answers))
-						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.belong_to), self.clients))
+						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.belong_to) and (x != question.sent_from), self.clients))
 
 						if len(valid_answerers) == 0:
 							question.status = Status.QUESTION.ON_CONFIRM
@@ -97,7 +97,6 @@ class Server:
 		username = username.strip()
 		if username == '':
 			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
-			print("WRONG COMMAND")
 			return
 		print("[%s] Received command %s" % (username, command))
 
@@ -157,7 +156,7 @@ class Server:
 						ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(Database.getQuestion(qid)))
 						break
 				else:
-					print("[%s] id %s not in %s's answer queue" % (username, qid, username))
+					print("Not in answer queue username: %s qid: %s" % (username, qid))
 					ResponseHTTP(sock, Protocol.SERVER.TIMED_OUT, SendEmptyFormat())
 ####################################################################
 		elif command == Protocol.CLIENT.ANSWER:

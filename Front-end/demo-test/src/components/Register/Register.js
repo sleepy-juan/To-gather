@@ -23,7 +23,8 @@ class NavForm extends React.Component {
   }  
 
   saveCookie(){
- console.log("cookie");
+    console.log("cookie");
+
     var userdata = "username=" + this.state.id + ";";
     document.cookie = userdata;
 }
@@ -41,12 +42,7 @@ class NavForm extends React.Component {
           name='id'
           value={this.state.what}
           onChange={this.handleInput} />
- 		<Link to="/qna" onClick={
-      function(){
-        alert(this.state.id);
-        this.saveCookie();
-      }
-    }>
+ 		<Link to="/qna" onClick={()=>this.saveCookie()}>
      		<button type="button" >
           Click Me!
      		</button>

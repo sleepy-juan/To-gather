@@ -10,7 +10,7 @@
 var http = require('http')
 
 // constants
-var IP = '127.0.0.1'
+var IP = '143.248.192.163'
 var PORT = '12346'
 
 /*
@@ -135,12 +135,12 @@ var parseFormat = function(body){
             height: parseFloat(lines[9]),
          },
          rects: rects,
-         pageNumber: parseInt(lines[-2]),
+         pageNumber: parseInt(lines[11 + rects_size * 6]),
       },
       comment: {
          text: lines[1],
       },
-      id: lines[-1],
+      id: lines[11 + rects_size * 6 + 1],
    }
 }
 

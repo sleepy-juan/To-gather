@@ -36,7 +36,7 @@ def GetHTTP(sock):
 
 def ResponseHTTP(sock, _response, additional = None):
 	if additional != None:
-		result = _response + '\r' + additional
+		result = _response + '\n' + additional			# '\rDONE'
 	else:
 		result = _response
 

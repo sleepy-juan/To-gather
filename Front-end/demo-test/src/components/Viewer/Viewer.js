@@ -51,9 +51,12 @@ class Viewer extends Component {
 
 		var cookieData = document.cookie;
 		var start_index = cookieData.indexOf("username=");
-		var end_index = cookieData.indexOf(';', start_index);
+		var end_index = cookieData.indexOf('\n', start_index);
 
-		this.username = cookieData.substring(start_index+9, end_index);
+		if(end_index != -1)
+			this.username = cookieData.substring(start_index+9, end_index);
+		else
+			this.username = cookieData.substring(start_index+9);
 
 		setTimeout(() => this.updateQuestion(), 5000);
 	}
@@ -149,29 +152,48 @@ class Viewer extends Component {
 
 	// update question list
 	updateQuestion() {
-		var array = [];
 		var username = this.username;
 		
-		client.getQuestionIds(username).then(function(body){
-			var ids = body.split("\n");
+		client.getQuestionIds(username).then(
+			body => (function(body, viewer){
 
-			ids.forEach(function(id){
-				client.getQuestion(username, id).then(function(res){
-					var format = res.split('\r')[0].trim();
-					var response = res.split('\r')[1].trim();
-					console.log("res:" + response);
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
 
-					array.push(client.parseFormat(format));
-				});
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var ids = data;
+
+			viewer.setState({
+				highlights_answer: [],
 			});
 
+			ids.forEach(function(id){
+				var format = '';
+				client.getQuestion(username, id).then(function(res){
+					//console.log("res: " + res);
 
-		});
-		
-		this.setState({
-			highlights_answer: array,
-		});
-		
+					var splited = res.trim().split('\n');
+					var response = splited[0];
+					var format = splited.slice(1);
+
+					format = client.parseFormat(format.join('\n'));
+
+					var array = viewer.state.highlights_answer;
+					array.push(format);
+					viewer.setState({
+						highlights_answer: array,
+					});
+				});
+			});
+		})(body, this));
 		setTimeout(() => this.updateQuestion(), 5000);
 	}
 
