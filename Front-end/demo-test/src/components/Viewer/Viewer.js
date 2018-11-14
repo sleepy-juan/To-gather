@@ -60,8 +60,6 @@ class Viewer extends Component {
 		else
 			this.username = cookieData.substring(start_index+9);
 
-		this.updateQuestion();
-		this.updateConfirm();
 
 		setTimeout(() => this.updateQuestion(), 5000);
 		setTimeout(() => this.updateConfirm(), 5000);
@@ -171,10 +169,8 @@ class Viewer extends Component {
 			}
 
 			viewer.setState({
-				Qstate_ans: question,
-				currentAforQ_ans: answer,
+				Qstate: question,
 				currentAforQ: answer,
-				QID_answer: QID,
 				QID: QID,
 			});
 		})(body, this, question, QID));
@@ -184,9 +180,7 @@ class Viewer extends Component {
 		this.setState({
 			Qstate_ans: question,
 			currentAforQ_ans: answer,
-			currentAforQ: answer,
 			QID_answer: QID,
-			QID: QID,
 		});
 	}
 
@@ -266,6 +260,14 @@ class Viewer extends Component {
 					});
 				});
 			});
+
+			var array = viewer.state.highlights_answer;
+			var pub = viewer.state.highlights_public;
+			var confirm = viewer.state.highlights;
+
+			viewer.setState({
+				highlights_merged: (array.concat(pub)).concat(confirm),
+			});
 		})(body, this));
 		setTimeout(() => this.updateQuestion(), 5000);
 	}
@@ -312,6 +314,14 @@ class Viewer extends Component {
 						highlights: array,
 					});
 				});
+			});
+
+			var array = viewer.state.highlights_answer;
+			var pub = viewer.state.highlights_public;
+			var confirm = viewer.state.highlights;
+
+			viewer.setState({
+				highlights_merged: (array.concat(pub)).concat(confirm),
 			});
 		})(body, this));
 		setTimeout(() => this.updateConfirm(), 5000);

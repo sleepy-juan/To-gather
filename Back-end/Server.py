@@ -98,11 +98,14 @@ class Server:
 		if username == '':
 			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
 			return
-		print("[%s] Received command %s" % (username, command))
+
+		if command not in [Protocol.CLIENT.GET_QUESTIONS, Protocol.CLIENT.GET_QUESTION, Protocol.CLIENT.GET_CONFIRMS]:
+			print("[%s] Received command %s" % (username, command))
 
 		with lock():
 			if username not in clients:
 				clients.append(username)
+				print("[SYSTEM] %s joins to server" % username)
 
 ####################################################################
 		if command == Protocol.CLIENT.QUIT:
