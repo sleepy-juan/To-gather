@@ -4,7 +4,6 @@
 # Author @ Juan Lee (juanlee@kaist.ac.kr)
 
 from pickle import dumps, loads, dump, load
-from access_points import get_scanner
 
 # class Database
 # - database module

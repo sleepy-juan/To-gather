@@ -85,7 +85,7 @@ def RecvFormat(body):
 	page = int(lines[-2])
 	front_id = lines[-1]
 
-	return Format(questioner, text, common, question, bRect, rects, page, front_id)
+	return Format(questioner, text, question, common, bRect, rects, page, front_id)
 
 def _ofLength(s, n):
 	return (str(s) + ' '*(n - len(str(s)))).encode()

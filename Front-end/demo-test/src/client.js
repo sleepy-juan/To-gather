@@ -10,8 +10,8 @@
 var http = require('http')
 
 // constants
-var IP = 'localhost'
-var PORT = '12345'
+var IP = '127.0.0.1'
+var PORT = '12346'
 
 /*
    Server Protocols
@@ -27,24 +27,47 @@ var PORT = '12345'
    - OR
 */
 
-// sendPacket: packet, additional -> body
-var sendPacket = function(packet, additional = null){
-   packet.host = IP;
-   packet.port = PORT;
+// requestPromise
+// - syncronous data communication
+const requestPromise = (packet, additional = null) =>
+   new Promise((resolve, reject) => {
+      const isPostWithData = packet && packet.method === "POST" && additional !== null;
+      if(isPostWithData && (!packet.headers || !packet.headers["Content-Length"])) {
+         packet = Object.assign({}, packet, {
+            headers: Object.assign({}, packet.headers, {
+               "Content-Length": additional.length,
+            })
+         });
+      }
 
-   var body = '';
-   var req = http.request(packet, function(res){
-      res.on('data', function(chunk){
-         body += chunk;
+      const body = [];
+      const req = http.request(packet, res => {
+         res.on('data', chunk => {
+            body.push(chunk);
+         });
+         res.on('end', () => {
+            res.body = Buffer.concat(body);
+            resolve(res);
+         });
       });
+
+      req.on('error', e => {
+         reject(e);
+      });
+
+      if (isPostWithData){
+         req.write(additional);
+      }
+      req.end();
    });
 
-   if(additional != null) req.write(additional);
-   req.end();
-
-   console.log("body: "+body);
-
-   return body;
+// sendPacket: packet, additional -> body
+var sendPacket = async function(packet, additional = null){
+   packet.host = IP;
+   packet.port = PORT;
+   
+   const bodyPromise = await requestPromise(packet, additional);
+   return bodyPromise.body.toString();
 }
 
 // makeFormat: format -> string
@@ -76,7 +99,7 @@ var makeFormat = function(format){
    body += format.position.pageNumber.toString() + '\n';
    body += format.id;
 
-   return body.trip();
+   return body.trim();
 }
 
 // parseFormat: string -> format
@@ -140,61 +163,52 @@ var parseManyFormat = function(body){
 
 // QUIT - disconnect from server
 var quit = function(username){
-   var body = sendPacket({
+   return sendPacket({
       method: 'GET',
       headers: {
          'From':username,
          'CMD':'QUIT',
       }
    });
-   console.log(body.trim());
 }
 
 // POST - upload question
 var post = function(username, question){
-   var body = sendPacket({
+   question.content.user = username;
+   var additional = makeFormat(question);
+   return sendPacket({
       method: 'POST',
       headers: {
          'From':username,
          'CMD':'POST',
+         'Content-Length': additional.length,
       }
-   }, makeFormat(question));
-
-   console.log(body.trim());
+   }, additional);
 }
 
 // NTYQ - get question ids
 var getQuestionIds = function(username){
-   var body = sendPacket({
+   return sendPacket({
       method: 'GET',
       headers:{
          'From':username,
          'CMD':'NTYQ',
       }
    });
-
-   if(body === ''){
-      console.log("server is not on");
-      return [];
-   }
-
-   var format = body.split('\r')[0].trim();
-   var response = body.split('\r')[1].trim();
-   console.log(response);
-
-   return format.split('\n');
 }
 
 // GETQ - get question
 var getQuestion = function(username, question_id){
-   var body = sendPacket({
+   return sendPacket({
       method: "POST",
       headers: {
          'From':username,
          'CMD':'GETQ',
+         'Content-Length':question_id.length,
       }
    }, question_id);
 
+   /*
    if(body === ''){
       console.log("server is not on");
       return null;
@@ -205,24 +219,26 @@ var getQuestion = function(username, question_id){
    console.log(response);
 
    return parseFormat(format);
+   */
 }
 
 // ANSW - answer to question
 var answer = function(username, answer){
-   var body = sendPacket({
+   answer.content.user = username;
+   var additional = makeFormat(answer);
+   return sendPacket({
       method: "POST",
       headers: {
          'From':username,
-         'CMD':'ANSW'
+         'CMD':'ANSW',
+         'Content-Length':additional.length,
       }
-   }, makeFormat(answer));
-
-   console.log(body.trim());
+   }, additional);
 }
 
 // NTYC - get confirms
 var getConfirms = function(username){
-   var body = sendPacket({
+   return sendPacket({
       method: 'GET',
       headers:{
          'From':username,
@@ -230,6 +246,7 @@ var getConfirms = function(username){
       }
    });
 
+   /*
    if(body === ''){
       console.log("server is not on");
       return [];
@@ -240,18 +257,21 @@ var getConfirms = function(username){
    console.log(response);
 
    return format.split('\n');
+   */
 }
 
 // GETA - get answer
 var getAnswer = function(username, question_id){
-   var body = sendPacket({
+   return sendPacket({
       method: "POST",
       headers: {
          'From':username,
          'CMD':'GETA',
+         'Content-Length':question_id.length,
       }
    }, question_id);
 
+   /*
    if(body === ''){
       console.log("server is not on");
       return null;
@@ -262,24 +282,24 @@ var getAnswer = function(username, question_id){
    console.log(response);
 
    return parseManyFormat(format);
+   */
 }
 
 // ENDS - ends question
 var endQuestion = function(username, question_id){
-   var body = sendPacket({
+   return sendPacket({
       method: "POST",
       headers: {
          'From':username,
          'CMD':'ENDS',
+         'Content-Length':question_id.length,
       }
    }, question_id);
-
-   console.log(body.trim());
 }
 
 // LIST - get list of members
 var getMembers = function(username){
-   var body = sendPacket({
+   return sendPacket({
       method: "GET",
       headers: {
          'From':username,
@@ -287,6 +307,7 @@ var getMembers = function(username){
       }
    });
 
+   /*
    if(body === ''){
       console.log("server is not on");
       return [];
@@ -297,10 +318,11 @@ var getMembers = function(username){
    console.log(response);
 
    return format.split('\n');
+   */
 }
 
 // exports
-module.exports = {
+export default {
   quit: quit,
   post: post,
   getQuestionIds: getQuestionIds,
@@ -310,4 +332,5 @@ module.exports = {
   getAnswer: getAnswer,
   endQuestion: endQuestion,
   getMembers: getMembers,
+  parseFormat: parseFormat,
 };

@@ -36,7 +36,6 @@ class Server:
 			while True:
 				client, address = sock.accept()
 
-				print("[SYSTEM] connected from (IP: %s, PORT: %d)" % (address[0], address[1]))
 				fork(handler, client)
 
 		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.questions, self.timers))
@@ -94,9 +93,11 @@ class Server:
 		clients = self.clients
 
 		username, command, body = GetHTTP(sock)
-		username = username.strip()
-		if username == '': return
 
+		username = username.strip()
+		if username == '':
+			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
+			return
 		print("[%s] Received command %s" % (username, command))
 
 		with lock():
@@ -112,6 +113,8 @@ class Server:
 ####################################################################
 		elif command == Protocol.CLIENT.POST_QUESTION:
 			question = RecvFormat(body)
+			print(question.comment_text)
+
 			check = Database.getQuestion(question.front_id)
 			if check != None:
 				print("[%s] id is duplicated" % username)

@@ -16,9 +16,10 @@ import SidebarLeftdown from "../Sidebar_Leftdown/Sidebar_Leftdown"
 import SidebarRightdown from "../Sidebar_Rightdown/Sidebar_Rightdown"
 import FinishedAnswer from "../Finished_Answer/Finished_Answer"
 import './Viewer.css';
+import client from "../../client.js"
 
 var newPDF = require('../../assets/turkopticon.pdf');
-var client = require('../../client.js');
+//var client = require('../../client.js');
 
 // this is janky in terms of IDs
 const getNextId = () => String(Math.random()).slice(2);
@@ -143,17 +144,28 @@ class Viewer extends Component {
 
 	// update question list
 	updateQuestion() {
-		var ids = client.getQuestionIds(username);
 		var array = [];
-		ids.forEach(function(id){
-			var question = client.getQuestion(username, id);
-			array.push(question);
-		});
+		
+		client.getQuestionIds(username).then(function(body){
+			var ids = body.split("\n");
 
+			ids.forEach(function(id){
+				client.getQuestion(username, id).then(function(res){
+					var format = res.split('\r')[0].trim();
+					var response = res.split('\r')[1].trim();
+					console.log("res:" + response);
+
+					array.push(client.parseFormat(format));
+				});
+			});
+
+
+		});
+		
 		this.setState({
 			highlights_answer: array,
 		});
-
+		
 		setTimeout(() => this.updateQuestion(), 5000);
 	}
 
@@ -168,6 +180,8 @@ class Viewer extends Component {
 		const { highlights} = this.state;
 		const newid = getNextId();
 		 
+		var new_question = { ...highlight, id: newid };
+
 		this.setState({
 			highlights: [{ ...highlight, id: newid }, ...highlights],
 		});
