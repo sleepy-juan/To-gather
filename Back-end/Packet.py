@@ -128,6 +128,7 @@ def SendFormat(format):
 	return body
 
 def SendManyFormat(formats):
+	body = ''
 	for format in formats:
 		sent = SendFormat(format)
 		body += str(len(sent.split('\n'))) + '\n'

@@ -35,9 +35,9 @@ const url = searchParams.get("url") || DEFAULT_URL;
 
 class Viewer extends Component {
 	state = {
-		highlights: QuestionHighlights[url] ? [...QuestionHighlights[url]] : [], /*여기에 질문한 목록이 들어갑니다*/
-		highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
-		highlights_merged: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [],
+		highlights: [], // 왼쪽 사이드바
+		highlights_answer: [], //오른쪽 사이드바
+		highlights_merged: [], //하이라이트 쳐질 거
 		Qstate:null,
 		Qstate_ans:null,
 		currentAforQ:[""],
@@ -45,6 +45,7 @@ class Viewer extends Component {
 		QID:null,
 		QID_answer:null,
 		answer:null,
+		highlights_public: [], // 전체공개
 	};
 
 	constructor(){
@@ -59,7 +60,11 @@ class Viewer extends Component {
 		else
 			this.username = cookieData.substring(start_index+9);
 
+		this.updateQuestion();
+		this.updateConfirm();
+
 		setTimeout(() => this.updateQuestion(), 5000);
+		setTimeout(() => this.updateConfirm(), 5000);
 	}
 
 	onFileChange = e => {
@@ -104,18 +109,26 @@ class Viewer extends Component {
 	}
 
 	handleRemove_ignore = (QID) => {
-		const {highlights, highlights_answer} = this.state;    
+		var {highlights, highlights_answer, highlights_merged} = this.state;    
 		this.setState({
-			highlights_answer: highlights_answer.filter(highlight => highlight.id !== QID)
+			highlights_answer: highlights_answer.filter(highlight => highlight.id !== QID),
+			highlights_merged: highlights_merged.filter(highlight => highlight.id !== QID)
 		});
 	}
 
 	handleRemove_answer = (QID) => {
-		const {highlights, highlights_answer} = this.state;  
+		var {highlights, highlights_answer, highlights_merged} = this.state;  
 
 		this.setState({
-			highlights_answer: highlights_answer.filter(highlight => highlight.id !== QID)
+			highlights_answer: highlights_answer.filter(highlight => highlight.id !== QID),
+			highlights_merged: highlights_merged.filter(highlight => highlight.id !== QID)
 		});
+
+		var format = this.getHighlightById(QID);
+		format.content.user = this.username;
+		format.comment.text = this.state.answer;
+
+		client.answer(this.username, format);
 	}
 
 
@@ -125,13 +138,55 @@ class Viewer extends Component {
 			currentAforQ: answer,
 			QID: QID
 		});
+
+		var username = this.username;
+		
+		client.getAnswer(username, QID).then(
+			body => (function(body, viewer, question, QID){
+
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
+
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var questions = data;
+
+			var answer = [];
+
+			while(data.length > 0){
+				var size = parseInt(data[0]);
+				var format = data.slice(1, size + 1);
+				format = client.parseFormat(format.join('\n'))
+
+				answer.push(format.comment.text);
+
+				data = data.slice(size + 1);
+			}
+
+			viewer.setState({
+				Qstate_ans: question,
+				currentAforQ_ans: answer,
+				currentAforQ: answer,
+				QID_answer: QID,
+				QID: QID,
+			});
+		})(body, this, question, QID));
 	}
 
 	updateQstate_answer = (question, answer, QID) =>  {
 		this.setState({
 			Qstate_ans: question,
 			currentAforQ_ans: answer,
-			QID_answer: QID
+			currentAforQ: answer,
+			QID_answer: QID,
+			QID: QID,
 		});
 	}
 
@@ -189,6 +244,55 @@ class Viewer extends Component {
 
 			viewer.setState({
 				highlights_answer: [],
+				highlights_merged: [],
+			});
+
+			ids.forEach(function(id){
+				var format = '';
+				client.getQuestion(username, id).then(function(res){
+					//console.log("res: " + res);
+
+					var splited = res.trim().split('\n');
+					var response = splited[0];
+					var format = splited.slice(1);
+
+					format = client.parseFormat(format.join('\n'));
+
+					var array = viewer.state.highlights_answer;
+					array.push(format);
+
+					viewer.setState({
+						highlights_answer: array,
+					});
+				});
+			});
+		})(body, this));
+		setTimeout(() => this.updateQuestion(), 5000);
+	}
+
+	// update confirm list
+	updateConfirm() {
+		var username = this.username;
+		
+		client.getConfirms(username).then(
+			body => (function(body, viewer){
+
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
+
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var ids = data;
+
+			viewer.setState({
+				highlights: [],
 			});
 
 			ids.forEach(function(id){
@@ -205,12 +309,12 @@ class Viewer extends Component {
 					var array = viewer.state.highlights_answer;
 					array.push(format);
 					viewer.setState({
-						highlights_answer: array,
+						highlights: array,
 					});
 				});
 			});
 		})(body, this));
-		setTimeout(() => this.updateQuestion(), 5000);
+		setTimeout(() => this.updateConfirm(), 5000);
 	}
 
 	getHighlightById(id: string) {
@@ -221,13 +325,14 @@ class Viewer extends Component {
 
 
 	addHighlight(highlight: highlight) {
-		const { highlights} = this.state;
+		var { highlights, highlights_answer, highlights_merged} = this.state;
 		const newid = getNextId();
 		 
 		var new_question = { ...highlight, id: newid };
 
 		this.setState({
 			highlights: [{ ...highlight, id: newid }, ...highlights],
+			highlights_merged: [{ ...highlight, id: newid }, ...highlights_merged]
 		});
 
 		client.post(this.username, { ...highlight, id: newid });
@@ -246,6 +351,10 @@ class Viewer extends Component {
 			highlights_merged: highlights.concat(highlights_answer)
 		});
 
+	}
+
+	viewPublic = (QID) => {
+		this.handleRemove(QID);
 	}
 
 

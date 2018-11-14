@@ -14,7 +14,7 @@ const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onCha
         </p>
         {currentAforQ.map((answer, index) => (
           <li>
-          <div className="answer-list">
+          <div className="answer-list_left">
             <div>
               <div>{answer}</div>
             </div>

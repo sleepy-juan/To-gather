@@ -162,6 +162,7 @@ class Server:
 		elif command == Protocol.CLIENT.ANSWER:
 			answer = RecvFormat(body)
 			Database.logAnswer(answer)
+			print("answer: " + answer.comment_text)
 			with lock():
 				for question in questions:
 					if question.qid == answer.front_id:
