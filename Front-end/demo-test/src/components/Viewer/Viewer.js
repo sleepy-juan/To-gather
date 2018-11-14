@@ -43,7 +43,8 @@ class Viewer extends Component {
 		currentAforQ:[""],
 		currentAforQ_ans:[""],
 		QID:null,
-		QID_answer:null
+		QID_answer:null,
+		answer:null,
 	};
 
 	constructor(){
@@ -140,6 +141,14 @@ class Viewer extends Component {
 		});
 	};
 
+	/*w질문을 저장하는 함수*/
+	handleAnswer = (event) => {
+	    const target = event.target
+	    this.setState({
+	      answer: target.value
+	    })
+	};
+
 	scrollViewerTo = (highlight: any) => {};
 
 	scrollToHighlightFromHash = () => {
@@ -147,6 +156,7 @@ class Viewer extends Component {
 
 		highlight && this.scrollViewerTo(highlight);
 	};
+
 
 	componentDidMount() {
 		window.addEventListener(
@@ -342,6 +352,7 @@ class Viewer extends Component {
 					QID = {QID_answer}
 					handleRemove_answer = {this.handleRemove_answer}
 					handleRemove_ignore = {this.handleRemove_ignore}
+					handleAnswer = {this.handleAnswer}
 					/>
 			</div>
 			</div>

@@ -40,7 +40,7 @@ class NavForm extends React.Component {
         <input
           type='text'
           name='id'
-          value={this.state.what}
+          value={this.state.id}
           onChange={this.handleInput} />
  		<Link to="/qna" onClick={()=>this.saveCookie()}>
      		<button type="button" >
