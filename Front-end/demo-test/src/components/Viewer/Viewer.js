@@ -32,7 +32,6 @@ const resetHash = () => {
 const DEFAULT_URL = '../../assets/turkopticon.pdf';
 const searchParams = new URLSearchParams(window.location.search);
 const url = searchParams.get("url") || DEFAULT_URL;
-const username = "juanlee";
 
 class Viewer extends Component {
 	state = {
@@ -49,6 +48,12 @@ class Viewer extends Component {
 
 	constructor(){
 		super();
+
+		var cookieData = document.cookie;
+		var start_index = cookieData.indexOf("username=");
+		var end_index = cookieData.indexOf(';', start_index);
+
+		this.username = cookieData.substring(start_index+9, end_index);
 
 		setTimeout(() => this.updateQuestion(), 5000);
 	}
@@ -84,14 +89,14 @@ class Viewer extends Component {
 
 
 	// on stop clicked
-	handleRemove = (username, QID) => {
+	handleRemove = (QID) => {
 		const { highlights } = this.state;
 
 		this.setState({
 			highlights: highlights.filter(highlight => highlight.id !== QID)
 		});
 
-		client.endQuestion(username, QID);
+		client.endQuestion(this.username, QID);
 	}
 
 	handleRemove_answer = (QID) => {
@@ -145,6 +150,7 @@ class Viewer extends Component {
 	// update question list
 	updateQuestion() {
 		var array = [];
+		var username = this.username;
 		
 		client.getQuestionIds(username).then(function(body){
 			var ids = body.split("\n");
@@ -176,7 +182,7 @@ class Viewer extends Component {
 	}
 
 
-	addHighlight(username: string, highlight: highlight) {
+	addHighlight(highlight: highlight) {
 		const { highlights} = this.state;
 		const newid = getNextId();
 		 
@@ -186,7 +192,7 @@ class Viewer extends Component {
 			highlights: [{ ...highlight, id: newid }, ...highlights],
 		});
 
-		client.post(username, { ...highlight, id: newid });
+		client.post(this.username, { ...highlight, id: newid });
 	}
 
 	addtomergeHighlight(highlight: highlight) {
@@ -220,7 +226,7 @@ class Viewer extends Component {
 					currentAforQ = {currentAforQ}
 					QID = {QID}
 					handleRemove = {this.handleRemove}
-					username = {username}
+					username = {this.username}
 					/>
 				</div>
 
@@ -253,7 +259,7 @@ class Viewer extends Component {
 									<Tip
 										onOpen={transformSelection}
 										onConfirm={comment => {
-											this.addHighlight(username, { content, position, comment });
+											this.addHighlight({ content, position, comment });
 											this.addtomergeHighlight({ content, position, comment });
 											hideTipAndSelection();
 										}}

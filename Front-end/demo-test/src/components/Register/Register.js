@@ -22,6 +22,12 @@ class NavForm extends React.Component {
     })
   }  
 
+  saveCookie(){
+ console.log("cookie");
+    var userdata = "username=" + this.state.id + ";";
+    document.cookie = userdata;
+}
+
   submitHandler(event) {
     event.preventDefault()
     // do some sort of verification here if you need to
@@ -35,7 +41,12 @@ class NavForm extends React.Component {
           name='id'
           value={this.state.what}
           onChange={this.handleInput} />
- 		<Link to="/qna" onClick={() => alert(this.state.id)}>
+ 		<Link to="/qna" onClick={
+      function(){
+        alert(this.state.id);
+        this.saveCookie();
+      }
+    }>
      		<button type="button" >
           Click Me!
      		</button>

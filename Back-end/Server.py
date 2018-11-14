@@ -97,6 +97,7 @@ class Server:
 		username = username.strip()
 		if username == '':
 			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
+			print("WRONG COMMAND")
 			return
 		print("[%s] Received command %s" % (username, command))
 
