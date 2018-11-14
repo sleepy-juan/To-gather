@@ -24,7 +24,7 @@ class Protocol:
 		WRONG_COMMAND = "WRONG_COMMAND"
 
 	class INTS:
-		TIME_OUT_IN_SECONDS = 30
+		TIME_OUT_IN_SECONDS = 5*60
 
 class Status:
 	class QUESTION:

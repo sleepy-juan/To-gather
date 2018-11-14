@@ -102,8 +102,16 @@ class Viewer extends Component {
 		client.endQuestion(this.username, QID);
 	}
 
-	handleRemove_answer = (QID) => {
+	handleRemove_ignore = (QID) => {
 		const {highlights, highlights_answer} = this.state;    
+		this.setState({
+			highlights_answer: highlights_answer.filter(highlight => highlight.id !== QID)
+		});
+	}
+
+	handleRemove_answer = (QID) => {
+		const {highlights, highlights_answer} = this.state;  
+
 		this.setState({
 			highlights_answer: highlights_answer.filter(highlight => highlight.id !== QID)
 		});
@@ -125,8 +133,6 @@ class Viewer extends Component {
 			QID_answer: QID
 		});
 	}
-
-
 
 	resetHighlights_answer = () => {
 		this.setState({
@@ -335,6 +341,7 @@ class Viewer extends Component {
 					currentAforQ = {currentAforQ_ans}
 					QID = {QID_answer}
 					handleRemove_answer = {this.handleRemove_answer}
+					handleRemove_ignore = {this.handleRemove_ignore}
 					/>
 			</div>
 			</div>
