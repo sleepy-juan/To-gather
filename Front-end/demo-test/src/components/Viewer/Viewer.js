@@ -340,18 +340,13 @@ class Viewer extends Component {
 		var new_question = { ...highlight, id: newid };
 
 		this.setState({
-			highlights: [{ ...highlight, id: newid }, ...highlights],
-			highlights_merged: [{ ...highlight, id: newid }, ...highlights_merged]
+			highlights: [new_question, ...highlights],
+			highlights_merged: [new_question, ...highlights_merged]
 		});
 
-		client.post(this.username, { ...highlight, id: newid });
-	}
+		console.log(new_question);
 
-	addtomergeHighlight(highlight: highlight) {
-		const { highlights, highlights_answer} = this.state;
-		this.setState({
-			highlights_merged: [{ ...highlight, id: getNextId() }, ...highlights].concat(highlights_answer)
-		});
+		client.post(this.username, new_question);
 	}
 
 	syncMerge() {
@@ -444,7 +439,6 @@ class Viewer extends Component {
 										onOpen={transformSelection}
 										onConfirm={comment => {
 											this.addHighlight({ content, position, comment });
-											this.addtomergeHighlight({ content, position, comment });
 											hideTipAndSelection();
 										}}
 										isEdit={false}
