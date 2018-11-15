@@ -11,7 +11,7 @@ var http = require('http')
 
 // constants
 var IP = '143.248.192.29'
-var PORT = '12346'
+var PORT = '12345'
 
 /*
    Server Protocols
@@ -119,7 +119,7 @@ var parseFormat = function(body){
       });
    }
 
-   return {
+   var ret = {
       content: {
          user: lines[0],
          text: lines[2],
@@ -141,7 +141,15 @@ var parseFormat = function(body){
          text: lines[1],
       },
       id: lines[11 + rects_size * 6 + 1],
-   }
+   };
+
+   console.log("pn: " + ret.position.pageNumber);
+   console.log("id: " + ret.id);
+
+   if(ret.position.pageNumber === undefined)
+      ret.position.pageNumber = 1;
+
+   return ret;
 }
 
 // body -> list of formats

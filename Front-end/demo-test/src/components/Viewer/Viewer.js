@@ -60,14 +60,8 @@ class Viewer extends Component {
 		else
 			this.username = cookieData.substring(start_index+9);
 
-<<<<<<< HEAD
-		this.updateQuestion();
-		this.updateConfirm();
-=======
-
 		setTimeout(() => this.updateQuestion(), 5000);
 		setTimeout(() => this.updateConfirm(), 5000);
->>>>>>> 6040b1c24e274227bbde47b4cbad3a8370b6ca78
 	}
 
 	onFileChange = e => {
@@ -243,7 +237,6 @@ class Viewer extends Component {
 
 			viewer.setState({
 				highlights_answer: [],
-				highlights_merged: [],
 			});
 
 			ids.forEach(function(id){
@@ -264,14 +257,6 @@ class Viewer extends Component {
 						highlights_answer: array,
 					});
 				});
-			});
-
-			var array = viewer.state.highlights_answer;
-			var pub = viewer.state.highlights_public;
-			var confirm = viewer.state.highlights;
-
-			viewer.setState({
-				highlights_merged: (array.concat(pub)).concat(confirm),
 			});
 		})(body, this));
 		setTimeout(() => this.updateQuestion(), 5000);
@@ -319,14 +304,6 @@ class Viewer extends Component {
 						highlights: array,
 					});
 				});
-			});
-
-			var array = viewer.state.highlights_answer;
-			var pub = viewer.state.highlights_public;
-			var confirm = viewer.state.highlights;
-
-			viewer.setState({
-				highlights_merged: (array.concat(pub)).concat(confirm),
 			});
 		})(body, this));
 		setTimeout(() => this.updateConfirm(), 5000);
