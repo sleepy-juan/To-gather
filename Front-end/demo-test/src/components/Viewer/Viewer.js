@@ -325,56 +325,6 @@ class Viewer extends Component {
 		setTimeout(() => this.updateConfirm(), 5000);
 	}
 
-	// update highlights
-	updateHightlights() {
-		var username = this.username;
-		
-		client.getOwns(username).then(
-			body => (function(body, viewer){
-
-			var splited = body.trim().split('\n');
-			var data = [];
-			var response = '';
-
-			if(splited.length == 1){
-				response = splited[0];
-			}
-			else{
-				data = splited.slice(1);
-				response = splited[0];
-			}
-
-			var ids = data;
-
-			console.log("=====");
-			console.log(ids);
-			console.log("=====");
-
-			viewer.setState({
-				highlights_merged: [],
-			});
-
-			ids.forEach(function(id){
-				var format = '';
-				client.getQuestion(username, id).then(function(res){
-					//console.log("res: " + res);
-
-					var splited = res.trim().split('\n');
-					var response = splited[0];
-					var format = splited.slice(1);
-
-					format = client.parseFormat(format.join('\n'));
-
-					var array = viewer.state.highlights;
-					array.push(format);
-					viewer.setState({
-						highlights_merged: array,
-					});
-				});
-			});
-		})(body, this));
-		setTimeout(() => this.updateHightlights(), 5000);
-	}
 
 	getHighlightById(id: string) {
 		const { highlights, highlights_answer } = this.state;
@@ -531,7 +481,7 @@ class Viewer extends Component {
 										
 									);
 								}}
-								highlights={highlights_merged}
+								highlights={(highlights.concat(highlights_answer)).concat(highlights_public)}
 							/>
 						)}
 					</PdfLoader>
