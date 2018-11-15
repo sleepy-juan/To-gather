@@ -98,7 +98,14 @@ class Server:
 		if username == '':
 			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
 			return
-		print("[%s] Received command %s" % (username, command))
+
+		if command not in [ \
+			Protocol.CLIENT.GET_QUESTIONS,
+			Protocol.CLIENT.GET_QUESTION,
+			Protocol.CLIENT.GET_CONFIRMS,
+			Protocol.CLEINT.GET_PUBLICS,
+		]:
+			print("[%s] Received command %s" % (username, command))
 
 		with lock():
 			if username not in clients:
@@ -176,6 +183,16 @@ class Server:
 				for question in questions:
 					if question.belong_to == username and question.status == Status.QUESTION.ON_CONFIRM:
 						ids.append(question.qid)
+			ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(ids))
+####################################################################
+		elif command == Protocol.CLIENT.GET_PUBLICS:
+			ids = Database.getPublicIDs()
+			with lock():
+				for question in questions:
+					try:
+						ids.remove(question.qid)
+					except:
+						pass
 			ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(ids))
 ####################################################################
 		elif command == Protocol.CLIENT.GET_ANSWERS:

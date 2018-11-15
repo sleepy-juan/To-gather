@@ -14,6 +14,7 @@ class Protocol:
 		CONFIRM_ENDS = "ENDS"
 		GET_ANSWERS = "GETA"
 		LIST_MEMBERS = "LIST"
+		GET_PUBLICS = "NTYP"
 
 	class SERVER:
 		OK = "DONE"

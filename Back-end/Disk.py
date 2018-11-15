@@ -4,6 +4,7 @@
 # Author @ Juan Lee (juanlee@kaist.ac.kr)
 
 from pickle import dumps, loads, dump, load
+import glob
 
 # class Database
 # - database module
@@ -79,6 +80,11 @@ class Database:
 			data = []
 
 		return data
+
+	@staticmethod
+	def getPublicIDs():
+		path = Database.DB_PATH_ANSWER + "*"
+		return glob.glob(path)
 
 # class Rectangle
 class Rectangle:
