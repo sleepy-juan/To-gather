@@ -89,12 +89,14 @@ class Database:
 	@staticmethod
 	def emptyQuestion():
 		path = Database.DB_PATH_QUESTION + "*"
-		os.remove(path)
+		for file in glob.glob(path):
+			os.remove(file)
 
 	@staticmethod
 	def emptyAnswer():
 		path = Database.DB_PATH_ANSWER + "*"
-		os.remove(path)
+		for file in glob.glob(path):
+			os.remove(file)
 
 # class Rectangle
 class Rectangle:

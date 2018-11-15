@@ -122,7 +122,7 @@ class Server:
 ####################################################################
 		elif command == Protocol.CLIENT.POST_QUESTION:
 			question = RecvFormat(body)
-			print(question.comment_text)
+			print('question: ' + question.comment_text)
 
 			check = Database.getQuestion(question.front_id)
 			if check != None:
@@ -159,14 +159,7 @@ class Server:
 ####################################################################
 		elif command == Protocol.CLIENT.GET_QUESTION:
 			qid = body
-			with lock():
-				for question in questions:
-					if question.qid == qid and question.belong_to == username:
-						ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(Database.getQuestion(qid)))
-						break
-				else:
-					print("Not in answer queue username: %s qid: %s" % (username, qid))
-					ResponseHTTP(sock, Protocol.SERVER.TIMED_OUT, SendEmptyFormat())
+			ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(Database.getQuestion(qid)))
 ####################################################################
 		elif command == Protocol.CLIENT.ANSWER:
 			answer = RecvFormat(body)
@@ -201,17 +194,16 @@ class Server:
 			ids = Database.getAllIDs()
 			with lock():
 				for question in questions:
-					if question.sent_from != username and question.belong_to != username:
-						try:
-							ides.remove(question.qid)
-						except:
-							pass
+					if question.belong_to == username: continue
+					try:
+						ides.remove(question.qid)
+					except:
+						pass
 			ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(ids))
 ####################################################################
 		elif command == Protocol.CLIENT.GET_ANSWERS:
 			qid = body
-			answers = Database.getAnswer(qid)
-			ResponseHTTP(sock, Protocol.SERVER.OK, SendManyFormat(answers))
+			ResponseHTTP(sock, Protocol.SERVER.OK, SendManyFormat(Database.getAnswer(qid)))
 ####################################################################
 		elif command == Protocol.CLIENT.CONFIRM_ENDS:
 			qid = body
@@ -221,7 +213,6 @@ class Server:
 						questions.remove(question)
 			ResponseHTTP(sock, Protocol.SERVER.OK)
 ####################################################################
-
 		elif command == Protocol.CLIENT.LIST_MEMBERS:
 			with lock():
 				ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(clients))

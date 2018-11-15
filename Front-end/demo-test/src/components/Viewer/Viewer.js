@@ -64,7 +64,7 @@ class Viewer extends Component {
 
 		this.updateQuestion();
 		this.updateConfirm();
-		this.updateHightlights();
+		//this.updateHightlights();
 
 		document.title = "To-gather";
 	}
@@ -211,7 +211,6 @@ class Viewer extends Component {
 		highlight && this.scrollViewerTo(highlight);
 	};
 
-
 	componentDidMount() {
 		window.addEventListener(
 			"hashchange",
@@ -335,6 +334,10 @@ class Viewer extends Component {
 			}
 
 			var ids = data;
+
+			console.log("=====");
+			console.log(ids);
+			console.log("=====");
 
 			viewer.setState({
 				highlights_merged: [],
