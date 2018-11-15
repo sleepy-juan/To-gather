@@ -1,0 +1,116 @@
+.register_submit {
+    /* Just to center the form on the page */
+    margin: 0 auto;
+    width: 400px;
+    /* To see the outline of the form */
+    padding: 1em;
+    border: 1px solid #CCC;
+    border-radius: 1em;
+}
+.register_input{
+    /* To make sure that all text fields have the same font settings
+       By default, textareas have a monospace font */
+    font: 1em sans-serif;
+
+    /* To give the same size to all text field */
+    width: 300px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    /* To harmonize the look & feel of text field border */
+    border: 1px solid #999;
+}
+.select_group {
+   margin:0;
+    padding:50px;
+    background-color:black;
+    display: flex;
+     justify-content: center;
+}
+textarea {
+    /* To properly align multiline text fields with their labels */
+    vertical-align: top;
+
+    /* To give enough room to type some text */
+    height: 5em;
+    /* To allow users to resize any textarea vertically
+       It does not work on every browsers */
+    resize: vertical;
+}
+select {
+   padding:4px;
+   width:10em;
+    margin: 0;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    background: #666666;
+    color: black;
+    border:none;
+    outline:none;
+    display: block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
+option {
+   box-sizing: border-box;
+  background-color: #666666;
+  color: #2A2E33;
+  cursor: pointer;
+  display: block;
+  padding: 8px 10px;
+}
+.button {
+  width: 70px;
+  margin-left: 0.5rem;
+  background: #666666;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  position : relative;
+  left: 310px;
+  top: -22px;
+}
+.button:hover {
+  background: #2A2E33;
+}
+
+
+/*
+option:last-child {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+option.is-selected {
+  background-color: #f5faff;
+  background-color: rgba(0, 126, 255, 0.04);
+  color: #333;
+}
+option.is-focused {
+  background-color: #ebf5ff;
+  background-color: rgba(0, 126, 255, 0.08);
+  color: #333;
+}
+
+option li {
+    padding:0 6px;
+    margin:0 0;
+    padding:0 10px;
+}
+option li:hover {
+    background-color:#39f;
+    color:white;
+}*/
+
+/*
+s-hidden {
+    visibility:hidden;
+    padding-right:10px;
+}*/
