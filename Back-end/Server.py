@@ -213,6 +213,28 @@ class Server:
 						questions.remove(question)
 			ResponseHTTP(sock, Protocol.SERVER.OK)
 ####################################################################
+		elif command == Protocol.CLIENT.CONTINUE_QUESTION:
+			qid = body
+			with lock():
+				for question in questions:
+					if question.qid == qid:
+						answers = Database.getAnswer(question.front_id)
+						passed_answerers = list(map(lambda x:x.questioner, answers))
+						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.sent_from), clients))
+
+						if len(valid_answerers) == 0:
+							print("[%s] No Valid Answerers" % username)
+							ResponseHTTP(sock, Protocol.SERVER.NO_AVAILABLE_USER)
+							return
+
+						answerer = random.choice(valid_answerers)
+						question.status = Status.QUESTION.SENT
+						question.belong_to = answerer
+						question.created = time.time()
+						ResponseHTTP(sock, Protocol.SERVER.OK)
+						return
+			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
+####################################################################
 		elif command == Protocol.CLIENT.LIST_MEMBERS:
 			with lock():
 				ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(clients))

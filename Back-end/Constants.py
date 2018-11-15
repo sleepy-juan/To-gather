@@ -16,6 +16,7 @@ class Protocol:
 		LIST_MEMBERS = "LIST"
 		GET_PUBLICS = "NTYP"
 		GET_OWNS = "OWNS"
+		CONTINUE_QUESTION = "CTNU"
 
 	class SERVER:
 		OK = "DONE"
