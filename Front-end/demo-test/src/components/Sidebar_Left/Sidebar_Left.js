@@ -12,7 +12,7 @@ const updateHash = highlight => {
 };
 
 
-function Sidebar({ highlights, resetHighlights, updateQstate}: Props) {
+function Sidebar({ highlights, resetHighlights, updateQstate, setflagleft}: Props) {
   return (
     <div className="sidebar_left">
       <div className="description">
@@ -31,6 +31,7 @@ function Sidebar({ highlights, resetHighlights, updateQstate}: Props) {
             onClick={() => {
               updateHash(highlight);
               updateQstate(highlight.comment.text, [].concat(highlight.comment.answer), highlight.id);
+              setflagleft();
             }
           }
           >

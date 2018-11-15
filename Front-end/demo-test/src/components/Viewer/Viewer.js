@@ -46,6 +46,8 @@ class Viewer extends Component {
 		QID_answer:null,
 		answer:null,
 		highlights_public: [], // 전체공개
+		flag_left: false,
+		flag_right: false
 	};
 
 	constructor(){
@@ -337,21 +339,45 @@ class Viewer extends Component {
 		});
 	}
 
-	syncMerge(){
+	syncMerge() {
 		const { highlights, highlights_answer } = this.state;
 		this.setState({
 			highlights_merged: highlights.concat(highlights_answer)
 		});
 
+	};
+
+	setflagleft = () => {
+		const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right} = this.state;
+		if (flag_left == true) {
+			this.setState({
+				flag_left: false
+			});
+		}
+		else {
+			this.setState({
+				flag_left: true
+			});
+		}
 	}
 
-	viewPublic = (QID) => {
-		this.handleRemove(QID);
+	setflagright = () => {
+		const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right} = this.state;
+		if (flag_right == true) {
+			this.setState({
+				flag_right: false
+			});
+		}
+		else {
+			this.setState({
+				flag_right: true
+			});
+		}
 	}
 
 
 	render() {
-		const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer} = this.state;
+		const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right} = this.state;
 		return (
 			<div className="App" style={{ display: "flex", height: "100vh" }}>
 				<div>
@@ -359,6 +385,7 @@ class Viewer extends Component {
 						highlights={highlights}
 						resetHighlights={this.resetHighlights}
 						updateQstate = {this.updateQstate}
+						setflagleft = {this.setflagleft}
 					/>
 					<SidebarLeftdown
 					Qstate={Qstate}
@@ -366,6 +393,8 @@ class Viewer extends Component {
 					QID = {QID}
 					handleRemove = {this.handleRemove}
 					username = {this.username}
+					setflagleft = {this.setflagleft}
+					flag_left = {this.flag_left}
 					/>
 				</div>
 
@@ -454,6 +483,8 @@ class Viewer extends Component {
 					handleRemove_answer = {this.handleRemove_answer}
 					handleRemove_ignore = {this.handleRemove_ignore}
 					handleAnswer = {this.handleAnswer}
+					setflagright = {this.setflagright}
+					flag_right = {this.flag_right}
 					/>
 			</div>
 			</div>

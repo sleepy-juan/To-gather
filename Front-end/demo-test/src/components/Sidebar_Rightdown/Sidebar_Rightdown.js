@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './Sidebar_Rightdown.css';
 
 
-const Sidebar_Rightdown = ({Qstate, currentAforQ, QID, handleRemove_answer, handleRemove_ignore, handleAnswer}) => {
+const Sidebar_Rightdown = ({Qstate, currentAforQ, QID, handleRemove_answer, handleRemove_ignore, handleAnswer, setflagright, flag_right}) => {
   return (
     <div className="sidebar_rightdown">
     <div>
@@ -23,13 +23,17 @@ const Sidebar_Rightdown = ({Qstate, currentAforQ, QID, handleRemove_answer, hand
       </div>
 
     </div>
-    {Qstate != null ? (
+    {(Qstate != null) && (flag_right) ? (
         <form>
         <input onChange={handleAnswer} placeholder="Please help!"/>
-        <div className="create-button-1" onClick={() => handleRemove_ignore(QID)}>
+        <div className="create-button-1" onClick={() => 
+          {handleRemove_ignore(QID);
+          setflagright();}}>
         Ignore
         </div>
-        <div className="create-button-2" onClick= {() => handleRemove_answer(QID)}>
+        <div className="create-button-2" onClick= {() => 
+          {handleRemove_answer(QID);
+          setflagright();}}>
       Answer
       </div>
     </form>

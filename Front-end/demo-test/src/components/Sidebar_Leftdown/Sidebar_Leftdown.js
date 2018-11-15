@@ -5,7 +5,7 @@ const updateHash = highlight => {
   window.location.hash = `highlight-${highlight.id}`;
 };
 
-const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onChange, onCreate, username}) => {
+const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onChange, onCreate, username, sefflagleft, flag_left}) => {
   return (
     <div className="sidebar_rightdown">
       <div className="description">
@@ -24,9 +24,11 @@ const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onCha
         )}
       </div>
 
-      {Qstate != null ? (
+      {(Qstate != null) && flag_left ? (
         <div>
-        <div className="create-button-3" onClick={() => handleRemove(username, QID)}>
+        <div className="create-button-3" onClick={() => 
+          {handleRemove(username, QID);
+            sefflagleft();}}>
         Stop
         </div>
     </div>
