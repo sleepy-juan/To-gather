@@ -369,7 +369,7 @@ class Viewer extends Component {
 				});
 			});
 		})(body, this));
-		setTimeout(() => this.updateConfirm(), 5000);
+		setTimeout(() => this.updatePublic(), 5000);
 	}
 
 
