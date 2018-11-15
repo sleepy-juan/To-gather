@@ -1,7 +1,7 @@
 import React from 'react';
 import './Sidebar_Leftdown.css';
 
-const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onChange, onCreate, username, setflagleft, flag_left}) => {
+const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove_stop, handleRemove_continue, value, onChange, onCreate, username, setflagleft, flag_left}) => {
   return (
     <div className="sidebar_rightdown">
       <div className="description">
@@ -24,10 +24,14 @@ const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove, value, onCha
         <div>
 
         <div className="create-button-3" onClick={() => 
-          {handleRemove(username, QID);
-           setflagleft();
-           handleRemove(QID)}}>
+          {handleRemove_stop(QID);
+           setflagleft();}}>
         Stop
+        </div>
+        <div className="create-button-3" onClick={() => 
+          {handleRemove_continue(QID);
+           setflagleft();}}>
+        Continue
         </div>
     </div>
 

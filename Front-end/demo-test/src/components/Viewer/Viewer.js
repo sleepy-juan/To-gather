@@ -100,7 +100,7 @@ class Viewer extends Component {
 
 
 	// on stop clicked
-	handleRemove = (QID) => {
+	handleRemove_stop = (QID) => {
 		var { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right} = this.state;
 
 		this.setState({
@@ -109,6 +109,17 @@ class Viewer extends Component {
 		});
 
 		client.endQuestion(this.username, QID);
+	}
+
+	handleRemove_continue = (QID) => {
+		var { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right} = this.state;
+
+		this.setState({
+			highlights: highlights.filter(highlight => highlight.id !== QID),
+			highlights_public: highlights_public.concat(this.getHighlightById(QID))
+		});
+
+		client.continueQuestion(this.username, QID);
 	}
 
 	handleRemove_ignore = (QID) => {
@@ -445,7 +456,8 @@ class Viewer extends Component {
 					Qstate={Qstate}
 					currentAforQ = {currentAforQ}
 					QID = {QID}
-					handleRemove = {this.handleRemove}
+					handleRemove_stop = {this.handleRemove_stop}
+					handleRemove_continue = {this.handleRemove_continue}
 					username = {this.username}
 					setflagleft = {this.setflagleft}
 					flag_left = {flag_left}

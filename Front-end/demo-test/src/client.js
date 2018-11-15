@@ -11,7 +11,7 @@ var http = require('http')
 
 // constants
 var IP = '143.248.192.29'
-var PORT = '12345'
+var PORT = '12346'
 
 /*
    Server Protocols
@@ -263,6 +263,18 @@ var endQuestion = function(username, question_id){
    }, question_id);
 }
 
+// ENDS - ends question
+var continueQuestion = function(username, question_id){
+   return sendPacket({
+      method: "POST",
+      headers: {
+         'From':username,
+         'CMD':'CTNU',
+         'Content-Length':question_id.length,
+      }
+   }, question_id);
+}
+
 // LIST - get list of members
 var getMembers = function(username){
    return sendPacket({
@@ -306,6 +318,7 @@ export default {
   getConfirms: getConfirms,
   getAnswer: getAnswer,
   endQuestion: endQuestion,
+  continueQuestion, continueQuestion,
   getPublics: getPublics,
   getOwns: getOwns,
   getMembers: getMembers,
