@@ -101,10 +101,11 @@ class Viewer extends Component {
 
 	// on stop clicked
 	handleRemove = (QID) => {
-		const { highlights } = this.state;
+		var { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right} = this.state;
 
 		this.setState({
-			highlights: highlights.filter(highlight => highlight.id !== QID)
+			highlights: highlights.filter(highlight => highlight.id !== QID),
+			highlights_public: highlights_public.concat(this.getHighlightById(QID))
 		});
 
 		client.endQuestion(this.username, QID);
