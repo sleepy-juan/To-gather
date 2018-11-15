@@ -64,6 +64,7 @@ class Viewer extends Component {
 
 		this.updateQuestion();
 		this.updateConfirm();
+		this.updatePublic();
 		//this.updateHightlights();
 
 		document.title = "To-gather";
@@ -318,6 +319,52 @@ class Viewer extends Component {
 					array.push(format);
 					viewer.setState({
 						highlights: array,
+					});
+				});
+			});
+		})(body, this));
+		setTimeout(() => this.updateConfirm(), 5000);
+	}
+
+	updatePublic() {
+		var username = this.username;
+		
+		client.getPublics(username).then(
+			body => (function(body, viewer){
+
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
+
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var ids = data;
+
+			viewer.setState({
+				highlights_public: [],
+			});
+
+			ids.forEach(function(id){
+				var format = '';
+				client.getQuestion(username, id).then(function(res){
+					//console.log("res: " + res);
+
+					var splited = res.trim().split('\n');
+					var response = splited[0];
+					var format = splited.slice(1);
+
+					format = client.parseFormat(format.join('\n'));
+
+					var array = viewer.state.highlights;
+					array.push(format);
+					viewer.setState({
+						highlights_public: array,
 					});
 				});
 			});
