@@ -4,7 +4,7 @@
 # Author @ Juan Lee (juanlee@kaist.ac.kr)
 
 from pickle import dumps, loads, dump, load
-import glob
+import glob, os
 
 # class Database
 # - database module
@@ -85,6 +85,16 @@ class Database:
 	def getAllIDs():
 		path = Database.DB_PATH_ANSWER + "*"
 		return list(map(lambda x:x.rsplit('/', 1)[1], glob.glob(path)))
+
+	@staticmethod
+	def emptyQuestion():
+		path = Database.DB_PATH_QUESTION + "*"
+		os.remove(path)
+
+	@staticmethod
+	def emptyAnswer():
+		path = Database.DB_PATH_ANSWER + "*"
+		os.remove(path)
 
 # class Rectangle
 class Rectangle:

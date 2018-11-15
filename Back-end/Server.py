@@ -29,16 +29,15 @@ class Server:
 		self.sock.listen(Server.LISTENQ)
 		self.clients = []
 		self.questions = []
-		self.timers = []
 
 		def accept_handler(argument):
-			sock, clients, handler, questions, timers = argument
+			sock, clients, handler = argument
 			while True:
 				client, address = sock.accept()
 
 				fork(handler, client)
 
-		fork(accept_handler, (self.sock, self.clients, self.per_clients, self.questions, self.timers))
+		fork(accept_handler, (self.sock, self.clients, self.per_clients))
 
 		def timeout_handler(argument):
 			questions = argument
@@ -231,4 +230,14 @@ class Server:
 			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
 
 	def run_command(self, cmd):
-		if cmd == ""
+		if cmd == Command.REMOVE_ANSWERS:
+			Database.emptyAnswer()
+####################################################################
+		elif cmd == Command.REMOVE_QUESTIONS:
+			Database.emptyQuestion()
+			with lock():
+				self.questions.clear()
+####################################################################
+		elif cmd == Command.REMOVE_USERS:
+			with lock():
+				self.clients.clear()
