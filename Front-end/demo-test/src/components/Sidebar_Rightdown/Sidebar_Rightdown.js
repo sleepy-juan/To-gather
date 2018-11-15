@@ -7,6 +7,7 @@ const Sidebar_Rightdown = ({Qstate, currentAforQ, QID, handleRemove_answer, hand
     <div className="sidebar_rightdown">
     <div>
       <div className="description" >
+      {flag_right ? (<div>
         <p>
         {Qstate}
         </p>
@@ -19,7 +20,7 @@ const Sidebar_Rightdown = ({Qstate, currentAforQ, QID, handleRemove_answer, hand
         </div>
           </li>
         )
-        )}
+        )} </div>) : null}
       </div>
 
     </div>

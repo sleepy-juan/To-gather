@@ -394,7 +394,7 @@ class Viewer extends Component {
 					handleRemove = {this.handleRemove}
 					username = {this.username}
 					setflagleft = {this.setflagleft}
-					flag_left = {this.flag_left}
+					flag_left = {flag_left}
 					/>
 				</div>
 
@@ -484,7 +484,7 @@ class Viewer extends Component {
 					handleRemove_ignore = {this.handleRemove_ignore}
 					handleAnswer = {this.handleAnswer}
 					setflagright = {this.setflagright}
-					flag_right = {this.flag_right}
+					flag_right = {flag_right}
 					/>
 			</div>
 			</div>
