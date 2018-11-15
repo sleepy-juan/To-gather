@@ -308,7 +308,7 @@ class Viewer extends Component {
 
 					format = client.parseFormat(format.join('\n'));
 
-					var array = viewer.state.highlights_answer;
+					var array = viewer.state.highlights;
 					array.push(format);
 					viewer.setState({
 						highlights: array,
