@@ -36,8 +36,8 @@ const url = searchParams.get("url") || DEFAULT_URL;
 class Viewer extends Component {
 	state = {
 		highlights: [], // 왼쪽 사이드바
-		highlights_answer: [], //오른쪽 사이드바
-		highlights_merged: [], //하이라이트 쳐질 거
+		highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [], //오른쪽 사이드바
+		highlights_merged: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [], //하이라이트 쳐질 거
 		Qstate:null,
 		Qstate_ans:null,
 		currentAforQ:[""],
@@ -345,7 +345,7 @@ class Viewer extends Component {
 			highlights_merged: highlights.concat(highlights_answer)
 		});
 
-	};
+	}
 
 	setflagleft = () => {
 		const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right} = this.state;
@@ -475,6 +475,7 @@ class Viewer extends Component {
 						highlights={highlights_answer}
 						resetHighlight_answer={this.resetHighlights_answer}
 						updateQstate = {this.updateQstate_answer}
+						setflagright = {this.setflagright}
 					/>
 				<SidebarRightdown
 					Qstate={Qstate_ans}
