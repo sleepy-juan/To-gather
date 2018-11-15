@@ -10,7 +10,7 @@
 var http = require('http')
 
 // constants
-var IP = '143.248.192.163'
+var IP = '143.248.192.29'
 var PORT = '12346'
 
 /*

@@ -62,9 +62,6 @@ class Viewer extends Component {
 
 		this.updateQuestion();
 		this.updateConfirm();
-
-		setTimeout(() => this.updateQuestion(), 5000);
-		setTimeout(() => this.updateConfirm(), 5000);
 	}
 
 	onFileChange = e => {
