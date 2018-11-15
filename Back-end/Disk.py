@@ -84,7 +84,7 @@ class Database:
 	@staticmethod
 	def getAllIDs():
 		path = Database.DB_PATH_ANSWER + "*"
-		return glob.glob(path)
+		return list(map(lambda x:x.rsplit('/', 1)[1], glob.glob(path)))
 
 # class Rectangle
 class Rectangle:

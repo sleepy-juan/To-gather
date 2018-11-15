@@ -16,6 +16,8 @@ class NavForm extends React.Component {
 
     this.submitHandler = this.submitHandler.bind(this)
     this.handleInput = this.handleInput.bind(this)
+
+    document.title = "To-gather";
   }
 
   handleInput(event) {

@@ -36,8 +36,8 @@ const url = searchParams.get("url") || DEFAULT_URL;
 class Viewer extends Component {
 	state = {
 		highlights: [], // 왼쪽 사이드바
-		highlights_answer: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [], //오른쪽 사이드바
-		highlights_merged: AnswerHighlights[url] ? [...AnswerHighlights[url]] : [], //하이라이트 쳐질 거
+		highlights_answer: [], //오른쪽 사이드바
+		highlights_merged: [], //하이라이트 쳐질 거
 		Qstate:null,
 		Qstate_ans:null,
 		currentAforQ:[""],

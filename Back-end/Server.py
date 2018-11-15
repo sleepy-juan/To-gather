@@ -10,7 +10,7 @@ import random
 from Disk import Database
 import time
 
-from Constants import Protocol, Status
+from Constants import Protocol, Status, Command
 
 class Server:
 	LISTENQ = 1024
@@ -103,6 +103,8 @@ class Server:
 			Protocol.CLIENT.GET_QUESTIONS,
 			Protocol.CLIENT.GET_QUESTION,
 			Protocol.CLIENT.GET_CONFIRMS,
+			Protocol.CLIENT.GET_PUBLICS,
+			Protocol.CLIENT.GET_OWNS,
 			Protocol.CLIENT.GET_PUBLICS,
 		]:
 			print("[%s] Received command %s" % (username, command))
@@ -227,3 +229,6 @@ class Server:
 ####################################################################
 		else:
 			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
+
+	def run_command(self, cmd):
+		if cmd == ""
