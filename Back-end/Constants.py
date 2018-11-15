@@ -15,6 +15,7 @@ class Protocol:
 		GET_ANSWERS = "GETA"
 		LIST_MEMBERS = "LIST"
 		GET_PUBLICS = "NTYP"
+		GET_OWNS = "OWNS"
 
 	class SERVER:
 		OK = "DONE"

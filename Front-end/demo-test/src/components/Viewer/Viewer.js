@@ -62,8 +62,11 @@ class Viewer extends Component {
 		else
 			this.username = cookieData.substring(start_index+9);
 
-		setTimeout(() => this.updateQuestion(), 5000);
-		setTimeout(() => this.updateConfirm(), 5000);
+		this.updateQuestion();
+		this.updateConfirm();
+		this.updateHightlights();
+
+		document.title = "To-gather";
 	}
 
 	onFileChange = e => {
@@ -309,6 +312,53 @@ class Viewer extends Component {
 			});
 		})(body, this));
 		setTimeout(() => this.updateConfirm(), 5000);
+	}
+
+	// update highlights
+	updateHightlights() {
+		var username = this.username;
+		
+		client.getOwns(username).then(
+			body => (function(body, viewer){
+
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
+
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var ids = data;
+
+			viewer.setState({
+				highlights_merged: [],
+			});
+
+			ids.forEach(function(id){
+				var format = '';
+				client.getQuestion(username, id).then(function(res){
+					//console.log("res: " + res);
+
+					var splited = res.trim().split('\n');
+					var response = splited[0];
+					var format = splited.slice(1);
+
+					format = client.parseFormat(format.join('\n'));
+
+					var array = viewer.state.highlights;
+					array.push(format);
+					viewer.setState({
+						highlights_merged: array,
+					});
+				});
+			});
+		})(body, this));
+		setTimeout(() => this.updateHightlights(), 5000);
 	}
 
 	getHighlightById(id: string) {

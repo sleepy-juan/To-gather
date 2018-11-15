@@ -187,13 +187,24 @@ class Server:
 			ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(ids))
 ####################################################################
 		elif command == Protocol.CLIENT.GET_PUBLICS:
-			ids = Database.getPublicIDs()
+			ids = Database.getAllIDs()
 			with lock():
 				for question in questions:
 					try:
 						ids.remove(question.qid)
 					except:
 						pass
+			ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(ids))
+####################################################################
+		elif command == Protocol.CLIENT.GET_OWNS:
+			ids = Database.getAllIDs()
+			with lock():
+				for question in questions:
+					if question.sent_from != username and question.belong_to != username:
+						try:
+							ides.remove(question.qid)
+						except:
+							pass
 			ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(ids))
 ####################################################################
 		elif command == Protocol.CLIENT.GET_ANSWERS:
@@ -209,6 +220,7 @@ class Server:
 						questions.remove(question)
 			ResponseHTTP(sock, Protocol.SERVER.OK)
 ####################################################################
+
 		elif command == Protocol.CLIENT.LIST_MEMBERS:
 			with lock():
 				ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(clients))

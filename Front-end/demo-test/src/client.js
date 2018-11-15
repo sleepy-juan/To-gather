@@ -215,19 +215,6 @@ var getQuestion = function(username, question_id){
          'Content-Length':question_id.length,
       }
    }, question_id);
-
-   /*
-   if(body === ''){
-      console.log("server is not on");
-      return null;
-   }
-
-   var format = body.split('\r')[0].trim();
-   var response = body.split('\r')[1].trim();
-   console.log(response);
-
-   return parseFormat(format);
-   */
 }
 
 // ANSW - answer to question
@@ -253,19 +240,6 @@ var getConfirms = function(username){
          'CMD':'NTYC',
       }
    });
-
-   /*
-   if(body === ''){
-      console.log("server is not on");
-      return [];
-   }
-
-   var format = body.split('\r')[0].trim();
-   var response = body.split('\r')[1].trim();
-   console.log(response);
-
-   return format.split('\n');
-   */
 }
 
 // GETA - get answer
@@ -278,19 +252,6 @@ var getAnswer = function(username, question_id){
          'Content-Length':question_id.length,
       }
    }, question_id);
-
-   /*
-   if(body === ''){
-      console.log("server is not on");
-      return null;
-   }
-
-   var format = body.split('\r')[0].trim();
-   var response = body.split('\r')[1].trim();
-   console.log(response);
-
-   return parseManyFormat(format);
-   */
 }
 
 // ENDS - ends question
@@ -314,19 +275,28 @@ var getMembers = function(username){
          'CMD':'LIST',
       }
    });
+}
 
-   /*
-   if(body === ''){
-      console.log("server is not on");
-      return [];
-   }
+// NTYP - get public ids
+var getPublics = function(username){
+   return sendPacket({
+      method: "GET",
+      headers: {
+         'From':username,
+         'CMD':'NTYP',
+      }
+   });
+}
 
-   var format = body.split('\r')[0].trim();
-   var response = body.split('\r')[1].trim();
-   console.log(response);
-
-   return format.split('\n');
-   */
+// OWNS - get public ids
+var getOwns = function(username){
+   return sendPacket({
+      method: "GET",
+      headers: {
+         'From':username,
+         'CMD':'OWNS',
+      }
+   });
 }
 
 // exports
@@ -339,6 +309,9 @@ export default {
   getConfirms: getConfirms,
   getAnswer: getAnswer,
   endQuestion: endQuestion,
+  getPublics: getPublics,
+  getOwns: getOwns,
   getMembers: getMembers,
+
   parseFormat: parseFormat,
 };

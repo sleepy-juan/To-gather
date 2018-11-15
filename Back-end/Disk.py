@@ -82,7 +82,7 @@ class Database:
 		return data
 
 	@staticmethod
-	def getPublicIDs():
+	def getAllIDs():
 		path = Database.DB_PATH_ANSWER + "*"
 		return glob.glob(path)
 
