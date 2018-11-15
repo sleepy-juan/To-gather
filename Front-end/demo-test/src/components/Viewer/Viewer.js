@@ -328,6 +328,8 @@ class Viewer extends Component {
 
 	updatePublic() {
 		var username = this.username;
+		const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right} = this.state;
+
 		
 		client.getPublics(username).then(
 			body => (function(body, viewer){
@@ -361,7 +363,7 @@ class Viewer extends Component {
 
 					format = client.parseFormat(format.join('\n'));
 
-					var array = viewer.state.highlights;
+					var array = viewer.state.highlights_public;
 					array.push(format);
 					viewer.setState({
 						highlights_public: array,
