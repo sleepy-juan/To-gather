@@ -34,8 +34,3 @@ class Status:
 		DELAYED = "DLYD"
 		SENT = "SENT"
 		ON_CONFIRM = "ONCF"
-
-class Command:
-	REMOVE_ANSWERS = "remove answers"
-	REMOVE_QUESTIONS = "remove questions"
-	REMOVE_USERS = "remove users"

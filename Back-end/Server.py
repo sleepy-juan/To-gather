@@ -10,7 +10,7 @@ import random
 from Disk import Database
 import time
 
-from Constants import Protocol, Status, Command
+from Constants import Protocol, Status
 
 class Server:
 	LISTENQ = 1024
@@ -218,7 +218,7 @@ class Server:
 			with lock():
 				for question in questions:
 					if question.qid == qid:
-						answers = Database.getAnswer(question.front_id)
+						answers = Database.getAnswer(qid)
 						passed_answerers = list(map(lambda x:x.questioner, answers))
 						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.sent_from), clients))
 
@@ -241,16 +241,3 @@ class Server:
 ####################################################################
 		else:
 			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
-
-	def run_command(self, cmd):
-		if cmd == Command.REMOVE_ANSWERS:
-			Database.emptyAnswer()
-####################################################################
-		elif cmd == Command.REMOVE_QUESTIONS:
-			Database.emptyQuestion()
-			with lock():
-				self.questions.clear()
-####################################################################
-		elif cmd == Command.REMOVE_USERS:
-			with lock():
-				self.clients.clear()
