@@ -28,6 +28,11 @@ const Sidebar_Leftdown = ({Qstate, currentAforQ, QID, handleRemove_stop, handleR
            setflagleft();}}>
         Stop
         </div>
+        <div className="create-button-4" onClick={() => 
+          {handleRemove_continue(QID);
+            setflagleft();}}>
+        Continue
+        </div>
     </div>
 
     ) : null}
