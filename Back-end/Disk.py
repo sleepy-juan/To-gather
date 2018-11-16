@@ -11,6 +11,7 @@ import glob, os
 class Database:
 	DB_PATH = "./Storage/"
 	DB_PATH_HELP = DB_PATH + "Help"
+	DB_PATH_ON_QUESTION = DB_PATH + "OnQuestion"
 	DB_PATH_QUESTION = DB_PATH + "QUESTION/"
 	DB_PATH_ANSWER = DB_PATH + "ANSWER/"
 
@@ -87,16 +88,19 @@ class Database:
 		return list(map(lambda x:x.rsplit('/', 1)[1], glob.glob(path)))
 
 	@staticmethod
-	def emptyQuestion():
-		path = Database.DB_PATH_QUESTION + "*"
-		for file in glob.glob(path):
-			os.remove(file)
+	def logOnQuestions(questions):
+		with open(Database.DB_PATH_ON_QUESTION, 'wb') as f:
+			dump(questions, f)
 
 	@staticmethod
-	def emptyAnswer():
-		path = Database.DB_PATH_ANSWER + "*"
-		for file in glob.glob(path):
-			os.remove(file)
+	def getOnQuestions():
+		try:
+			with open(Database.DB_PATH_ON_QUESTION, 'rb') as f:
+				data = load(f)
+		except:
+			data = []
+
+		return data
 
 # class Rectangle
 class Rectangle:

@@ -28,7 +28,7 @@ class Server:
 		self.sock.bind(('', PORT))
 		self.sock.listen(Server.LISTENQ)
 		self.clients = []
-		self.questions = []
+		self.questions = Database.getOnQuestions()
 
 		def accept_handler(argument):
 			sock, clients, handler = argument
@@ -85,6 +85,7 @@ class Server:
 
 	def close(self):
 		self.sock.close()
+		Database.logOnQuestions(self.questions)
 
 	def per_clients(self, arg):
 		sock = arg
