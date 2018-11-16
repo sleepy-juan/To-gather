@@ -47,7 +47,9 @@ class Viewer extends Component {
 		answer:null,
 		highlights_public: [], // 전체공개
 		flag_left: false,
-		flag_right: false
+		flag_right: false,
+		Qstate_tip:null,
+		currentAforQ_tip:[""],
 	};
 
 	constructor(){
@@ -91,10 +93,13 @@ class Viewer extends Component {
 
 
 	renderPopUp(highlight){
+		var { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right, Qstate_tip, currentAforQ_tip} = this.state;
 		return (
 			<FinishedAnswer
+				highlight = {highlight}
 				Qstate={highlight.comment.text}  
-				currentAforQ={[""].concat(highlight.comment.answer)}            
+				currentAforQ={[].concat(currentAforQ_tip)}
+
 		 	/>
 		);
 	}
@@ -200,6 +205,54 @@ class Viewer extends Component {
 			QID_answer: QID,
 		});
 	}
+
+
+	updateQstate_tip = (question, answer, QID) =>  {
+		this.setState({
+			Qstate_tip: question,
+			currentAforQ_tip: answer,
+			QID: QID
+		});
+
+		var username = this.username;
+		
+		client.getAnswer(username, QID).then(
+			body => (function(body, viewer, question, QID){
+
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
+
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var questions = data;
+
+			var answer = [];
+
+			while(data.length > 0){
+				var size = parseInt(data[0]);
+				var format = data.slice(1, size + 1);
+				format = client.parseFormat(format.join('\n'))
+
+				answer.push(format.comment.text);
+
+				data = data.slice(size + 1);
+			}
+
+			viewer.setState({
+				Qstate_tip: question,
+				currentAforQ_tip: answer,
+				QID: QID,
+			});
+		})(body, this, question, QID));
+	}
+
 
 	resetHighlights_answer = () => {
 		this.setState({
@@ -515,7 +568,9 @@ class Viewer extends Component {
 										<Popup
 											popupContent={this.renderPopUp(highlight)}
 											onMouseOver={popupContent =>
+												{this.updateQstate_tip(highlight.comment.text, [].concat(highlight.comment.answer), highlight.id)
 												setTip(highlight, highlight => popupContent)
+												}
 											}                      
 											onMouseOut={hideTip}
 											key={index}
