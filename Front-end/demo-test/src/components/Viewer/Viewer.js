@@ -202,8 +202,46 @@ class Viewer extends Component {
 		this.setState({
 			Qstate_ans: question,
 			currentAforQ_ans: answer,
-			QID_answer: QID,
+			QID_answer: QID
 		});
+
+		var username = this.username;
+		
+		client.getAnswer(username, QID).then(
+			body => (function(body, viewer, question, QID){
+
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
+
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var questions = data;
+
+			var answer = [];
+
+			while(data.length > 0){
+				var size = parseInt(data[0]);
+				var format = data.slice(1, size + 1);
+				format = client.parseFormat(format.join('\n'))
+
+				answer.push(format.comment.text);
+
+				data = data.slice(size + 1);
+			}
+
+			viewer.setState({
+				Qstate_ans: question,
+				currentAforQ_ans: answer,
+				QID_answer: QID,
+			});
+		})(body, this, question, QID));
 	}
 
 
