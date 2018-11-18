@@ -11,7 +11,7 @@ var http = require('http')
 
 // constants
 var IP = 'localhost'
-var PORT = '12344'
+var PORT = '12345'
 
 /*
    Server Protocols
@@ -75,7 +75,7 @@ var makeFormat = function(format){
    var body = '';
    body += format.content.user + '\n';
    body += format.comment.text + '\n';
-   body += format.content.text + '\n';
+   //body += format.content.text + '\n';
    body += format.content.common + '\n';
 
    body += format.position.boundingRect.x1.toString() + '\n';
@@ -106,41 +106,41 @@ var makeFormat = function(format){
 var parseFormat = function(body){
    var lines = body.split('\n');
    var rects = [];
-   var rects_size = parseInt(lines[10]);
+   var rects_size = parseInt(lines[9]);
 
    for(var i =0; i < rects_size; i++){
       rects.push({
-         x1: parseFloat(lines[11 + i*6]),
-         y1: parseFloat(lines[11 + i*6 + 1]),
-         x2: parseFloat(lines[11 + i*6 + 2]),
-         y2: parseFloat(lines[11 + i*6 + 3]),
-         width: parseFloat(lines[11 + i*6 + 4]),
-         height: parseFloat(lines[11 + i*6 + 5]),
+         x1: parseFloat(lines[10 + i*6]),
+         y1: parseFloat(lines[10 + i*6 + 1]),
+         x2: parseFloat(lines[10 + i*6 + 2]),
+         y2: parseFloat(lines[10 + i*6 + 3]),
+         width: parseFloat(lines[10 + i*6 + 4]),
+         height: parseFloat(lines[10 + i*6 + 5]),
       });
    }
 
    var ret = {
       content: {
          user: lines[0],
-         text: lines[2],
-         common: lines[3],
+         //text: lines[2],
+         common: lines[2],
       },
       position: {
          boundingRect: {
-            x1: parseFloat(lines[4]),
-            y1: parseFloat(lines[5]),
-            x2: parseFloat(lines[6]),
-            y2: parseFloat(lines[7]),
-            width: parseFloat(lines[8]),
-            height: parseFloat(lines[9]),
+            x1: parseFloat(lines[3]),
+            y1: parseFloat(lines[4]),
+            x2: parseFloat(lines[5]),
+            y2: parseFloat(lines[6]),
+            width: parseFloat(lines[7]),
+            height: parseFloat(lines[8]),
          },
          rects: rects,
-         pageNumber: parseInt(lines[11 + rects_size * 6]),
+         pageNumber: parseInt(lines[10 + rects_size * 6]),
       },
       comment: {
          text: lines[1],
       },
-      id: lines[11 + rects_size * 6 + 1],
+      id: lines[10 + rects_size * 6 + 1],
    };
 
    if(ret.position.pageNumber === undefined)

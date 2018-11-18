@@ -56,6 +56,15 @@ class Database:
 		except:
 			data = None
 
+		if data == None:
+			ids = glob.glob(Database.DB_PATH_QUESTION + "*")
+			ids = list(map(lambda x:x.rsplit('/')[1], ids))
+
+			for i in ids:
+				if i[:len(question_id)] == question_id:
+					data = getQuestion(i)
+					break		
+
 		return data
 
 	@staticmethod
@@ -127,10 +136,9 @@ class Rectangle:
 # - contain question information
 # - with answers related.
 class Format:
-	def __init__(self, questioner = None, text = None, question = None, common = None, bRect = None, rects = None, page = None, front_id = None):
+	def __init__(self, questioner = None, question = None, common = None, bRect = None, rects = None, page = None, front_id = None):
 		self.questioner = questioner
 
-		self.content_text = text
 		self.content_common = common
 		self.comment_text = question
 
@@ -140,9 +148,8 @@ class Format:
 
 		self.front_id = front_id
 
-	def load(self, questioner, text, common, question, bRect, rects, page, front_id):
+	def load(self, questioner, common, question, bRect, rects, page, front_id):
 		self.questioner = questioner
-		self.content_text = text
 		self.content_common = common
 		self.comment_text = question
 

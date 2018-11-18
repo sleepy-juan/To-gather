@@ -22,7 +22,7 @@ var newPDF = require('../../assets/turkopticon.pdf');
 //var client = require('../../client.js');
 
 // this is janky in terms of IDs
-const getNextId = () => String(Math.random()).slice(2);
+const getNextId = () => String(Math.random()).slice(6);
 const parseIdFromHash = () => window.location.hash.slice("#highlight-".length);
 const resetHash = () => {
 	window.location.hash = "";
@@ -356,6 +356,7 @@ class Viewer extends Component {
 			ids.forEach(function(id){
 				var format = '';
 				client.getQuestion(username, id).then(function(res){
+					console.log(id);
 					//console.log("res: " + res);
 
 					var splited = res.trim().split('\n');
@@ -366,6 +367,8 @@ class Viewer extends Component {
 
 					var array = viewer.state.highlights_answer;
 					array.push(format);
+
+					console.log(format);
 
 					viewer.setState({
 						highlights_answer: array,

@@ -62,10 +62,10 @@ class NavForm extends React.Component {
         <div>
         <body className="select_group">
           <select name = "school" multiple>
-            <optgroup label = "SCHOOL">
-            <option value="KAIST"> KAIST 
+            <optgroup label = "DORM">
+            <option value="Heemang"> Heemang
             </option>
-            <option value="POSTECH"> POSTECH </option>
+            <option value="Areum"> Areum </option>
             </optgroup>
           </select>
           <select name = "grade" multiple>

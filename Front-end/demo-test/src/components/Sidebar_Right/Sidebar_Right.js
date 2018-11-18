@@ -5,7 +5,6 @@ import React from "react";
 import './Sidebar_Right.css';
 
 const updateHash = highlight => {
-  debugger;
   window.location.hash = `highlight-${highlight.id}`;
 };
 

@@ -166,16 +166,14 @@ class Server:
 			qid = body
 			print("GETQUESTION GET QID:", qid)
 			question = Database.getQuestion(qid)
+
 			if Database.howManyHelp(question.questioner,username) == 0:
 				question.content_common = user_common(self.user_info, username, question.questioner)
 			else:
-				question.content_common = 'help' + str(Database.howManyHelp(question.questioner, username))
+				question.content_common = 'I helped you before ' + str(Database.howManyHelp(question.questioner, username) + ' times')
 			ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(question))
 ####################################################################
 		elif command == Protocol.CLIENT.ANSWER:
-			print()
-			print(body)
-			print()
 			answer = RecvFormat(body)
 			Database.logAnswer(answer)
 			question = Database.getQuestion(answer.front_id)

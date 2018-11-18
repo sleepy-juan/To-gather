@@ -58,34 +58,33 @@ def RecvFormat(body):
 	# question information
 	questioner = lines[0]
 	question = lines[1]
-	text = lines[2]
-	common = lines[3]
+	common = lines[2]
 
 	# positions
-	bRect_x1 = float(lines[4])
-	bRect_y1 = float(lines[5])
-	bRect_x2 = float(lines[6])
-	bRect_y2 = float(lines[7])
-	bRect_width = float(lines[8])
-	bRect_height = float(lines[9])
+	bRect_x1 = float(lines[3])
+	bRect_y1 = float(lines[4])
+	bRect_x2 = float(lines[5])
+	bRect_y2 = float(lines[6])
+	bRect_width = float(lines[7])
+	bRect_height = float(lines[8])
 	bRect = Rectangle(bRect_x1, bRect_y1, bRect_x2, bRect_y2, bRect_width, bRect_height)
 
-	rect_size = int(lines[10])
+	rect_size = int(lines[9])
 	rects = []
 	for i in range(rect_size):
-		rect_x1 = float(lines[11 + 6*i])
-		rect_y1 = float(lines[11 + 6*i + 1])
-		rect_x2 = float(lines[11 + 6*i + 2])
-		rect_y2 = float(lines[11 + 6*i + 3])
-		rect_width = float(lines[11 + 6*i + 4])
-		rect_height = float(lines[11 + 6*i + 5])
+		rect_x1 = float(lines[10 + 6*i])
+		rect_y1 = float(lines[10 + 6*i + 1])
+		rect_x2 = float(lines[10 + 6*i + 2])
+		rect_y2 = float(lines[10 + 6*i + 3])
+		rect_width = float(lines[10 + 6*i + 4])
+		rect_height = float(lines[10 + 6*i + 5])
 		rect = Rectangle(rect_x1, rect_y1, rect_x2, rect_y2, rect_width, rect_height)
 		rects.append(rect)
 
 	page = int(lines[-2])
 	front_id = lines[-1]
 
-	return Format(questioner, text, question, common, bRect, rects, page, front_id)
+	return Format(questioner, question, common, bRect, rects, page, front_id)
 
 def _ofLength(s, n):
 	return (str(s) + ' '*(n - len(str(s)))).encode()
@@ -99,7 +98,6 @@ def SendFormat(format):
 	# question information
 	body += format.questioner + '\n'
 	body += format.comment_text + '\n'
-	body += format.content_text + '\n'
 	body += format.content_common + '\n'
 
 	# position information
@@ -136,4 +134,4 @@ def SendManyFormat(formats):
 	return body[:-1]
 
 def SendEmptyFormat():
-	return SendFormat(Format('', '', '', '', Rectangle(-1, -1, -1, -1, -1, -1), [], 0, ''))
+	return SendFormat(Format('', '', '', Rectangle(-1, -1, -1, -1, -1, -1), [], 0, ''))
