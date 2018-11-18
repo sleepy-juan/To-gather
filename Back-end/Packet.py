@@ -43,7 +43,8 @@ def ResponseHTTP(sock, _response, additional = None):
 	response = '''HTTP/1.1 200 OK
 Connection: close
 Accept-Ranges: bytes
-Content-Type: text
+Content-Type: 
+
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Method: *
 Access-Control-Allow-Headers: *
