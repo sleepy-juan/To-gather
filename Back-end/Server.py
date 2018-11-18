@@ -9,6 +9,7 @@ from Packet import *
 import random
 from Disk import Database
 import time
+from Common import common
 
 from Constants import Protocol, Status, Command
 
@@ -28,6 +29,7 @@ class Server:
 		self.sock.bind(('', PORT))
 		self.sock.listen(Server.LISTENQ)
 		self.clients = []
+		self.user_info = {}
 		self.questions = []
 
 		def accept_handler(argument):
@@ -112,6 +114,8 @@ class Server:
 			if username not in clients:
 				clients.append(username)
 				print("[SYSTEM] %s joins to server" % username)
+			if username not in user_info:
+				user_info[username] = Common()
 
 ####################################################################
 		if command == Protocol.CLIENT.QUIT:
@@ -159,11 +163,18 @@ class Server:
 ####################################################################
 		elif command == Protocol.CLIENT.GET_QUESTION:
 			qid = body
-			ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(Database.getQuestion(qid)))
+			question = Database.getQuestion(qid)
+			if Database.howManyHelp(question.questioner,username) == 0:
+				question.content_common = user_common(user_info, username, question.questioner)
+			else:
+				question.content_common = 'help' + str(Database.howManyHelp(question.questioner, username))
+			ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(question))
 ####################################################################
 		elif command == Protocol.CLIENT.ANSWER:
 			answer = RecvFormat(body)
 			Database.logAnswer(answer)
+			question = Database.getQuestion(answer.front_id)
+			Database.logHelp(username, question.questioner)
 			print("answer: " + answer.comment_text)
 			with lock():
 				for question in questions:
