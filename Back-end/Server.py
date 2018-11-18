@@ -108,6 +108,7 @@ class Server:
 			Protocol.CLIENT.GET_PUBLICS,
 			Protocol.CLIENT.GET_OWNS,
 			Protocol.CLIENT.GET_PUBLICS,
+			Protocol.CLIENT.GET_ANSWERS,
 		]:
 			print("[%s] Received command %s" % (username, command))
 
@@ -150,6 +151,7 @@ class Server:
 				return
 
 			answerer = random.choice(valid_answerers)
+			print("[%s] questions is moved to %s" % (username, answerer))
 			with lock():
 				questions.append(Server._SimpleQuestion(question.front_id, username, answerer, Status.QUESTION.SENT, time.time()))
 			ResponseHTTP(sock, Protocol.SERVER.OK)
@@ -164,13 +166,12 @@ class Server:
 ####################################################################
 		elif command == Protocol.CLIENT.GET_QUESTION:
 			qid = body
-			print("GETQUESTION GET QID:", qid)
 			question = Database.getQuestion(qid)
 
 			if Database.howManyHelp(question.questioner,username) == 0:
 				question.content_common = user_common(self.user_info, username, question.questioner)
 			else:
-				question.content_common = 'I helped you before ' + str(Database.howManyHelp(question.questioner, username) + ' times')
+				question.content_common = 'I helped you before ' + str(Database.howManyHelp(question.questioner, username)) + ' times'
 			ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(question))
 ####################################################################
 		elif command == Protocol.CLIENT.ANSWER:

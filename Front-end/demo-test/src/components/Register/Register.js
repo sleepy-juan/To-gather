@@ -63,13 +63,14 @@ class NavForm extends React.Component {
         <body className="select_group">
           <select name = "school" multiple>
             <optgroup label = "DORM">
-            <option value="Heemang"> Heemang
-            </option>
+            <option value="none"> none </option>
+            <option value="Heemang"> Heemang </option>
             <option value="Areum"> Areum </option>
             </optgroup>
           </select>
           <select name = "grade" multiple>
           <optgroup label = "GRADE">
+            <option value="none"> none </option>
             <option value="1"> 1 </option>
             <option value="2"> 2 </option>
             <option value="3"> 3 </option>
@@ -78,6 +79,7 @@ class NavForm extends React.Component {
           </select>
           <select name = "major" multiple>
           <optgroup label = "MAJOR">
+            <option value="none"> none </option>
             <option value="CS"> CS </option>
             <option value="MAS"> MAS </option>
             <option value="ME"> ME </option>
@@ -85,12 +87,14 @@ class NavForm extends React.Component {
           </select>
           <select name = "location" multiple>
           <optgroup label = "LOCATION">
+            <option value="none"> none </option>
             <option value="KOREA"> KOREA </option>
             <option value="FOREIGNER"> FOREIGNER </option>
           </optgroup>
           </select>
           <select name = "club" multiple>
           <optgroup label = "CLUB">
+            <option value="none"> none </option>
             <option value="ART"> ART </option>
             <option value="MUSIC"> MUSIC </option>
             <option value="EXERCISE"> EXERCISE </option>
