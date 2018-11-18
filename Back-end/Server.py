@@ -115,8 +115,8 @@ class Server:
 			if username not in clients:
 				clients.append(username)
 				print("[SYSTEM] %s joins to server" % username)
-			if username not in user_info:
-				user_info[username] = common()
+			if username not in self.user_info:
+				self.user_info[username] = common()
 
 ####################################################################
 		if command == Protocol.CLIENT.QUIT:
@@ -167,7 +167,7 @@ class Server:
 			print("GETQUESTION GET QID:", qid)
 			question = Database.getQuestion(qid)
 			if Database.howManyHelp(question.questioner,username) == 0:
-				question.content_common = user_common(user_info, username, question.questioner)
+				question.content_common = user_common(self.user_info, username, question.questioner)
 			else:
 				question.content_common = 'help' + str(Database.howManyHelp(question.questioner, username))
 			ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(question))

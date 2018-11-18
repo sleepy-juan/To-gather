@@ -20,10 +20,3 @@ def user_common(map, userA, userB):
 		if map[userA][i] == map[userB][i]:
 			return i
 	return 'none'
-
-answerer = 
-questioner = 
-if Database.howManyHelp() == 0:
-	question.content_common = user_common(user_info, answerer, questioner)
-else:
-	question.content_common = 'help' + str(Database.howManyHelp())

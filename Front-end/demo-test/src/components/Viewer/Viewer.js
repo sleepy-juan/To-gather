@@ -148,6 +148,11 @@ class Viewer extends Component {
 		format.content.user = this.username;
 		format.comment.text = this.state.answer;
 
+		console.log("QID: "+QID);
+		console.log("Viewer::handleRemove_answer");
+		console.log(format);
+		console.log();
+
 		client.answer(this.username, format);
 	}
 
@@ -329,9 +334,6 @@ class Viewer extends Component {
 		client.getQuestionIds(username).then(
 			body => (function(body, viewer){
 
-			console.log("QIDS:");
-			console.log(body);
-
 			var splited = body.trim().split('\n');
 			var data = [];
 			var response = '';
@@ -353,7 +355,6 @@ class Viewer extends Component {
 
 			ids.forEach(function(id){
 				var format = '';
-				console.log("update q for: "+id);
 				client.getQuestion(username, id).then(function(res){
 					//console.log("res: " + res);
 
@@ -381,8 +382,6 @@ class Viewer extends Component {
 		
 		client.getConfirms(username).then(
 			body => (function(body, viewer){
-			console.log("CIDS:");
-			console.log(body);
 
 			var splited = body.trim().split('\n');
 			var data = [];
@@ -405,7 +404,6 @@ class Viewer extends Component {
 
 			ids.forEach(function(id){
 				var format = '';
-				console.log("update c for: "+id);
 				client.getQuestion(username, id).then(function(res){
 					//console.log("res: " + res);
 
@@ -433,8 +431,6 @@ class Viewer extends Component {
 		
 		client.getPublics(username).then(
 			body => (function(body, viewer){
-			console.log("PIDS:");
-			console.log(body);
 
 			var splited = body.trim().split('\n');
 			var data = [];
@@ -456,7 +452,6 @@ class Viewer extends Component {
 
 			ids.forEach(function(id){
 				var format = '';
-				console.log("update p for: "+id);
 				client.getQuestion(username, id).then(function(res){
 					//console.log("res: " + res);
 
@@ -495,8 +490,6 @@ class Viewer extends Component {
 			highlights: [new_question, ...highlights],
 			highlights_merged: [new_question, ...highlights_merged]
 		});
-
-		console.log(new_question);
 
 		client.post(this.username, new_question);
 	}
