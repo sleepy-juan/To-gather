@@ -47,7 +47,9 @@ class Viewer extends Component {
 		answer:null,
 		highlights_public: [], // 전체공개
 		flag_left: false,
-		flag_right: false
+		flag_right: false,
+		Qstate_tip:null,
+		currentAforQ_tip:[""],
 	};
 
 	constructor(){
@@ -64,6 +66,7 @@ class Viewer extends Component {
 
 		this.updateQuestion();
 		this.updateConfirm();
+		this.updatePublic();
 		//this.updateHightlights();
 
 		document.title = "To-gather";
@@ -90,10 +93,13 @@ class Viewer extends Component {
 
 
 	renderPopUp(highlight){
+		var { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right, Qstate_tip, currentAforQ_tip} = this.state;
 		return (
 			<FinishedAnswer
+				highlight = {highlight}
 				Qstate={highlight.comment.text}  
-				currentAforQ={[""].concat(highlight.comment.answer)}            
+				currentAforQ={[].concat(currentAforQ_tip)}
+
 		 	/>
 		);
 	}
@@ -196,9 +202,95 @@ class Viewer extends Component {
 		this.setState({
 			Qstate_ans: question,
 			currentAforQ_ans: answer,
-			QID_answer: QID,
+			QID_answer: QID
 		});
+
+		var username = this.username;
+		
+		client.getAnswer(username, QID).then(
+			body => (function(body, viewer, question, QID){
+
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
+
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var questions = data;
+
+			var answer = [];
+
+			while(data.length > 0){
+				var size = parseInt(data[0]);
+				var format = data.slice(1, size + 1);
+				format = client.parseFormat(format.join('\n'))
+
+				answer.push(format.comment.text);
+
+				data = data.slice(size + 1);
+			}
+
+			viewer.setState({
+				Qstate_ans: question,
+				currentAforQ_ans: answer,
+				QID_answer: QID,
+			});
+		})(body, this, question, QID));
 	}
+
+
+	updateQstate_tip = (question, answer, QID) =>  {
+		this.setState({
+			Qstate_tip: question,
+			currentAforQ_tip: answer,
+			QID: QID
+		});
+
+		var username = this.username;
+		
+		client.getAnswer(username, QID).then(
+			body => (function(body, viewer, question, QID){
+
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
+
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var questions = data;
+
+			var answer = [];
+
+			while(data.length > 0){
+				var size = parseInt(data[0]);
+				var format = data.slice(1, size + 1);
+				format = client.parseFormat(format.join('\n'))
+
+				answer.push(format.comment.text);
+
+				data = data.slice(size + 1);
+			}
+
+			viewer.setState({
+				Qstate_tip: question,
+				currentAforQ_tip: answer,
+				QID: QID,
+			});
+		})(body, this, question, QID));
+	}
+
 
 	resetHighlights_answer = () => {
 		this.setState({
@@ -323,6 +415,54 @@ class Viewer extends Component {
 			});
 		})(body, this));
 		setTimeout(() => this.updateConfirm(), 5000);
+	}
+
+	updatePublic() {
+		var username = this.username;
+		const { highlights, highlights_answer, highlights_merged, Qstate, Qstate_ans, currentAforQ,currentAforQ_ans, QID, QID_answer, answer, highlights_public, flag_left, flag_right} = this.state;
+
+		
+		client.getPublics(username).then(
+			body => (function(body, viewer){
+
+			var splited = body.trim().split('\n');
+			var data = [];
+			var response = '';
+
+			if(splited.length == 1){
+				response = splited[0];
+			}
+			else{
+				data = splited.slice(1);
+				response = splited[0];
+			}
+
+			var ids = data;
+
+			viewer.setState({
+				highlights_public: [],
+			});
+
+			ids.forEach(function(id){
+				var format = '';
+				client.getQuestion(username, id).then(function(res){
+					//console.log("res: " + res);
+
+					var splited = res.trim().split('\n');
+					var response = splited[0];
+					var format = splited.slice(1);
+
+					format = client.parseFormat(format.join('\n'));
+
+					var array = viewer.state.highlights_public;
+					array.push(format);
+					viewer.setState({
+						highlights_public: array,
+					});
+				});
+			});
+		})(body, this));
+		setTimeout(() => this.updatePublic(), 5000);
 	}
 
 
@@ -466,7 +606,9 @@ class Viewer extends Component {
 										<Popup
 											popupContent={this.renderPopUp(highlight)}
 											onMouseOver={popupContent =>
+												{this.updateQstate_tip(highlight.comment.text, [].concat(highlight.comment.answer), highlight.id)
 												setTip(highlight, highlight => popupContent)
+												}
 											}                      
 											onMouseOut={hideTip}
 											key={index}

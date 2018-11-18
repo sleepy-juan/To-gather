@@ -11,7 +11,7 @@ from Disk import Database
 import time
 from Common import common
 
-from Constants import Protocol, Status, Command
+from Constants import Protocol, Status
 
 class Server:
 	LISTENQ = 1024
@@ -29,8 +29,12 @@ class Server:
 		self.sock.bind(('', PORT))
 		self.sock.listen(Server.LISTENQ)
 		self.clients = []
+<<<<<<< HEAD
 		self.user_info = {}
 		self.questions = []
+=======
+		self.questions = Database.getOnQuestions()
+>>>>>>> a0f170f1d3be8d2740d86b93926d6aa2de448793
 
 		def accept_handler(argument):
 			sock, clients, handler = argument
@@ -87,6 +91,7 @@ class Server:
 
 	def close(self):
 		self.sock.close()
+		Database.logOnQuestions(self.questions)
 
 	def per_clients(self, arg):
 		sock = arg
@@ -229,7 +234,7 @@ class Server:
 			with lock():
 				for question in questions:
 					if question.qid == qid:
-						answers = Database.getAnswer(question.front_id)
+						answers = Database.getAnswer(qid)
 						passed_answerers = list(map(lambda x:x.questioner, answers))
 						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.sent_from), clients))
 
@@ -252,16 +257,3 @@ class Server:
 ####################################################################
 		else:
 			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
-
-	def run_command(self, cmd):
-		if cmd == Command.REMOVE_ANSWERS:
-			Database.emptyAnswer()
-####################################################################
-		elif cmd == Command.REMOVE_QUESTIONS:
-			Database.emptyQuestion()
-			with lock():
-				self.questions.clear()
-####################################################################
-		elif cmd == Command.REMOVE_USERS:
-			with lock():
-				self.clients.clear()

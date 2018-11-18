@@ -13,18 +13,6 @@
   overflow:auto;
 }
 
-.sidebar_rightdown input {
-  width: 300px;
-  height: 100px;
-  bottom: 10vw;
-  left: 0px;
-  font-size: 1rem;
-  outline: none;
-  border: none;
-  border-bottom: 1px solid #c5f6fa;
-  color: #D2D3D4;
-}
-
 .create-button-3 {
   width: 60px;
   padding-top: 0.5rem;
@@ -38,13 +26,34 @@
   font-weight: 600;
   cursor: pointer;
   position : absolute;
-  left: 140px;
-  bottom: 90px;
+  left: 80px;
+  bottom: 30px;
 
 }
-.create-button-1:hover {
+.create-button-3:hover {
   background: #3bc9db;
 }
+
+.create-button-4 {
+  width: 60px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: 0.5rem;
+  background: #22b8cf;
+  border-radius: 3px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  position : absolute;
+  left: 200px;
+  bottom: 30px;
+}
+.create-button-4:hover {
+  background: #3bc9db;
+}
+
 
 li {list-style-type: none;
 margin : 10px;
