@@ -291,9 +291,13 @@ class Viewer extends Component {
 		client.getQuestionIds(username).then(
 			body => (function(body, viewer){
 
+			console.log("QIDS:");
+			console.log(body);
+
 			var splited = body.trim().split('\n');
 			var data = [];
 			var response = '';
+
 
 			if(splited.length == 1){
 				response = splited[0];
@@ -311,6 +315,7 @@ class Viewer extends Component {
 
 			ids.forEach(function(id){
 				var format = '';
+				console.log("update q for: "+id);
 				client.getQuestion(username, id).then(function(res){
 					//console.log("res: " + res);
 
@@ -338,10 +343,13 @@ class Viewer extends Component {
 		
 		client.getConfirms(username).then(
 			body => (function(body, viewer){
+			console.log("CIDS:");
+			console.log(body);
 
 			var splited = body.trim().split('\n');
 			var data = [];
 			var response = '';
+
 
 			if(splited.length == 1){
 				response = splited[0];
@@ -359,6 +367,7 @@ class Viewer extends Component {
 
 			ids.forEach(function(id){
 				var format = '';
+				console.log("update c for: "+id);
 				client.getQuestion(username, id).then(function(res){
 					//console.log("res: " + res);
 
@@ -386,6 +395,8 @@ class Viewer extends Component {
 		
 		client.getPublics(username).then(
 			body => (function(body, viewer){
+			console.log("PIDS:");
+			console.log(body);
 
 			var splited = body.trim().split('\n');
 			var data = [];
@@ -407,6 +418,7 @@ class Viewer extends Component {
 
 			ids.forEach(function(id){
 				var format = '';
+				console.log("update p for: "+id);
 				client.getQuestion(username, id).then(function(res){
 					//console.log("res: " + res);
 

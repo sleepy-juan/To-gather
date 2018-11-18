@@ -11,7 +11,7 @@ var http = require('http')
 
 // constants
 var IP = 'localhost'
-var PORT = '12346'
+var PORT = '12345'
 
 /*
    Server Protocols
@@ -204,6 +204,7 @@ var getQuestionIds = function(username){
 
 // GETQ - get question
 var getQuestion = function(username, question_id){
+   console.log("GETQ: " + question_id);
    return sendPacket({
       method: "POST",
       headers: {

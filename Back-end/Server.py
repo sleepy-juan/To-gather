@@ -160,9 +160,13 @@ class Server:
 ####################################################################
 		elif command == Protocol.CLIENT.GET_QUESTION:
 			qid = body
+			print("GETQUESTION GET QID:", qid)
 			ResponseHTTP(sock, Protocol.SERVER.OK, SendFormat(Database.getQuestion(qid)))
 ####################################################################
 		elif command == Protocol.CLIENT.ANSWER:
+			print()
+			print(body)
+			print()
 			answer = RecvFormat(body)
 			Database.logAnswer(answer)
 			print("answer: " + answer.comment_text)
