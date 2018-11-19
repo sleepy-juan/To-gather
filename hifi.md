@@ -18,7 +18,7 @@ http://cs473-togather.herokuapp.com/
 https://github.com/sleepy-juan/To-gather
 
 ## Libraries and frameworks
-React, Bootstrap
+React, Bootstrap (+ react-pdf-highligter package https://www.npmjs.com/package/react-pdf-highlighter)
 
 ## Individual Reflections
 ### Minji Lee
