@@ -18,7 +18,7 @@ http://cs473-togather.herokuapp.com/
 https://github.com/sleepy-juan/To-gather
 
 ## Libraries and frameworks
-React, 
+React, Bootstrap
 
 ## Individual Reflections
 ### Minji Lee
