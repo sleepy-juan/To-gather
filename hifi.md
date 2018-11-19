@@ -5,9 +5,9 @@ Minji Lee, Sihyun Yu, Juan Lee, Sungwoo Jeon
 ### (1) the problem we're addressing
 While reading some materials, discussion with people is necessary to fully understand the content, but in most QnA platform, only questioners want to ask a question but answerers feel bothersome to the question which makes only one-direction interaction.  
 ### (2) what our solution is
-In order to encourage people to answer more, we make the system for chain of direct questioning that seems to make people feel obligated to reply more than before and also add one sentence that could represent the relationship between questionor and user like 'I answered your question before' or 'We are in same grade'. 
+In order to encourage people to answer more, we make the direct chain questioning system that make people feel obligated to reply more than before, and also make the system to represent the relationship between questioner and answerers like 'I answered your question before' or 'We are in same grade' by one sentence. 
 ### (3) What unique approach we're taking in your solution (how it's different from other similar solutions). 
-Other question/answer platforms that already exist mostly value the professional presence of respondents and they use ways of rewarding users to increase user's chances of responding (such as 내공 in Naver 지식in, etc.), but we focused on the relationship between users to encourage people to encourage to answer.
+Other question/answer platforms that already exist mostly value the professional presence of respondents and they use ways of rewarding users to increase user's chances of responding (such as 내공 in Naver 지식in, etc.), but we focused on the relationship between users to make feel like being friends so finally encourage the answer.
 
 ## Instruction
 
