@@ -4,12 +4,6 @@ Minji Lee, Sihyun Yu, Juan Lee, Sungwoo Jeon
 ## Project Summary
 ### (1) the problem we're addressing
 While reading some materials, discussion with people is necessary to fully understand the content, but in most QnA platform, only questioners want to ask a question but answerers feel bothersome to the question which makes only one-direction interaction.  
-### (2) what our solution iMinji Lee, Sihyun Yu, Juan Lee, Sungwoo Jeon
-# To-gather
-
-## Project Summary
-### (1) the problem we're addressing
-While reading some materials, discussion with people is necessary to fully understand the content, but in most QnA platform, only questioners want to ask a question but answerers feel bothersome to the question which makes only one-direction interaction.  
 ### (2) what our solution is
 In order to encourage people to answer more, we make the direct chain questioning system that make people feel obligated to reply more than before, and also make the system to represent the relationship between questioner and answerers like 'I answered your question before' or 'We are in same grade' by one sentence. 
 ### (3) What unique approach we're taking in your solution (how it's different from other similar solutions). 
