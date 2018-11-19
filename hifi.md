@@ -10,6 +10,11 @@ In order to encourage people to answer more, we make the direct chain questionin
 Other question/answer platforms that already exist mostly value the professional presence of respondents and they use ways of rewarding users to increase user's chances of responding (such as 내공 in Naver 지식in, etc.), but we focused on the relationship between users to make feel like being friends so finally encourage the answer.
 
 ## Instruction
+(1st slide in the hifi.pptx)
+* This is the very first interface when you enter our platform. You can go in to the main screen if you put your identified id on the yellow box #1 then click the button. Yellow box #2 means the individual characteristics. There are 5 topics for identify users, and we can find out the common points between users to show a sentence with question to encourage other people to answer. This time, we didn't get the 'REAL INPUT' characteristics (#2) from users, but only get the user's id on #1. People can log in again when they put the exact same id before, and all data (previous questions and answers) will be preserved. Under the circumstances, we give a random designation for each characteristics to users. Based on randomly assigned features, we find common points between users and send them together when they send a question. Later, when we test this with real users, we will substitute their actual character for each ID and conduct an real experiment with them based on it.
+
+(2nd slide in the hifi.pptx)
+* This is the main interface for our platform. Yellow box #3 is for pdf to show the reading materials. People can share this pdf and whenever someone add the answer and highlights, it's updated and show them to everyone else. Yellow box #4, #5 are the left sidebar and right sidebar each. Users can see their questions and current answer state on the left sidebar(#4). When other people ask the question, it delivered directly to a user and it will show on the right sidebar with a sentence that represent the relationship with the questionor and user. 
 
 ## URL of your prototype
 http://cs473-togather.herokuapp.com/
