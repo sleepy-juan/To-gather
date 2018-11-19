@@ -19,7 +19,7 @@ __This time, we didn't get the 'REAL INPUT' characteristics (#2) from users, but
 #### 1. You're highlighting need to be exist a single page. Pleae do not highlight beyond another page.
 #### 2. You only can use ENGLISH for everything. (username, question, answer, etc.)
 #### 3. Do not press all buttons such as 'ANSWER' more than two times. If you press once, just wait until the answer uploaded.
-#### 4. If there is an error, please refresh. It will work again.
+#### 4. If there is an error(offsetHeight error), please refresh. It will work again.
 --------------------------------------------------------------------------------------------------------
 ![hifi1](./images/hifi1.JPG)
 This is the very first interface when you enter our platform. 
