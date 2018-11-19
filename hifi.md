@@ -12,10 +12,13 @@ Other question/answer platforms that already exist mostly value the professional
 ## Instruction
 
 ## URL of your prototype
+http://cs473-togather.herokuapp.com/
 
 ## URL of your Git repository
+https://github.com/sleepy-juan/To-gather
 
 ## Libraries and frameworks
+
 
 ## Individual Reflections
 ### Minji Lee
