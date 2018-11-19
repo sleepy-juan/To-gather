@@ -31,6 +31,7 @@ There are 5 characteristics on yellow box #2. __You don't need to modify them. T
 
 ![hifi2](./images/hifi2.JPG)
 This is the main interface for our platform. 
+
 * Yellow box #3: the pdf space to show the reading materials. People can share this pdf and question with confirmed answers will annotated on this pdf.
 * Yellow box #4: the left sidebar. Users can see their questions and current answer state.
 * Yellow box #5: the right sidebar. When other people ask the question, it delivered directly to a user and it will show on the right sidebar with a sentence that represent the relationship with the questionor and user. 
@@ -43,6 +44,7 @@ This is the main interface for our platform.
 
 ![hifi4](./images/hifi4.JPG)
 After you highlight the pdf, you can see this black text box immediately. 
+
 1. Enter your question on this yellow box #7. Click the check button to send your qurstion.
 
 ##### Warning again: You only can use ENGLISH.
@@ -50,12 +52,16 @@ After you highlight the pdf, you can see this black text box immediately.
 ![hifi5](./images/hifi5.JPG)
 __※ This is the other user's interface who received a question.__
 You can see the question that arrived from other users on your right sidebar.
+
 1. Click the yellow box #8 to answer/ignore the question.
 
 ![hifi6](./images/hifi6.JPG)
 You can see the text box bottom of the right sidebar.
+
 1. If you want to ignore that question, press the Ignore button(Yellow box #10) then you can ignore that question.
-2. If you want to answer that question, click the text box(Yellow box #9) and put your answer here. After that, press the Answer button. Your answer will send to the questioner and he could check your answer.
+2. If you want to answer that question, click the text box(Yellow box #9) and put your answer here. After that, press the Answer button.
+
+Your answer will send to the questioner and he could check your answer.
 
 ##### Warning again: You only can use ENGLISH.
 
