@@ -17,6 +17,7 @@ class Protocol:
 		GET_PUBLICS = "NTYP"
 		GET_OWNS = "OWNS"
 		CONTINUE_QUESTION = "CTNU"
+		IGNORE_QUESTION = "IGNR"
 
 	class SERVER:
 		OK = "DONE"

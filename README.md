@@ -61,8 +61,29 @@ state = {
 	};
 ``` 
 
-#### Front end
- 
+#### Back end
+Inside Back end, there are Server files and helper moduels for the server.
+
+* main.py
+This is start point of our program, initializing our server and run it. For running the server, execute the command ```python3 main.py <PORT>```
+
+* Server.py
+This is main part of the server. This contains *Server* class, which runs background thread for time-out handling and threads for responding to clients' request. The Server class does not work with other components like Database, Sockets, Common Point Task Modules, but manage them by calling the functions defined in each modules. This makes the server flexible.
+
+* Packet.py
+This is responsible for socket communication, especially HTTP networking between clients and the server. We defined a format, which contains and manages all the information we need for networking.
+
+* Disk.py
+This is responsible for database handling, but we do not use other DBMS(Database Management System) for this project. Instead, simply manages the files in local disk with Python pickle module.
+
+* Common.py
+This is responsible for searching common points of users. This is separated as independent module for flexible designing, it independently stores data, calculates the common point, and generates the query. For high-fi prototyping, we randomly generates and assigns data for users.
+
+* Constants.py
+This is responsible for storing all the constants for Server. For avoiding some magic number, which is non-reasonable constants or some variables which could make the program inflexible, we manages all the constants here.
+
+* System.py
+Since the server frequently uses multithread or timeout moduels, we implemented basic helper functions for os system.
 
 
 

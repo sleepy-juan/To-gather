@@ -31,9 +31,6 @@ def GetHTTP(sock):
 			username = line.split(':')[1].strip()
 		if 'CMD' in line:
 			command = line.split(':')[1].strip()
-
-	print(header)
-
 	return username, command, request
 
 def ResponseHTTP(sock, _response, additional = None):
@@ -52,8 +49,6 @@ Access-Control-Allow-Headers: *
 Content-Length: %d
 
 %s''' % (len(result), result)
-
-	print(response)
 
 	sock.send(response.encode())
 

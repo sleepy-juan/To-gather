@@ -250,6 +250,31 @@ class Server:
 						return
 			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
 ####################################################################
+		elif command == Protocol.CLIENT.IGNORE_QUESTION:
+			qid = body
+			with lock():
+				for question in questions:
+					print(question.qid, qid)
+					if question.qid == qid:
+						answers = Database.getAnswer(qid)
+						passed_answerers = list(map(lambda x:x.questioner, answers))
+						valid_answerers = list(filter(lambda x: (x not in passed_answerers) and (x != question.sent_from) and (x != username) , clients))
+
+						if len(valid_answerers) == 0:
+							print("[%s] No Valid Answerers" % username)
+							ResponseHTTP(sock, Protocol.SERVER.NO_AVAILABLE_USER)
+							return
+
+
+						answerer = random.choice(valid_answerers)
+						print("[%s] Ignore moved to %s" % (username, answerer))
+						question.status = Status.QUESTION.SENT
+						question.belong_to = answerer
+						question.created = time.time()
+						ResponseHTTP(sock, Protocol.SERVER.OK)
+						return
+			ResponseHTTP(sock, Protocol.SERVER.WRONG_COMMAND)
+####################################################################
 		elif command == Protocol.CLIENT.LIST_MEMBERS:
 			with lock():
 				ResponseHTTP(sock, Protocol.SERVER.OK, '\n'.join(clients))
