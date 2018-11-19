@@ -9,6 +9,9 @@ In order to encourage people to answer more, we make the direct chain questionin
 ### (3) What unique approach we're taking in your solution (how it's different from other similar solutions). 
 Other question/answer platforms that already exist mostly value the professional presence of respondents and they use ways of rewarding users to increase user's chances of responding (such as 내공 in Naver 지식in, etc.), but we focused on the relationship between users to make feel like being friends so finally encourage the answer.
 
+## Before we start the instruction,
+__This time, we didn't get the 'REAL INPUT' characteristics (#2) from users, but only get the user's id on #1. People can log in again when they put the exact same id before, and all data (previous questions and answers) will be preserved. Under the circumstances, we give a random designation for each characteristics to users. Based on randomly assigned features, we find common points between users and send them together when they send a question. Later, when we test this with real users, we will substitute their actual character for each ID and conduct an real experiment with them based on it.__
+
 ## Instruction
 
 --------------------------------------------------------------------------------------------------------
@@ -16,31 +19,45 @@ Other question/answer platforms that already exist mostly value the professional
 #### 1. You're highlighting need to be exist a single page. Pleae do not highlight beyond another page.
 #### 2. You only can use ENGLISH for everything. (username, question, answer, etc.)
 #### 3. Do not press all buttons such as 'ANSWER' more than two times. If you press once, just wait until the answer uploaded.
+#### 4. If there is an error, please refresh. It will work again.
 --------------------------------------------------------------------------------------------------------
-_(1st slide in the hifi.pptx)_
+![hifi1](./images/hifi1.jpg)
 This is the very first interface when you enter our platform. 
 1. Put your identified id on the yellow box #1.
 2. Press the 'Click me!' button.
 Then you can go in to the main screen.
 
-There are 5 characteristics on yellow box #2. 
-__This time, we didn't get the 'REAL INPUT' characteristics (#2) from users, but only get the user's id on #1. People can log in again when they put the exact same id before, and all data (previous questions and answers) will be preserved. Under the circumstances, we give a random designation for each characteristics to users. Based on randomly assigned features, we find common points between users and send them together when they send a question. Later, when we test this with real users, we will substitute their actual character for each ID and conduct an real experiment with them based on it.__
+There are 5 characteristics on yellow box #2. __You don't need to modify them. These will be automatically (and randomly) assigned.__
 
-_(2nd slide in the hifi.pptx)_
+![hifi2](./images/hifi2.jpg)
 This is the main interface for our platform. 
 * Yellow box #3: the pdf space to show the reading materials. People can share this pdf and question with confirmed answers will annotated on this pdf.
 * Yellow box #4: the left sidebar. Users can see their questions and current answer state.
 * Yellow box #5: the right sidebar. When other people ask the question, it delivered directly to a user and it will show on the right sidebar with a sentence that represent the relationship with the questionor and user. 
 
-_(3rd slide in the hifi.pptx)_
+![hifi3](./images/hifi3.jpg)
+1. Highlight the pdf that you don't understand.
 * Yellow box #6: If you highlight something you don't understand, the yellow highlight will apper on the sentences.
 
 ##### Warning again: You're highlighting need to be exist a single page. Pleae do not highlight beyond another page. 
 
-_(4th slide in the hifi.pptx)_
+![hifi4](./images/hifi4.jpg)
 After you highlight the pdf, you can see this black text box immediately. 
-* Yellow bx #7: You can enter your question on this text box. Click the check button to send your question. 
+1. Enter your question on this yellow box #7. Click the check button to send your qurstion.
 
+##### Warning again: You only can use ENGLISH.
+
+![hifi5](./images/hifi5.jpg)
+__※ This is the other user's interface who received a question.__
+You can see the question that arrived from other users on your right sidebar.
+1. Click the yellow box #8 to answer/ignore the question.
+
+![hifi6](./images/hifi6.jpg)
+You can see the text box bottom of the right sidebar.
+1. If you want to ignore that question, press the Ignore button(Yellow box #10) then you can ignore that question.
+2. If you want to answer that question, click the text box(Yellow box #9) and put your answer here. After that, press the Answer button. Your answer will send to the questioner and he could check your answer.
+
+##### Warning again: You only can use ENGLISH.
 
 
 ## URL of our prototype
