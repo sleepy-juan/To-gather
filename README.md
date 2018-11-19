@@ -13,10 +13,6 @@ You'll **DESIGN**, **BUILD**, and **TEST** your own crowdsourcing / social compu
 * Juan Lee
 * Sungwoo Jeon
 
-### Brief description for code
-* Back-end
-* Front-end
-
 ### Code Description
 There are two folders inside our git repository that contain our implementation: Front-end, and Back-end.
 
