@@ -45,7 +45,7 @@ Inside Front end, there is a folder demo-test, the place all of our codes for Fr
   10. **Spinner.js, Spinner.css**: Already implemenet in our skeleton code (not implemented by us)
   11. **react-pdf-annottor**: For PDF annotating (not implemented by us, most files already implemented through package). For the file/Tip.js, we deleted some buttons which is useless to us. Furthermore, we newly implemented Tip_answer.js, to check the answer and corresponding questions if the status of the question becomes public.
   12. **Viewer.js, Viewer.css**: Our main function. enables PDF viewer, import all Sidebar codes, and set the state to be used as follows: 
-```javascript
+```jsx
 state = {
 		highlights: [], 
 		highlights_answer: [], 
