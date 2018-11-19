@@ -41,7 +41,7 @@ This is the main interface for our platform.
 _(3rd slide in the hifi.pptx)_
 * Yellow box #6: If you highlight something you don't understand, the yellow highlight will apper on the sentences.
 
-### Warning again: You're highlighting need to be exist a single page. Pleae do not highlight beyond another page. 
+##### Warning again: You're highlighting need to be exist a single page. Pleae do not highlight beyond another page. 
 
 _(4th slide in the hifi.pptx)_
 After you highlight the pdf, you can see this black text box immediately. 
