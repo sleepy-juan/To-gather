@@ -12,3 +12,7 @@ You'll **DESIGN**, **BUILD**, and **TEST** your own crowdsourcing / social compu
 * Sihyun Yu
 * Juan Lee
 * Sungwoo Jeon
+
+### Brief description for code
+* Back-end
+* Front-end
