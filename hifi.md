@@ -51,6 +51,7 @@ After you highlight the pdf, you can see this black text box immediately.
 
 ![hifi5](./images/hifi5.JPG)
 __※ This is the other user's interface who received a question.__
+
 You can see the question that arrived from other users on your right sidebar.
 
 1. Click the yellow box #8 to answer/ignore the question.
