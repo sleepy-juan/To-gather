@@ -10,7 +10,7 @@
 var http = require('http')
 
 // constants
-var IP = '143.248.192.121'
+var IP = 'localhost'
 var PORT = '12345'
 
 /*
@@ -36,6 +36,9 @@ const requestPromise = (packet, additional = null) =>
          packet = Object.assign({}, packet, {
             headers: Object.assign({}, packet.headers, {
                "Content-Length": additional.length,
+               "Access-Control-Allow-Origin": "*",
+               "Access-Control-Allow-Method": "*",
+               "Access-Control-Allow-Headers": "*",
             })
          });
       }
