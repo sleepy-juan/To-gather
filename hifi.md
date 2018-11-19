@@ -22,10 +22,10 @@ Other question/answer platforms that already exist mostly value the professional
 (2nd slide in the hifi.pptx)
 * This is the main interface for our platform. Yellow box #3 is for pdf to show the reading materials. People can share this pdf and whenever someone add the answer and highlights, it's updated and show them to everyone else. Yellow box #4, #5 are the left sidebar and right sidebar each. Users can see their questions and current answer state on the left sidebar(#4). When other people ask the question, it delivered directly to a user and it will show on the right sidebar with a sentence that represent the relationship with the questionor and user. 
 
-## URL of your prototype
+## URL of our prototype
 http://cs473-togather.herokuapp.com/
 
-## URL of your Git repository
+## URL of our Git repository
 https://github.com/sleepy-juan/To-gather
 
 ## Libraries and frameworks
