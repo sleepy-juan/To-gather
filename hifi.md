@@ -2,11 +2,11 @@ Minji Lee, Sihyun Yu, Juan Lee, Sungwoo Jeon
 # To-gather
 
 ## Project Summary
-### (1) the problem you're addressing
+### (1) the problem we're addressing
 While reading academic materials, we usually ask some questions to other people whenever we encounter to difficulties to understand some concepts but it's hard to get activate answers on already existed platform that you know like 'klms', 'classum', etc because of the dispersion of responsibility to be answered. 
-### (2) what your solution is
+### (2) what our solution is
 In order to encourage people to answer more, we make the system for chain of direct questioning that seems to make people feel obligated to reply more than before and also add one sentence that could represent the relationship between questionor and user like 'I answered your question before' or 'We are in same grade'. 
-### (3) What unique approach you're taking in your solution (how it's different from other similar solutions). 
+### (3) What unique approach we're taking in your solution (how it's different from other similar solutions). 
 Other question/answer platforms that already exist mostly value the professional presence of respondents, and they use ways of rewarding users to increase user's chances of responding (such as 내공 in Naver, etc.), but we focused on the relationship between users to encourage people to answer more.
 
 ## Instruction
