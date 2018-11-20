@@ -34,7 +34,7 @@ yusihyunc@kaist.ac.kr
 --------------------------------------------------------------------------------------------------------
 ![hifi1](./images/hifi1.JPG)
 This is the very first interface when you enter our platform. 
-1. Put your identified id on the yellow box #1.
+1. Put your identified username on the yellow box #1.
 2. Press the 'Click me!' button.
 Then you can go in to the main screen.
 
@@ -72,6 +72,8 @@ __※ This is the other user's interface who received a question.__
 You can see the question that arrived from other users on your right sidebar.
 
 1. Click the yellow box #8 to answer/ignore the question.
+
+* Red underline: This is a sentence that could encourage users to answer more.
 --------------------------------------------------------------------------------------------------------
 ![hifi6](./images/hifi6.JPG)
 You can see the text box bottom of the right sidebar.
@@ -82,6 +84,21 @@ You can see the text box bottom of the right sidebar.
 Your answer will send to the questioner and he could check your answer.
 
 #### Warning again: You only can use ENGLISH.
+--------------------------------------------------------------------------------------------------------
+![hifi7](./images/hifi7.JPG)
+If someone answer your question, you can see your question on the left sidebar.
+
+1. Click the yellow box #12 to see the current answers of the question.
+2. On the bottom of the left sidebar, the first sentence is your question and there are current answers of that like a chain.
+3. You can choose whether STOP or CONTINUE the answer chain.
+
+--------------------------------------------------------------------------------------------------------
+![hifi8](./images/hifi8.JPG)
+Suppose that you press the CONTINUE. If someone answer your question again, you can see more answers below.
+
+* Yellow box #14: Show the answer chain for the question.
+* Yellow box #15: Press this stop button to cut the answer chain and upload your question and following answers on the pdf file. These are going to be shown to everyone else who share this file.
+* Yellow box #16: Press this continue button to send your question to another people if you don't satisfied with current answers.
 --------------------------------------------------------------------------------------------------------
 
 ## URL of our prototype
