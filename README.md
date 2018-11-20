@@ -84,7 +84,3 @@ This is responsible for storing all the constants for Server. For avoiding some 
 
 * System.py
 Since the server frequently uses multithread or timeout moduels, we implemented basic helper functions for os system.
-
-
-
-Make sure to add a README file that briefly describes the code, e.g., main JavaScript file, or where main feature implementations are, etc. Several lines are enough.
