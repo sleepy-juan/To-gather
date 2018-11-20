@@ -12,6 +12,13 @@ Other question/answer platforms that already exist mostly value the professional
 ## Before we start the instruction,
 __This time, we didn't get the 'REAL INPUT' characteristics (#2) from users, but only get the user's id on #1. People can log in again when they put the exact same id before, and all data (previous questions and answers) will be preserved. Under the circumstances, we give a random designation for each characteristics to users. Based on randomly assigned features, we find common points between users and send them together when they send a question. Later, when we test this with real users, we will substitute their actual character for each ID and conduct an real experiment with them based on it.__
 
+__Plus, since we seperated Web Server for Front-end and Server for Back-end, we succeeded to host the Web Server, but we haven't hosted the Background Server yet. (Implemented by Python,  still finding ways...) Therefore, we need to turn on the Background Server for sending questions and answers to be evaluated in our Labtop/Desktop. Please contact us when you start to evaluate our high-fi prototype. __
+
+juanlee@kaist.ac.kr
+minji971010@kaist.ac.kr
+j0070ak@kaist.ac.kr
+yusihyunc@kaist.ac.kr
+
 ## Instruction
 
 --------------------------------------------------------------------------------------------------------
@@ -19,7 +26,8 @@ __This time, we didn't get the 'REAL INPUT' characteristics (#2) from users, but
 #### 1. You're highlighting need to be exist a single page. Pleae do not highlight beyond another page.
 #### 2. You only can use ENGLISH for everything. (username, question, answer, etc.)
 #### 3. Do not press all buttons such as 'ANSWER' more than two times. If you press once, just wait until the answer uploaded.
-#### 4. If there is an error(offsetHeight error), please refresh. It will work again.
+#### 4. If there is an error(offsetHeight error), please refresh. It will work again. (This is the error caused by the package we imported for implementation.)
+#### 5. Please ask a question and answer at question in one line. (It means, DO NOT USE \n)
 --------------------------------------------------------------------------------------------------------
 ![hifi1](./images/hifi1.JPG)
 This is the very first interface when you enter our platform. 
