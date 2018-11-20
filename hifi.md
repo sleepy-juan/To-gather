@@ -27,35 +27,41 @@ This is the very first interface when you enter our platform.
 2. Press the 'Click me!' button.
 Then you can go in to the main screen.
 
-There are 5 characteristics on yellow box #2. __You don't need to modify them. These will be automatically (and randomly) assigned.__
+There are 5 characteristics on yellow box #2. 
 
+__You don't need to modify them. These will be automatically (and randomly) assigned.__
+
+--------------------------------------------------------------------------------------------------------
 ![hifi2](./images/hifi2.JPG)
 This is the main interface for our platform. 
 
 * Yellow box #3: the pdf space to show the reading materials. People can share this pdf and question with confirmed answers will annotated on this pdf.
 * Yellow box #4: the left sidebar. Users can see their questions and current answer state.
 * Yellow box #5: the right sidebar. When other people ask the question, it delivered directly to a user and it will show on the right sidebar with a sentence that represent the relationship with the questionor and user. 
-
+--------------------------------------------------------------------------------------------------------
 ![hifi3](./images/hifi3.JPG)
 1. Highlight the pdf that you don't understand.
 * Yellow box #6: If you highlight something you don't understand, the yellow highlight will apper on the sentences.
 
 ##### Warning again: You're highlighting need to be exist a single page. Pleae do not highlight beyond another page. 
 
+--------------------------------------------------------------------------------------------------------
 ![hifi4](./images/hifi4.JPG)
 After you highlight the pdf, you can see this black text box immediately. 
 
-1. Enter your question on this yellow box #7. Click the check button to send your qurstion.
+1. Enter your question on this yellow box #7. 
+2. Click the check button to send your qurstion.
 
 ##### Warning again: You only can use ENGLISH.
 
+--------------------------------------------------------------------------------------------------------
 ![hifi5](./images/hifi5.JPG)
 __※ This is the other user's interface who received a question.__
 
 You can see the question that arrived from other users on your right sidebar.
 
 1. Click the yellow box #8 to answer/ignore the question.
-
+--------------------------------------------------------------------------------------------------------
 ![hifi6](./images/hifi6.JPG)
 You can see the text box bottom of the right sidebar.
 
@@ -65,7 +71,7 @@ You can see the text box bottom of the right sidebar.
 Your answer will send to the questioner and he could check your answer.
 
 ##### Warning again: You only can use ENGLISH.
-
+--------------------------------------------------------------------------------------------------------
 
 ## URL of our prototype
 http://cs473-togather.herokuapp.com/
