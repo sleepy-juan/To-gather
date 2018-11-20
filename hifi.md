@@ -61,7 +61,7 @@ This is the main interface for our platform.
 After you highlight the pdf, you can see this black text box immediately. 
 
 1. Enter your question on this yellow box #7. 
-2. Click the check button to send your qurstion.
+2. Click the check button to send your question. After asking a question, the notification appears for second on the left sidebar then disappears; it means the question successfully sent to oter person.
 
 #### Warning again: You only can use ENGLISH.
 
@@ -69,7 +69,7 @@ After you highlight the pdf, you can see this black text box immediately.
 ![hifi5](./images/hifi5.JPG)
 __※ This is the other user's interface who received a question.__
 
-You can see the question that arrived from other users on your right sidebar.
+You can see the question that arrived from other users on your right sidebar. Note that this notification also includes common points.
 
 1. Click the yellow box #8 to answer/ignore the question.
 
@@ -134,7 +134,7 @@ The most useful skill that I learned is the importance of synchronizing the form
 ### Juan Lee
 I was responsible for developing back-end server and communication module between clients. Since the project requires systematic movements on the server for many simultaneous users, such as passing a question to proper clients or managing time-out for all the questions moving on the system, I had to design the architecture and protocols for the system(Sungwoo helped me to design the protocols). The server is programmed with python, implementing a very basic HTTP parser inside for communicating with clients. Also, I coded communicating module for javascript, which is for applying to front-end. Lastly, I merged the server with common point tasks(Sungwoo, Minji) on the server, and with the front-end (Sihyun).
 
-Firstly, I only had theoretical knowledge base for Web Server, which uses only HTTP and frequently limits the socket communication due to the security issue. I had to implement HTTP parser by myself without any built-in module in Python for solving CORP error which is a common security issue on the Web.
+Firstly, I only had theoretical knowledge base for Web Server, which uses only HTTP and frequently limits the socket communication due to the security issue. I had to implement HTTP parser by myself without any built-in module in Python for solving CORS error which is a common security issue on the Web.
 Secondly, since it seems easy to implement front page with javascript, I had to cover Python for server and Javascript for clients. However, I am not very familiar to javascript, and also it was very first time to implement customized networking with javascript, this was one of difficult part for me.
 Lastly, networking was not so stable as I thought. Some ID for question was frequently cut when passing to the server, this has been unsolved bug until now. (Until now I am writing this report, we still have one week!) I think this is the biggest challenge for me.
 
