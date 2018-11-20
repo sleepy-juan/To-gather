@@ -100,6 +100,12 @@ Suppose that you press the CONTINUE. If someone answer your question again, you 
 * Yellow box #15: Press this stop button to cut the answer chain and upload your question and following answers on the pdf file. These are going to be shown to everyone else who share this file.
 * Yellow box #16: Press this continue button to send your question to another people if you don't satisfied with current answers.
 --------------------------------------------------------------------------------------------------------
+![hifi9](./images/hifi9.JPG)
+After you regist your question and answers, now everyone can see the highlights, question, and answers.
+
+1. Put your curser on the highlight in the pdf file.
+2. You can see the pop-up box that contain the question and answers. (Yellow box #17)
+--------------------------------------------------------------------------------------------------------
 
 ## URL of our prototype
 http://cs473-togather.herokuapp.com/
